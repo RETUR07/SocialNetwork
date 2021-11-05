@@ -1,8 +1,7 @@
-﻿using SocialNetwork.Contracts;
-using SocialNetwork.Models;
+﻿using ProjectRepository.Contracts;
 using System.Threading.Tasks;
 
-namespace SocialNetwork.Repository
+namespace ProjectRepository.Repository
 {
     public class RepositoryManager : IRepositoryManager
     {

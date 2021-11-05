@@ -1,10 +1,6 @@
-﻿using AutoMapper;
-using SocialNetwork.Models;
-using SocialNetwork.Models.DTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Application.DTO;
+using AutoMapper;
+using Entities;
 
 namespace SocialNetwork.Mapping
 {

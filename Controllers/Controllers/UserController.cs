@@ -1,14 +1,12 @@
-﻿using AutoMapper;
+﻿using Application.DTO;
+using AutoMapper;
+using Entities;
 using Microsoft.AspNetCore.Mvc;
-using SocialNetwork.Contracts;
-using SocialNetwork.Models;
-using SocialNetwork.Models.DTO;
-using System;
+using ProjectRepository.Contracts;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
-namespace SocialNetwork.Controllers
+namespace Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

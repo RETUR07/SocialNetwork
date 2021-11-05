@@ -1,16 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SocialNetwork.Contracts;
-using SocialNetwork.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using ProjectRepository.Contracts;
+using ProjectRepository.Repository;
 
 namespace SocialNetwork
 {
@@ -25,7 +20,7 @@ namespace SocialNetwork
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddControllers();
             services.AddAutoMapper(typeof(Startup));
             services.AddScoped<IRepositoryManager, RepositoryManager>();
             services.AddDbContext<RepositoryContext>(opts =>

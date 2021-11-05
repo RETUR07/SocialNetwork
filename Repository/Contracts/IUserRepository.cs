@@ -1,10 +1,8 @@
-﻿using SocialNetwork.Models;
-using System;
+﻿using Entities;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
-namespace SocialNetwork.Contracts
+namespace ProjectRepository.Contracts
 {
     public interface IUserRepository
     {
