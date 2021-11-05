@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Application.Contracts
 {
-    interface IPostService
+    public interface IPostService
     {
     }
 }

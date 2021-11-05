@@ -24,9 +24,10 @@ namespace SocialNetwork
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddAutoMapper(typeof(UserMappingProfile));
+            services.AddAutoMapper(typeof(UserMappingProfile), typeof(PostMappingProfile));
             services.AddScoped<IRepositoryManager, RepositoryManager>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IPostService, PostService>();
             services.AddDbContext<RepositoryContext>(opts =>
                    opts.UseSqlServer(Configuration.GetConnectionString("sqlConnection")));
 

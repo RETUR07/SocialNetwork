@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace ProjectRepository.Contracts
 {
-    public interface IUserRepository
+    public interface IUserRepository : IRepositoryBase<User>
     {
         Task<List<User>> GetAllUsersAsync(bool trackChanges);
         Task<User> GetUserAsync(int userId, bool trackChanges);
