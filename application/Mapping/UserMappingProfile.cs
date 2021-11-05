@@ -1,6 +1,6 @@
 ﻿using Application.DTO;
 using AutoMapper;
-using Entities;
+using Entities.Models;
 
 namespace Application.Mapping
 {

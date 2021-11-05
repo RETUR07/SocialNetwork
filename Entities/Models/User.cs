@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Entities
+namespace Entities.Models
 { 
     public class User
     {
@@ -13,5 +13,7 @@ namespace Entities
         public string LastName { get; set; }
         
         public DateTime DateOfBirth { get; set; }
+
+        public IEnumerable<Post> posts { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Application.Contracts;
 using Application.DTO;
 using AutoMapper;
-using Entities;
+using Entities.Models;
 using ProjectRepository.Contracts;
 using System;
 using System.Collections.Generic;
