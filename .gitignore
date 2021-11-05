@@ -34,3 +34,6 @@ msbuild.wrn
 *.exe
 *.o
 *.so
+
+appsettings.json
+appsettings.Development.json
