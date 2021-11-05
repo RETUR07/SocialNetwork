@@ -1,3 +1,6 @@
+using Application.Contracts;
+using Application.Mapping;
+using Application.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -21,8 +24,9 @@ namespace SocialNetwork
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddAutoMapper(typeof(Startup));
+            services.AddAutoMapper(typeof(UserMappingProfile));
             services.AddScoped<IRepositoryManager, RepositoryManager>();
+            services.AddScoped<IUserService, UserService>();
             services.AddDbContext<RepositoryContext>(opts =>
                    opts.UseSqlServer(Configuration.GetConnectionString("sqlConnection")));
 

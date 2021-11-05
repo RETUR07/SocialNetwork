@@ -2,11 +2,11 @@
 using AutoMapper;
 using Entities;
 
-namespace SocialNetwork.Mapping
+namespace Application.Mapping
 {
-    public class MappingProfile : Profile
+    public class UserMappingProfile : Profile
     {
-        public MappingProfile()
+        public UserMappingProfile()
         {
             CreateMap<User, UserForResponseDTO>()
                 .ForMember(c => c.DateOfBirth,
