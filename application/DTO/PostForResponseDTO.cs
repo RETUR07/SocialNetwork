@@ -1,4 +1,5 @@
 ﻿using Entities.Models;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,6 @@ namespace Application.DTO
 
         public string Text { get; set; }
 
-        public IEnumerable<Blob> Content { get; set; }
+        public IEnumerable<IFormFile> Content { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Application.DTO;
+using Application.Services;
 using AutoMapper;
 using Entities.Models;
 using System;
@@ -13,8 +14,7 @@ namespace Application.Mapping
     {
         public PostMappingProfile()
         {
-            CreateMap<PostForm, Post>();
-            CreateMap<Post, PostForResponseDTO>();
+           //TODO
         }
     }
 }

@@ -38,7 +38,7 @@ namespace SocialNetwork.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreatePost([FromBody] PostForm postdto)
+        public async Task<IActionResult> CreatePost([FromForm] PostForm postdto)
         {
             var post = await _postService.CreatePost(postdto);
             if (post == null)
