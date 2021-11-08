@@ -8,6 +8,7 @@ namespace ProjectRepository.Contracts
     public interface IRepositoryManager
     {
         IUserRepository user { get; }
+        IPostRepository post { get; }
         Task SaveAsync();
     } 
 }

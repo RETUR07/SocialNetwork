@@ -9,5 +9,9 @@ namespace ProjectRepository.Contracts
 {
     public interface IPostRepository : IRepositoryBase<Post>
     {
+        Task<IEnumerable<Post>> GetAllPostsAsync(bool trackChanges);
+        Task<Post> GetPostAsync(int postId, bool trackChanges);
+        void CreatePost(Post post);
+        void DeletePost(Post post);
     }
 }

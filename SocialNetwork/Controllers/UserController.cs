@@ -35,7 +35,7 @@ namespace SocialNetwork.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateUser([FromBody] UserForUpdateOrCreationDTO userdto)
+        public async Task<IActionResult> CreateUser([FromBody] UserForm userdto)
         {
             var user = await _userService.CreateUser(userdto);
             if(user == null)
@@ -46,7 +46,7 @@ namespace SocialNetwork.Controllers
         }
 
         [HttpPut("{userId}")]
-        public async Task<IActionResult> UpdateUser(int userId, [FromBody] UserForUpdateOrCreationDTO userdto)
+        public async Task<IActionResult> UpdateUser(int userId, [FromBody] UserForm userdto)
         {
             var success = await _userService.UpdateUser(userId, userdto);
             if (!success)

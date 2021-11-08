@@ -9,8 +9,8 @@ namespace Application.Contracts
     {
         public Task<IEnumerable<UserForResponseDTO>> GetUsers();
         public Task<UserForResponseDTO> GetUser(int userId);
-        public Task<User> CreateUser(UserForUpdateOrCreationDTO userdto);
-        public Task<bool> UpdateUser(int userId, UserForUpdateOrCreationDTO userdto);
+        public Task<User> CreateUser(UserForm userdto);
+        public Task<bool> UpdateUser(int userId, UserForm userdto);
         public Task DeleteUser(int userId);
     }
 }

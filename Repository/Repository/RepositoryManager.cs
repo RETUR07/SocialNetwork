@@ -8,6 +8,7 @@ namespace ProjectRepository.Repository
         private RepositoryContext _repositoryContext;
 
         private IUserRepository _userRepository;
+        private IPostRepository _postRepository;
 
         public RepositoryManager(RepositoryContext repositoryContext)
         {
@@ -24,6 +25,15 @@ namespace ProjectRepository.Repository
             }
         }
 
+        public IPostRepository post
+        {
+            get
+            {
+                if (_postRepository == null)
+                    _postRepository = new PostRepository(_repositoryContext);
+                return _postRepository;
+            }
+        }
         public async Task SaveAsync() => await _repositoryContext.SaveChangesAsync();
     }
 }

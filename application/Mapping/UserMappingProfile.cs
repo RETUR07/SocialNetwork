@@ -12,7 +12,7 @@ namespace Application.Mapping
                 .ForMember(c => c.DateOfBirth,
                 opt => opt.MapFrom(x => x.DateOfBirth.ToShortDateString()));
 
-            CreateMap<UserForUpdateOrCreationDTO, User>();
+            CreateMap<UserForm, User>();
         }
     }
 }

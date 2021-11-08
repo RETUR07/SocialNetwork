@@ -22,7 +22,7 @@ namespace Application.Services
             _mapper = mapper;
         }
     
-        public async Task<User> CreateUser(UserForUpdateOrCreationDTO userdto)
+        public async Task<User> CreateUser(UserForm userdto)
         {
             if (userdto == null)
             {
@@ -59,7 +59,7 @@ namespace Application.Services
             return usersdto;
         }
 
-        public async Task<bool> UpdateUser(int userId, UserForUpdateOrCreationDTO userdto)
+        public async Task<bool> UpdateUser(int userId, UserForm userdto)
         {
             if (userdto == null)
             {

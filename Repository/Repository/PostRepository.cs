@@ -1,4 +1,5 @@
 ﻿using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 using ProjectRepository.Contracts;
 using System;
 using System.Collections.Generic;
@@ -14,5 +15,19 @@ namespace ProjectRepository.Repository
         : base(repositoryContext)
         {
         }
+
+        public void CreatePost(Post post) =>
+            Create(post);
+
+        public void DeletePost(Post post) =>
+            Delete(post);
+
+        public async Task<IEnumerable<Post>> GetAllPostsAsync(bool trackChanges) =>
+            await FindAll(trackChanges).OrderBy(p => p.Header).ToListAsync();
+
+
+        public async Task<Post> GetPostAsync(int postId, bool trackChanges) =>
+                        await FindByCondition(p => p.Id == postId, trackChanges).SingleOrDefaultAsync();
+
     }
 }

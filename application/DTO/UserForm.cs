@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Application.DTO
 {
-    public class UserForUpdateOrCreationDTO
+    public class UserForm
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
