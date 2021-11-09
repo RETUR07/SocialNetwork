@@ -14,6 +14,6 @@ namespace Entities.Models
 
         public string Text { get; set; }
 
-        public IEnumerable<int> BlobIds { get; set; }
+        public IEnumerable<Blob> BlobIds { get; set; }
     }
 }

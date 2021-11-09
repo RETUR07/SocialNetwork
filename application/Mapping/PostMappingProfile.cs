@@ -2,6 +2,7 @@
 using Application.Services;
 using AutoMapper;
 using Entities.Models;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,13 @@ namespace Application.Mapping
     {
         public PostMappingProfile()
         {
-           //TODO
+            CreateMap<PostForm, Post>()
+                .ForMember(pf => pf.BlobIds,
+                opt => opt.MapFrom(x => Converters.FormFilesToBlobs(x.Content)));
+
+            CreateMap<Post, PostForResponseDTO>()
+                .ForMember(p => p.Content,
+                opt => opt.MapFrom(x => Converters.BlobsToFormFiles(x.BlobIds)));
         }
     }
 }
