@@ -12,6 +12,7 @@ namespace Entities.Models
         public long lenth { get; set; }
         public string name { get; set; }
         public string filename { get; set; }
+        public string ContentType { get; set; }
         public byte[] Buffer { get; set; }
     }
 }

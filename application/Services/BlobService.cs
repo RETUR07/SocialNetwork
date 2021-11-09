@@ -2,6 +2,7 @@
 using AutoMapper;
 using Entities.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using ProjectRepository.Contracts;
 using System;
 using System.Collections.Generic;
@@ -21,15 +22,15 @@ namespace Application.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<IFormFile>> GetBLobsAsync(IEnumerable<int> Ids, bool trackChanges)
+        public async Task<IEnumerable<FileContentResult>> GetBLobsAsync(IEnumerable<int> Ids, bool trackChanges)
         {
-            List<IFormFile> formfiles = new List<IFormFile>(); 
+            List<FileContentResult> formfiles = new List<FileContentResult>(); 
             foreach (int id in Ids)
             {
                 var blob = await _repository.blob.GetBlob(id, trackChanges);
                 if (blob == null)
                     continue;
-                var FormFile = Converters.BlobToFormFile(blob);
+                var FormFile = Converters.BlobToFileContentResult(blob);
                 formfiles.Add(FormFile);
             }
             return formfiles;

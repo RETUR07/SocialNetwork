@@ -8,12 +8,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Http;
 using Entities.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Application.Services
 {
-    public class Converters
+    public static class Converters
     {
-        public static async Task<Blob> FormFileToBlobAsync(IFormFile formfile)
+        public static async Task<Blob> FormFileToBlobAsync(this IFormFile formfile)
         {
             using (var ms = new MemoryStream())
             {
@@ -26,11 +27,12 @@ namespace Application.Services
                 blob.filename = formfile.FileName;
                 blob.name = formfile.Name;
                 blob.lenth = formfile.Length;
+                blob.ContentType = formfile.ContentType;
                 return blob;
             }
         }
 
-        public static Blob FormFileToBlob(IFormFile formfile)
+        public static Blob FormFileToBlob(this IFormFile formfile)
         {
             using (var ms = new MemoryStream())
             {
@@ -43,50 +45,48 @@ namespace Application.Services
                 blob.filename = formfile.FileName;
                 blob.name = formfile.Name;
                 blob.lenth = formfile.Length;
+                blob.ContentType = formfile.ContentType;
                 return blob;
             }
         }
 
-        public static async Task<IEnumerable<Blob>> FormFilesToBlobsAsync(IEnumerable<IFormFile> formfiles)
+        public static async Task<IEnumerable<Blob>> FormFilesToBlobsAsync(this IEnumerable<IFormFile> formfiles)
         {
             List<Blob> blobs = new List<Blob>();
             foreach (IFormFile ff in formfiles)
                 if (ff != null)
                 {
-                    blobs.Add(await FormFileToBlobAsync(ff));
+                    blobs.Add(await ff.FormFileToBlobAsync());
                 }
             return blobs;
         }
 
-        public static IEnumerable<Blob> FormFilesToBlobs(IEnumerable<IFormFile> formfiles)
+        public static IEnumerable<Blob> FormFilesToBlobs(this IEnumerable<IFormFile> formfiles)
         {
             List<Blob> blobs = new List<Blob>();
             foreach (IFormFile ff in formfiles)
                 if (ff != null)
                 {
-                    blobs.Add(FormFileToBlob(ff));
+                    blobs.Add(ff.FormFileToBlob());
                 }
             return blobs;
         }
 
-        public static IFormFile BlobToFormFile(Blob blob)
+        public static FileContentResult BlobToFileContentResult(this Blob blob)
         {
-            using (var ms = new MemoryStream(blob.Buffer))
-            {
-                var returnFormFile = new FormFile(ms, 0, blob.lenth, blob.name, blob.filename);
-
-                return returnFormFile;
-            }
+            var returnfile = new FileContentResult(blob.Buffer, blob.ContentType);
+            returnfile.FileDownloadName = blob.filename;
+            return returnfile;
         }
 
-        public static IEnumerable<IFormFile> BlobsToFormFiles(IEnumerable<Blob> blobs)
+        public static IEnumerable<FileContentResult> BlobsToFileContentResults(this IEnumerable<Blob> blobs)
         {
-            List<IFormFile> formFiles = new List<IFormFile>();
+            List<FileContentResult> files = new List<FileContentResult>();
             foreach(var blob in blobs)
             {
-                formFiles.Add(BlobToFormFile(blob));
+                files.Add(blob.BlobToFileContentResult());
             }
-            return formFiles;
+            return files;
         }
     }
 }

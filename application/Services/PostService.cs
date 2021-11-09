@@ -42,7 +42,7 @@ namespace Application.Services
 
         public async Task<PostForResponseDTO> GetPost(int postId)
         {
-            var post = await _repository.user.GetUserAsync(postId, false);
+            var post = await _repository.post.GetPostAsync(postId, false);
             if (post == null)
             {
                 return null;

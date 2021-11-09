@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.Services;
 
 namespace SocialNetwork.Controllers
 {
@@ -20,14 +21,14 @@ namespace SocialNetwork.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetUsers()
+        public async Task<IActionResult> GetPosts()
         {
             var postsdto = await _postService.GetPosts();
             return Ok(postsdto);
         }
 
         [HttpGet("{postId}", Name = "GetPost")]
-        public async Task<IActionResult> GetUser(int postId)
+        public async Task<IActionResult> GetPost(int postId)
         {
             var post = await _postService.GetPost(postId);
             if (post == null)
@@ -45,7 +46,7 @@ namespace SocialNetwork.Controllers
             {
                 return BadRequest("Post is null");
             }
-            return CreatedAtRoute("GetPost", new { postId = post.Id }, post);
+            return CreatedAtRoute("GetPost", new { postId = post.Id }, await _postService.GetPost(post.Id));
         }
 
         [HttpDelete("{postId}")]

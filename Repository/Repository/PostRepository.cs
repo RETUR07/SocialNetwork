@@ -27,7 +27,7 @@ namespace ProjectRepository.Repository
 
 
         public async Task<Post> GetPostAsync(int postId, bool trackChanges) =>
-                        await FindByCondition(p => p.Id == postId, trackChanges).SingleOrDefaultAsync();
+                        await FindByCondition(p => p.Id == postId, trackChanges).Include(p => p.BlobIds).SingleOrDefaultAsync();
 
     }
 }

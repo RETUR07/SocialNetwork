@@ -3,6 +3,7 @@ using Application.Services;
 using AutoMapper;
 using Entities.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,11 +18,11 @@ namespace Application.Mapping
         {
             CreateMap<PostForm, Post>()
                 .ForMember(pf => pf.BlobIds,
-                opt => opt.MapFrom(x => Converters.FormFilesToBlobs(x.Content)));
+                opt => opt.MapFrom(x => x.Content.FormFilesToBlobs()));
 
             CreateMap<Post, PostForResponseDTO>()
                 .ForMember(p => p.Content,
-                opt => opt.MapFrom(x => Converters.BlobsToFormFiles(x.BlobIds)));
+                opt => opt.MapFrom(x => x.BlobIds.BlobsToFileContentResults()));
         }
     }
 }

@@ -29,7 +29,7 @@ namespace SocialNetwork
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPostService, PostService>();
             services.AddDbContext<RepositoryContext>(opts =>
-                   opts.UseSqlServer(Configuration.GetConnectionString("sqlConnection")));
+                   opts.UseSqlServer(Configuration.GetConnectionString("sqlConnection"), x => x.MigrationsAssembly("SocialNetwork")));
 
         }
 

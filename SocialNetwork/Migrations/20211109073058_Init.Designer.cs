@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjectRepository.Repository;
 
 namespace SocialNetwork.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20211109073058_Init")]
+    partial class Init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,9 +30,6 @@ namespace SocialNetwork.Migrations
 
                     b.Property<byte[]>("Buffer")
                         .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("ContentType")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("PostId")
                         .HasColumnType("int");
