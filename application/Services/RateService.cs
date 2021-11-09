@@ -40,10 +40,22 @@ namespace Application.Services
             return _mapper.Map<Rate, RateForResponseDTO>(rate);
         }
 
-        public async Task<bool> UpdateUserAsync(int userId, int postId, RateForm ratedto)
+        public async Task<IEnumerable<RateForResponseDTO>> GetRatesByPostIdAsync(int postId, bool trackChanges)
+        {
+            var rates = await _repository.rate.GetRatesByPostIdAsync(postId, trackChanges);
+            return _mapper.Map<IEnumerable<Rate>, IEnumerable<RateForResponseDTO>>(rates);
+        }
+
+        public async Task<IEnumerable<RateForResponseDTO>> GetRatesByUserIdAsync(int userId, bool trackChanges)
+        {
+            var rates = await _repository.rate.GetRatesByPostIdAsync(userId, trackChanges);
+            return _mapper.Map<IEnumerable<Rate>, IEnumerable<RateForResponseDTO>>(rates);
+        }
+
+        public async Task<bool> UpdateUserAsync(RateForm ratedto)
         {
             if (ratedto == null) return false;
-            var rate = await _repository.rate.GetRateAsync(userId, postId, true);
+            var rate = await _repository.rate.GetRateAsync(ratedto.userId, ratedto.postId, true);
             if (rate == null) return false;
             _mapper.Map(ratedto, rate);
             await _repository.SaveAsync();

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Application.Contracts;
+using Application.DTO;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,23 +13,64 @@ namespace SocialNetwork.Controllers
     [ApiController]
     public class RateController : ControllerBase
     {
+        private readonly IRateService _rateService;
+
+        public RateController(IRateService rateService)
+        {
+            _rateService = rateService;
+        }
+
         [HttpGet("{userId}/{postId}", Name = "GetRate")]
         public async Task<IActionResult> GetRate(int userId, int postId)
         {
-            throw new NotImplementedException();
+            var rate = await _rateService.GetRateAsync(userId, postId, false);
+            if (rate == null)
+                return NotFound();
+            return Ok(rate);
         }
 
-        [HttpPost("{userId}/{postId}")]
-        public async Task<IActionResult> CreateRate(int userId, int postId)
+        [HttpGet("userrates/{userId}")]
+        public async Task<IActionResult> GetRatesOfUser(int userId)
         {
-            throw new NotImplementedException();
+            var rates = await _rateService.GetRatesByUserIdAsync(userId, false);
+            if (rates == null)
+                return NotFound();
+            return Ok(rates);
+        }
+
+        [HttpGet("postrates/{postId}")]
+        public async Task<IActionResult> GetRatesOfPost(int postId)
+        {
+            var rates = await _rateService.GetRatesByPostIdAsync(postId, false);
+            if (rates == null)
+                return NotFound();
+            return Ok(rates);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateRate(RateForm rateForm)
+        {
+            var ratedto = await _rateService.CreateRateAsync(rateForm);
+            if (ratedto == null)
+            {
+                return BadRequest("rate is null");
+            }
+            return CreatedAtRoute("GetRate", new { userId = ratedto.userId, postId = ratedto.postId }, ratedto);
         }
 
 
-        [HttpPut("{userId}/{postId}")]
-        public async Task<IActionResult> UpdateRate(int userId, int postId)
+        [HttpPut]
+        public async Task<IActionResult> UpdateRate([FromBody]RateForm rateForm)
         {
-            throw new NotImplementedException();
+            if (rateForm == null)
+            {
+                return BadRequest("RateForm is null");
+            }
+            if (!(await _rateService.UpdateUserAsync(rateForm)))
+            {
+                return BadRequest("Error updating");
+            }
+            return NoContent();
         }
     }
 }

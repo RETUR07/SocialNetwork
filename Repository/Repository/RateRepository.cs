@@ -18,5 +18,11 @@ namespace ProjectRepository.Repository
 
         public async Task<Rate> GetRateAsync(int userId, int postId, bool trackChanges) =>
            await FindByCondition(r => r.userId == userId && r.postId == postId, trackChanges).SingleOrDefaultAsync();
+
+        public async Task<IEnumerable<Rate>> GetRatesByPostIdAsync(int postId, bool trackChanges) =>
+           await FindByCondition(r => r.postId == postId, trackChanges).ToListAsync();
+
+        public async Task<IEnumerable<Rate>> GetRatesByUserIdAsync(int userId, bool trackChanges)=>
+            await FindByCondition(r => r.userId == userId, trackChanges).ToListAsync();
     }
 }
