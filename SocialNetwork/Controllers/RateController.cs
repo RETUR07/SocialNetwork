@@ -1,10 +1,6 @@
-﻿using Application.Contracts;
-using Application.DTO;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.AspNetCore.Mvc;
+using SocialNetwork.Application.Contracts;
+using SocialNetwork.Application.DTO;
 using System.Threading.Tasks;
 
 namespace SocialNetwork.Controllers
@@ -55,7 +51,7 @@ namespace SocialNetwork.Controllers
             {
                 return BadRequest("rate is null");
             }
-            return CreatedAtRoute("GetRate", new { userId = ratedto.userId, postId = ratedto.postId }, ratedto);
+            return CreatedAtRoute("GetRate", new { userId = ratedto.UserId, postId = ratedto.PostId }, ratedto);
         }
 
 

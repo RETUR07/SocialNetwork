@@ -1,9 +1,9 @@
-﻿using Application.DTO;
-using Entities.Models;
+﻿using SocialNetwork.Application.DTO;
+using SocialNetwork.Entities.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Application.Contracts
+namespace SocialNetwork.Application.Contracts
 {
     public interface IUserService
     {

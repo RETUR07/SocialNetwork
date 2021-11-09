@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace Entities.Models
-{ 
+namespace SocialNetwork.Entities.Models
+{
     public class User
     {
         public int Id { get; set; }
@@ -14,6 +12,6 @@ namespace Entities.Models
         
         public DateTime DateOfBirth { get; set; }
 
-        public IEnumerable<Post> posts { get; set; }
+        public IEnumerable<Post> Posts { get; set; }
     }
 }

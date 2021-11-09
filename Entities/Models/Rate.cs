@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Entities.Models
+namespace SocialNetwork.Entities.Models
 {
     public enum LikeStatus
     { 
@@ -19,10 +14,10 @@ namespace Entities.Models
         public int Id { get; set; }
 
         [ForeignKey("User")]
-        public int userId { get; set; }
+        public int UserId { get; set; }
 
         [ForeignKey("Post")]
-        public int postId { get; set; }
+        public int PostId { get; set; }
 
         public LikeStatus LikeStatus { get; set; }
     }

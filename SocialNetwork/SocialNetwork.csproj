@@ -13,8 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\application\Application.csproj" />
-    <ProjectReference Include="..\Repository\ProjectRepository.csproj" />
+    <ProjectReference Include="..\application\SocialNetwork.Application.csproj" />
+    <ProjectReference Include="..\Repository\SocialNetworks.Repository.csproj" />
   </ItemGroup>
 
 </Project>

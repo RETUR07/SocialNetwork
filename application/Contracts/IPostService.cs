@@ -1,12 +1,9 @@
-﻿using Application.DTO;
-using Entities.Models;
-using System;
+﻿using SocialNetwork.Application.DTO;
+using SocialNetwork.Entities.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Contracts
+namespace SocialNetwork.Application.Contracts
 {
     public interface IPostService
     {

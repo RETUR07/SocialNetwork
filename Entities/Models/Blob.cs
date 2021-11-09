@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Entities.Models
+﻿namespace SocialNetwork.Entities.Models
 {
     public class Blob
     {
         public int Id { get; set; }
-        public long lenth { get; set; }
-        public string name { get; set; }
-        public string filename { get; set; }
+        public long Lenth { get; set; }
+        public string Name { get; set; }
+        public string Filename { get; set; }
         public string ContentType { get; set; }
         public byte[] Buffer { get; set; }
     }

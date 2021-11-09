@@ -1,15 +1,11 @@
-﻿using Application.Contracts;
-using Application.Mapping;
-using Application.Services;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using ProjectRepository.Contracts;
-using ProjectRepository.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using SocialNetwork.Application.Contracts;
+using SocialNetwork.Application.Mapping;
+using SocialNetwork.Application.Services;
+using SocialNetworks.Repository.Contracts;
+using SocialNetworks.Repository.Repository;
 
 namespace SocialNetwork.Extensions
 {

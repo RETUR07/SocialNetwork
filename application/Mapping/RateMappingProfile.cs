@@ -1,13 +1,8 @@
-﻿using Application.DTO;
-using AutoMapper;
-using Entities.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AutoMapper;
+using SocialNetwork.Application.DTO;
+using SocialNetwork.Entities.Models;
 
-namespace Application.Mapping
+namespace SocialNetwork.Application.Mapping
 {
     public class RateMappingProfile : Profile
     {

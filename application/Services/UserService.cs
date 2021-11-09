@@ -1,15 +1,12 @@
-﻿using Application.Contracts;
-using Application.DTO;
-using AutoMapper;
-using Entities.Models;
-using ProjectRepository.Contracts;
-using System;
+﻿using AutoMapper;
+using SocialNetwork.Application.Contracts;
+using SocialNetwork.Application.DTO;
+using SocialNetwork.Entities.Models;
+using SocialNetworks.Repository.Contracts;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Services
+namespace SocialNetwork.Application.Services
 {
     public class UserService : IUserService
     {
@@ -29,21 +26,21 @@ namespace Application.Services
                 return null;
             }
             var user = _mapper.Map<User>(userdto);
-            _repository.user.Create(user);
+            _repository.User.Create(user);
             await _repository.SaveAsync();
             return user;
         }
 
         public async Task DeleteUserAsync(int userId)
         {
-            var user = await _repository.user.GetUserAsync(userId, true);
-            _repository.user.Delete(user);
+            var user = await _repository.User.GetUserAsync(userId, true);
+            _repository.User.Delete(user);
             await _repository.SaveAsync();
         }
 
         public async Task<UserForResponseDTO> GetUserAsync(int userId)
         {
-            var user = await _repository.user.GetUserAsync(userId, false);
+            var user = await _repository.User.GetUserAsync(userId, false);
             if (user == null)
             {
                 return null;
@@ -54,7 +51,7 @@ namespace Application.Services
 
         public async Task<IEnumerable<UserForResponseDTO>> GetUsersAsync()
         {
-            var users = await _repository.user.GetAllUsersAsync(false);
+            var users = await _repository.User.GetAllUsersAsync(false);
             var usersdto = _mapper.Map<IEnumerable<UserForResponseDTO>>(users);
             return usersdto;
         }
@@ -66,7 +63,7 @@ namespace Application.Services
                 return false;
             }
 
-            var user = await _repository.user.GetUserAsync(userId, true);
+            var user = await _repository.User.GetUserAsync(userId, true);
 
             if (user == null)
             {

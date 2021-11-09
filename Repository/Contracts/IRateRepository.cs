@@ -1,11 +1,8 @@
-﻿using Entities.Models;
-using System;
+﻿using SocialNetwork.Entities.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace ProjectRepository.Contracts
+namespace SocialNetworks.Repository.Contracts
 {
     public interface IRateRepository : IRepositoryBase<Rate>
     {

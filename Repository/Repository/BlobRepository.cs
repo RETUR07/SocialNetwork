@@ -1,13 +1,9 @@
-﻿using Entities.Models;
-using Microsoft.EntityFrameworkCore;
-using ProjectRepository.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Microsoft.EntityFrameworkCore;
+using SocialNetwork.Entities.Models;
+using SocialNetworks.Repository.Contracts;
 using System.Threading.Tasks;
 
-namespace ProjectRepository.Repository
+namespace SocialNetworks.Repository.Repository
 {
     public class BlobRepository : RepositoryBase<Blob>, IBlobRepository
     {

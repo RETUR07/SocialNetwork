@@ -1,25 +1,21 @@
-﻿using Application.Contracts;
-using AutoMapper;
-using Entities.Models;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ProjectRepository.Contracts;
-using System;
+using SocialNetwork.Application.Contracts;
+using SocialNetwork.Entities.Models;
+using SocialNetworks.Repository.Contracts;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Services
+namespace SocialNetwork.Application.Services
 {
     public class BlobService : IBlobService
     {
         private readonly IRepositoryManager _repository;
-        private readonly IMapper _mapper;
-        public BlobService(IRepositoryManager repository, IMapper mapper)
+        public BlobService(IRepositoryManager repository)
         {
             _repository = repository;
-            _mapper = mapper;
         }
 
         public async Task<IEnumerable<FileContentResult>> GetBLobsAsync(IEnumerable<int> Ids, bool trackChanges)
@@ -27,7 +23,7 @@ namespace Application.Services
             List<FileContentResult> formfiles = new List<FileContentResult>(); 
             foreach (int id in Ids)
             {
-                var blob = await _repository.blob.GetBlob(id, trackChanges);
+                var blob = await _repository.Blob.GetBlob(id, trackChanges);
                 if (blob == null)
                     continue;
                 var FormFile = Converters.BlobToFileContentResult(blob);
@@ -45,7 +41,7 @@ namespace Application.Services
                 if (formfile == null)
                     continue;
                 var blob = await Converters.FormFileToBlobAsync(formfile);
-                _repository.blob.CreateBlob(blob);
+                _repository.Blob.CreateBlob(blob);
                 blobs.Add(blob);
             }
             await _repository.SaveAsync();

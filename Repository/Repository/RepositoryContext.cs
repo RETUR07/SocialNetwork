@@ -1,7 +1,7 @@
-﻿using Entities.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using SocialNetwork.Entities.Models;
 
-namespace ProjectRepository.Repository
+namespace SocialNetworks.Repository.Repository
 {
     public class RepositoryContext : DbContext
     {

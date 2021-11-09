@@ -1,16 +1,11 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using SocialNetwork.Entities.Models;
 using System.Collections.Generic;
 using System.IO;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http.Internal;
-using Microsoft.AspNetCore.Http;
-using Entities.Models;
-using Microsoft.AspNetCore.Mvc;
 
-namespace Application.Services
+namespace SocialNetwork.Application.Services
 {
     public static class Converters
     {
@@ -24,9 +19,9 @@ namespace Application.Services
 
                 await formfile.CopyToAsync(ms);
                 blob.Buffer = ms.ToArray();
-                blob.filename = formfile.FileName;
-                blob.name = formfile.Name;
-                blob.lenth = formfile.Length;
+                blob.Filename = formfile.FileName;
+                blob.Name = formfile.Name;
+                blob.Lenth = formfile.Length;
                 blob.ContentType = formfile.ContentType;
                 return blob;
             }
@@ -42,9 +37,9 @@ namespace Application.Services
 
                 formfile.CopyTo(ms);
                 blob.Buffer = ms.ToArray();
-                blob.filename = formfile.FileName;
-                blob.name = formfile.Name;
-                blob.lenth = formfile.Length;
+                blob.Filename = formfile.FileName;
+                blob.Name = formfile.Name;
+                blob.Lenth = formfile.Length;
                 blob.ContentType = formfile.ContentType;
                 return blob;
             }
@@ -75,7 +70,7 @@ namespace Application.Services
         public static FileContentResult BlobToFileContentResult(this Blob blob)
         {
             var returnfile = new FileContentResult(blob.Buffer, blob.ContentType);
-            returnfile.FileDownloadName = blob.filename;
+            returnfile.FileDownloadName = blob.Filename;
             return returnfile;
         }
 

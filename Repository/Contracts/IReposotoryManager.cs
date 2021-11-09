@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
-namespace ProjectRepository.Contracts
+namespace SocialNetworks.Repository.Contracts
 {
     public interface IRepositoryManager
     {
-        IUserRepository user { get; }
-        IPostRepository post { get; }
-        IBlobRepository blob { get; }
-        IRateRepository rate { get; }
+        IUserRepository User { get; }
+        IPostRepository Post { get; }
+        IBlobRepository Blob { get; }
+        IRateRepository Rate { get; }
         Task SaveAsync();
     } 
 }

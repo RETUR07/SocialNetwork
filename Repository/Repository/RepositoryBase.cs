@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ProjectRepository.Contracts;
+using SocialNetworks.Repository.Contracts;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace ProjectRepository.Repository
+namespace SocialNetworks.Repository.Repository
 {
     public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
     {

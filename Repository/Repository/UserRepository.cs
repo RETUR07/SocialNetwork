@@ -1,11 +1,11 @@
-﻿using Entities.Models;
-using Microsoft.EntityFrameworkCore;
-using ProjectRepository.Contracts;
+﻿using Microsoft.EntityFrameworkCore;
+using SocialNetwork.Entities.Models;
+using SocialNetworks.Repository.Contracts;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ProjectRepository.Repository
+namespace SocialNetworks.Repository.Repository
 {
     public class UserRepository : RepositoryBase<User>, IUserRepository
     {

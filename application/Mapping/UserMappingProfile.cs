@@ -1,8 +1,8 @@
-﻿using Application.DTO;
-using AutoMapper;
-using Entities.Models;
+﻿using AutoMapper;
+using SocialNetwork.Application.DTO;
+using SocialNetwork.Entities.Models;
 
-namespace Application.Mapping
+namespace SocialNetwork.Application.Mapping
 {
     public class UserMappingProfile : Profile
     {

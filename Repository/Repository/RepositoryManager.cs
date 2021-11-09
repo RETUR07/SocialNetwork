@@ -1,7 +1,7 @@
-﻿using ProjectRepository.Contracts;
+﻿using SocialNetworks.Repository.Contracts;
 using System.Threading.Tasks;
 
-namespace ProjectRepository.Repository
+namespace SocialNetworks.Repository.Repository
 {
     public class RepositoryManager : IRepositoryManager
     {
@@ -16,7 +16,7 @@ namespace ProjectRepository.Repository
             _repositoryContext = repositoryContext;
         }
 
-        public IUserRepository user
+        public IUserRepository User
         {
             get
             {
@@ -26,7 +26,7 @@ namespace ProjectRepository.Repository
             }
         }
 
-        public IPostRepository post
+        public IPostRepository Post
         {
             get
             {
@@ -36,7 +36,7 @@ namespace ProjectRepository.Repository
             }
         }
 
-        public IBlobRepository blob
+        public IBlobRepository Blob
         {
             get
             {
@@ -46,7 +46,7 @@ namespace ProjectRepository.Repository
             }
         }
 
-        public IRateRepository rate
+        public IRateRepository Rate
         {
             get
             {

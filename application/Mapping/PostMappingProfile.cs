@@ -1,16 +1,9 @@
-﻿using Application.DTO;
-using Application.Services;
-using AutoMapper;
-using Entities.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Internal;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AutoMapper;
+using SocialNetwork.Application.DTO;
+using SocialNetwork.Application.Services;
+using SocialNetwork.Entities.Models;
 
-namespace Application.Mapping
+namespace SocialNetwork.Application.Mapping
 {
     public class PostMappingProfile : Profile
     {

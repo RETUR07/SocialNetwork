@@ -1,17 +1,12 @@
-﻿using Entities.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SocialNetwork.Entities.Models;
 
-namespace Application.DTO
+namespace SocialNetwork.Application.DTO
 {
     public class RateForm
     {
-        public int userId { get; set; }
+        public int UserId { get; set; }
 
-        public int postId { get; set; }
+        public int PostId { get; set; }
 
         public LikeStatus LikeStatus { get; set; }
     }

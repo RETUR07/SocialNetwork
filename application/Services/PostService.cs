@@ -1,15 +1,12 @@
-﻿using Application.Contracts;
-using Application.DTO;
-using AutoMapper;
-using Entities.Models;
-using ProjectRepository.Contracts;
-using System;
+﻿using AutoMapper;
+using SocialNetwork.Application.Contracts;
+using SocialNetwork.Application.DTO;
+using SocialNetwork.Entities.Models;
+using SocialNetworks.Repository.Contracts;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Services
+namespace SocialNetwork.Application.Services
 {
     public class PostService : IPostService
     {
@@ -28,21 +25,21 @@ namespace Application.Services
                 return null;
             }
             var post = _mapper.Map<Post>(postdto);
-            _repository.post.Create(post);
+            _repository.Post.Create(post);
             await _repository.SaveAsync();
             return post;
         }
 
         public async Task DeletePost(int postId)
         {
-            var post = await _repository.post.GetPostAsync(postId, true);
-            _repository.post.Delete(post);
+            var post = await _repository.Post.GetPostAsync(postId, true);
+            _repository.Post.Delete(post);
             await _repository.SaveAsync();
         }
 
         public async Task<PostForResponseDTO> GetPost(int postId)
         {
-            var post = await _repository.post.GetPostAsync(postId, false);
+            var post = await _repository.Post.GetPostAsync(postId, false);
             if (post == null)
             {
                 return null;
@@ -53,7 +50,7 @@ namespace Application.Services
 
         public async Task<IEnumerable<PostForResponseDTO>> GetPosts()
         {
-            var posts = await _repository.post.GetAllPostsAsync(false);
+            var posts = await _repository.Post.GetAllPostsAsync(false);
             var postsdto = _mapper.Map<IEnumerable<PostForResponseDTO>>(posts);
             return postsdto;
         }

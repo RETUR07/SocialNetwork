@@ -5,11 +5,11 @@ VisualStudioVersion = 16.0.31729.503
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocialNetwork", "SocialNetwork\SocialNetwork.csproj", "{6593809C-F89E-42FB-9B69-2EAF5E962ED0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "Entities\Entities.csproj", "{287CA4DD-4774-45C4-8D8E-CFF99713BBE6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocialNetwork.Entities", "Entities\SocialNetwork.Entities.csproj", "{287CA4DD-4774-45C4-8D8E-CFF99713BBE6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "application\Application.csproj", "{A9DB89BE-8DFB-4C14-9074-43D32538C675}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocialNetwork.Application", "application\SocialNetwork.Application.csproj", "{A9DB89BE-8DFB-4C14-9074-43D32538C675}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectRepository", "Repository\ProjectRepository.csproj", "{D77F1CDD-81AB-42B0-8175-A017EE3430F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocialNetworks.Repository", "Repository\SocialNetworks.Repository.csproj", "{D77F1CDD-81AB-42B0-8175-A017EE3430F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,13 +1,11 @@
-﻿using Entities.Models;
-using Microsoft.EntityFrameworkCore;
-using ProjectRepository.Contracts;
-using System;
+﻿using Microsoft.EntityFrameworkCore;
+using SocialNetwork.Entities.Models;
+using SocialNetworks.Repository.Contracts;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace ProjectRepository.Repository
+namespace SocialNetworks.Repository.Repository
 {
     public class PostRepository : RepositoryBase<Post>, IPostRepository
     {
@@ -21,7 +19,7 @@ namespace ProjectRepository.Repository
 
 
         public async Task<Post> GetPostAsync(int postId, bool trackChanges) =>
-                        await FindByCondition(p => p.Id == postId, trackChanges).Include(p => p.BlobIds).SingleOrDefaultAsync();
+            await FindByCondition(p => p.Id == postId, trackChanges).Include(p => p.BlobIds).SingleOrDefaultAsync();
 
     }
 }

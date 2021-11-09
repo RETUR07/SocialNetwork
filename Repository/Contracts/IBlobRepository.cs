@@ -1,11 +1,7 @@
-﻿using Entities.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using SocialNetwork.Entities.Models;
 using System.Threading.Tasks;
 
-namespace ProjectRepository.Contracts
+namespace SocialNetworks.Repository.Contracts
 {
     public interface IBlobRepository : IRepositoryBase<Blob>
     {

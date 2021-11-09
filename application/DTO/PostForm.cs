@@ -1,13 +1,7 @@
-﻿using AutoMapper;
-using Entities.Models;
-using Microsoft.AspNetCore.Http;
-using System;
+﻿using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Application.DTO
+namespace SocialNetwork.Application.DTO
 {
     public class PostForm
     {

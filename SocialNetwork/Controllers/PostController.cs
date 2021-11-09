@@ -1,11 +1,7 @@
-﻿using Application.Contracts;
-using Microsoft.AspNetCore.Mvc;
-using Application.DTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.AspNetCore.Mvc;
+using SocialNetwork.Application.Contracts;
+using SocialNetwork.Application.DTO;
 using System.Threading.Tasks;
-using Application.Services;
 
 namespace SocialNetwork.Controllers
 {
