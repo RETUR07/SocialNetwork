@@ -19,14 +19,14 @@ namespace SocialNetwork.Controllers
         [HttpGet]
         public async Task<IActionResult> GetUsers()
         {
-            var usersdto = await _userService.GetUsers();
+            var usersdto = await _userService.GetUsersAsync();
             return Ok(usersdto);
         }
 
-        [HttpGet("{userId}", Name = "GetUser")]    
+        [HttpGet("{userId}", Name = "GetUser")]
         public async Task<IActionResult> GetUser(int userId)
         {
-            var user = await _userService.GetUser(userId);
+            var user = await _userService.GetUserAsync(userId);
             if (user == null)
             {
                 return NotFound();
@@ -37,8 +37,8 @@ namespace SocialNetwork.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] UserForm userdto)
         {
-            var user = await _userService.CreateUser(userdto);
-            if(user == null)
+            var user = await _userService.CreateUserAsync(userdto);
+            if (user == null)
             {
                 return BadRequest("User is null");
             }
@@ -48,7 +48,7 @@ namespace SocialNetwork.Controllers
         [HttpPut("{userId}")]
         public async Task<IActionResult> UpdateUser(int userId, [FromBody] UserForm userdto)
         {
-            var success = await _userService.UpdateUser(userId, userdto);
+            var success = await _userService.UpdateUserAsync(userId, userdto);
             if (!success)
             {
                 return BadRequest();
@@ -59,7 +59,7 @@ namespace SocialNetwork.Controllers
         [HttpDelete("{userId}")]
         public async Task<IActionResult> DeleteUser(int userId)
         {
-            await _userService.DeleteUser(userId);
+            await _userService.DeleteUserAsync(userId);
             return NoContent();
         }
     }

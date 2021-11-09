@@ -22,26 +22,26 @@ namespace Application.Services
             _mapper = mapper;
         }
     
-        public async Task<User> CreateUser(UserForm userdto)
+        public async Task<User> CreateUserAsync(UserForm userdto)
         {
             if (userdto == null)
             {
                 return null;
             }
             var user = _mapper.Map<User>(userdto);
-            _repository.user.CreateUser(user);
+            _repository.user.Create(user);
             await _repository.SaveAsync();
             return user;
         }
 
-        public async Task DeleteUser(int userId)
+        public async Task DeleteUserAsync(int userId)
         {
             var user = await _repository.user.GetUserAsync(userId, true);
-            _repository.user.DeleteUser(user);
+            _repository.user.Delete(user);
             await _repository.SaveAsync();
         }
 
-        public async Task<UserForResponseDTO> GetUser(int userId)
+        public async Task<UserForResponseDTO> GetUserAsync(int userId)
         {
             var user = await _repository.user.GetUserAsync(userId, false);
             if (user == null)
@@ -52,14 +52,14 @@ namespace Application.Services
             return userdto;
         }
 
-        public async Task<IEnumerable<UserForResponseDTO>> GetUsers()
+        public async Task<IEnumerable<UserForResponseDTO>> GetUsersAsync()
         {
             var users = await _repository.user.GetAllUsersAsync(false);
             var usersdto = _mapper.Map<IEnumerable<UserForResponseDTO>>(users);
             return usersdto;
         }
 
-        public async Task<bool> UpdateUser(int userId, UserForm userdto)
+        public async Task<bool> UpdateUserAsync(int userId, UserForm userdto)
         {
             if (userdto == null)
             {

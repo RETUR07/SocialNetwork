@@ -14,8 +14,10 @@ namespace Entities.Models
         Disliked
     }
 
-    public class LikesAndDisLikes
+    public class Rate
     {
+        public int Id { get; set; }
+
         [ForeignKey("User")]
         public int userId { get; set; }
 

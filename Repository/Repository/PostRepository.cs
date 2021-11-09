@@ -16,12 +16,6 @@ namespace ProjectRepository.Repository
         {
         }
 
-        public void CreatePost(Post post) =>
-            Create(post);
-
-        public void DeletePost(Post post) =>
-            Delete(post);
-
         public async Task<IEnumerable<Post>> GetAllPostsAsync(bool trackChanges) =>
             await FindAll(trackChanges).OrderBy(p => p.Header).ToListAsync();
 

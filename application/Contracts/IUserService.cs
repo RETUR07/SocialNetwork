@@ -7,10 +7,10 @@ namespace Application.Contracts
 {
     public interface IUserService
     {
-        public Task<IEnumerable<UserForResponseDTO>> GetUsers();
-        public Task<UserForResponseDTO> GetUser(int userId);
-        public Task<User> CreateUser(UserForm userdto);
-        public Task<bool> UpdateUser(int userId, UserForm userdto);
-        public Task DeleteUser(int userId);
+        public Task<IEnumerable<UserForResponseDTO>> GetUsersAsync();
+        public Task<UserForResponseDTO> GetUserAsync(int userId);
+        public Task<User> CreateUserAsync(UserForm userdto);
+        public Task<bool> UpdateUserAsync(int userId, UserForm userdto);
+        public Task DeleteUserAsync(int userId);
     }
 }

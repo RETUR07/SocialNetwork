@@ -14,10 +14,6 @@ namespace ProjectRepository.Repository
         {
         }
 
-        public void CreateUser(User user) => Create(user);
-
-        public void DeleteUser(User user) => Delete(user);
-
         public async Task<List<User>> GetAllUsersAsync(bool trackChanges) =>
             await FindAll(trackChanges).OrderBy(u => u.LastName).ToListAsync();
 

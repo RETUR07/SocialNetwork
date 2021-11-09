@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace ProjectRepository.Contracts
 {
-    public interface IPostRepository : IRepositoryBase<Post>
+    public interface IRateRepository : IRepositoryBase<Rate>
     {
-        Task<IEnumerable<Post>> GetAllPostsAsync(bool trackChanges);
-        Task<Post> GetPostAsync(int postId, bool trackChanges);
+        Task<Rate> GetRateAsync(int userId, int postId, bool trackChanges);
     }
 }

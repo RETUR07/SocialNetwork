@@ -10,6 +10,7 @@ namespace ProjectRepository.Contracts
         IUserRepository user { get; }
         IPostRepository post { get; }
         IBlobRepository blob { get; }
+        IRateRepository rate { get; }
         Task SaveAsync();
     } 
 }

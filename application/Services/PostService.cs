@@ -28,7 +28,7 @@ namespace Application.Services
                 return null;
             }
             var post = _mapper.Map<Post>(postdto);
-            _repository.post.CreatePost(post);
+            _repository.post.Create(post);
             await _repository.SaveAsync();
             return post;
         }
@@ -36,7 +36,7 @@ namespace Application.Services
         public async Task DeletePost(int postId)
         {
             var post = await _repository.post.GetPostAsync(postId, true);
-            _repository.post.DeletePost(post);
+            _repository.post.Delete(post);
             await _repository.SaveAsync();
         }
 

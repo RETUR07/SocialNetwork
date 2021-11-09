@@ -10,7 +10,7 @@ namespace ProjectRepository.Repository
         private IUserRepository _userRepository;
         private IPostRepository _postRepository;
         private IBlobRepository _blobRepository;
-
+        private IRateRepository _rateRepository;
         public RepositoryManager(RepositoryContext repositoryContext)
         {
             _repositoryContext = repositoryContext;
@@ -43,6 +43,16 @@ namespace ProjectRepository.Repository
                 if (_blobRepository == null)
                     _blobRepository = new BlobRepository(_repositoryContext);
                 return _blobRepository;
+            }
+        }
+
+        public IRateRepository rate
+        {
+            get
+            {
+                if (_rateRepository == null)
+                    _rateRepository = new RateRepository(_repositoryContext);
+                return _rateRepository;
             }
         }
         public async Task SaveAsync() => await _repositoryContext.SaveChangesAsync();
