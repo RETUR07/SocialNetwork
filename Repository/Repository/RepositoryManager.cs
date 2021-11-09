@@ -11,6 +11,7 @@ namespace SocialNetworks.Repository.Repository
         private IPostRepository _postRepository;
         private IBlobRepository _blobRepository;
         private IRateRepository _rateRepository;
+        private ICommentRepository _commentRepository;
         public RepositoryManager(RepositoryContext repositoryContext)
         {
             _repositoryContext = repositoryContext;
@@ -53,6 +54,16 @@ namespace SocialNetworks.Repository.Repository
                 if (_rateRepository == null)
                     _rateRepository = new RateRepository(_repositoryContext);
                 return _rateRepository;
+            }
+        }
+
+        public ICommentRepository Comment
+        {
+            get
+            {
+                if (_commentRepository == null)
+                    _commentRepository = new CommentRepository(_repositoryContext);
+                return _commentRepository;
             }
         }
         public async Task SaveAsync() => await _repositoryContext.SaveChangesAsync();

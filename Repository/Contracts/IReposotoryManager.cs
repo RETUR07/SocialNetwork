@@ -8,6 +8,7 @@ namespace SocialNetworks.Repository.Contracts
         IPostRepository Post { get; }
         IBlobRepository Blob { get; }
         IRateRepository Rate { get; }
+        ICommentRepository Comment { get; }
         Task SaveAsync();
     } 
 }
