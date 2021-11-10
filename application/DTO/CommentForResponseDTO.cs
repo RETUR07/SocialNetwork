@@ -1,12 +1,13 @@
-﻿using System;
+﻿using SocialNetwork.Entities.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SocialNetwork.Entities.Models
+namespace SocialNetwork.Application.DTO
 {
-    public class Comment
+    public class CommentForResponseDTO
     {
         public int Id { get; set; }
         public User User { get; set; }

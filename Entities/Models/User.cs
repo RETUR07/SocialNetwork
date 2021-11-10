@@ -13,5 +13,8 @@ namespace SocialNetwork.Entities.Models
         public DateTime DateOfBirth { get; set; }
 
         public IEnumerable<Post> Posts { get; set; }
+
+        public virtual List<User> Friends { get; set; }
+        public virtual List<User> Subscribers { get; set; }
     }
 }

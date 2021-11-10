@@ -46,7 +46,7 @@ namespace SocialNetwork.Controllers
         }
 
         [HttpDelete("{postId}")]
-        public async Task<IActionResult> DeleteUser(int postId)
+        public async Task<IActionResult> DeletePost(int postId)
         {
             await _postService.DeletePost(postId);
             return NoContent();

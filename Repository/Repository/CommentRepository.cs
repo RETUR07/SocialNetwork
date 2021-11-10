@@ -1,4 +1,5 @@
-﻿using SocialNetwork.Entities.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using SocialNetwork.Entities.Models;
 using SocialNetworks.Repository.Contracts;
 using System;
 using System.Collections.Generic;
@@ -14,5 +15,13 @@ namespace SocialNetworks.Repository.Repository
         : base(repositoryContext)
         {
         }
+
+        public async Task<Comment> GetCommentAsync(int userId, int postId, bool trackChanges) =>
+             await FindByCondition(r => r.User.Id == userId && r.Post.Id == postId, trackChanges)
+            .Include(x => x.Post).Include(x => x.User).SingleOrDefaultAsync();
+
+        public async Task<IEnumerable<Comment>> GetCommentsByPostIdAsync(int postId, bool trackChanges) =>
+             await FindByCondition(r => r.Post.Id == postId, trackChanges)
+            .Include(x => x.User).ToListAsync();
     }
 }
