@@ -26,8 +26,8 @@ namespace SocialNetwork.Application.Services
                 return null;
             }
 
-            var user = await _repository.User.GetUserAsync(ratedto.UserId, false);
-            var post = await _repository.Post.GetPostAsync(ratedto.PostId, false);
+            var user = await _repository.User.GetUserAsync(ratedto.UserId, true);
+            var post = await _repository.Post.GetPostAsync(ratedto.PostId, true);
 
             var rate = _mapper.Map<RateForm, Rate>(ratedto);
             _mapper.Map(user, rate);

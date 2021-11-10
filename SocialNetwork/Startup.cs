@@ -22,6 +22,7 @@ namespace SocialNetwork
             services.ConfigureAutoMapper();
             services.ConfigureServices();
             services.ConfigureDatabase(Configuration);
+            services.AddSwaggerGen();
 
         }
 
@@ -30,6 +31,8 @@ namespace SocialNetwork
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI();
             }
             else
             {
@@ -44,6 +47,12 @@ namespace SocialNetwork
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+                options.RoutePrefix = string.Empty;
+            });
 
             app.UseEndpoints(endpoints =>
             {

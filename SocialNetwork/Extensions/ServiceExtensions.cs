@@ -22,6 +22,7 @@ namespace SocialNetwork.Extensions
             services.AddScoped<IPostService, PostService>();
             services.AddScoped<IBlobService, BlobService>();
             services.AddScoped<IRateService, RateService>();
+            services.AddScoped<ICommentService, CommentService>();
         }
         public static void ConfigureDatabase(this IServiceCollection services, IConfiguration Configuration)
         {

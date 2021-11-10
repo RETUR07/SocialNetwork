@@ -18,7 +18,7 @@ namespace SocialNetworks.Repository.Repository
 
         public async Task<Comment> GetCommentAsync(int userId, int postId, bool trackChanges) =>
              await FindByCondition(r => r.User.Id == userId && r.Post.Id == postId, trackChanges)
-            .Include(x => x.Post).Include(x => x.User).SingleOrDefaultAsync();
+            .SingleOrDefaultAsync();
 
         public async Task<IEnumerable<Comment>> GetCommentsByPostIdAsync(int postId, bool trackChanges) =>
              await FindByCondition(r => r.Post.Id == postId, trackChanges)

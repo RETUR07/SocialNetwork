@@ -27,8 +27,8 @@ namespace SocialNetwork.Application.Services
                 return null;
             }
 
-            var user = await _repository.User.GetUserAsync(commentForm.User, false);
-            var post = await _repository.Post.GetPostAsync(commentForm.Post, false);
+            var user = await _repository.User.GetUserAsync(commentForm.User, true);
+            var post = await _repository.Post.GetPostAsync(commentForm.Post, true);
 
             var comment = _mapper.Map<CommentForm, Comment>(commentForm);
             _mapper.Map(user, comment);
@@ -67,7 +67,7 @@ namespace SocialNetwork.Application.Services
             }
             else
             {
-                if (commentForm.Text == "")
+                if (commentForm.Text == "" || commentForm.Text == null)
                     _repository.Comment.Delete(comment);
                 else
                     _mapper.Map(commentForm, comment);
