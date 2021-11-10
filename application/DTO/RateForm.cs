@@ -1,4 +1,5 @@
 ﻿using SocialNetwork.Entities.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace SocialNetwork.Application.DTO
 {
@@ -8,6 +9,7 @@ namespace SocialNetwork.Application.DTO
 
         public int PostId { get; set; }
 
+        [Range(0, 1)]
         public LikeStatus LikeStatus { get; set; }
     }
 }

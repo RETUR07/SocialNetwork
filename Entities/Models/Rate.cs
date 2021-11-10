@@ -5,7 +5,6 @@ namespace SocialNetwork.Entities.Models
     public enum LikeStatus
     { 
         Liked,
-        Nothing,
         Disliked
     }
 
@@ -13,11 +12,9 @@ namespace SocialNetwork.Entities.Models
     {
         public int Id { get; set; }
 
-        [ForeignKey("User")]
-        public int UserId { get; set; }
+        public virtual User User { get; set; }
 
-        [ForeignKey("Post")]
-        public int PostId { get; set; }
+        public virtual Post Post { get; set; }
 
         public LikeStatus LikeStatus { get; set; }
     }

@@ -25,10 +25,17 @@ namespace SocialNetwork.Application.Services
             {
                 return null;
             }
+
+            var user = await _repository.User.GetUserAsync(ratedto.UserId, false);
+            var post = await _repository.Post.GetPostAsync(ratedto.PostId, false);
+
             var rate = _mapper.Map<RateForm, Rate>(ratedto);
+            _mapper.Map(user, rate);
+            _mapper.Map(post, rate);
+
             _repository.Rate.Create(rate);
             await _repository.SaveAsync();
-            return _mapper.Map <Rate, RateForResponseDTO>(rate);
+            return _mapper.Map<Rate, RateForResponseDTO>(rate);
         }
 
         public async Task<RateForResponseDTO> GetRateAsync(int userId, int postId, bool trackChanges)
@@ -49,14 +56,29 @@ namespace SocialNetwork.Application.Services
             return _mapper.Map<IEnumerable<Rate>, IEnumerable<RateForResponseDTO>>(rates);
         }
 
-        public async Task<bool> UpdateUserAsync(RateForm ratedto)
+        public async Task UpdateRateAsync(RateForm ratedto)
         {
-            if (ratedto == null) return false;
+            if (ratedto == null) return;
             var rate = await _repository.Rate.GetRateAsync(ratedto.UserId, ratedto.PostId, true);
-            if (rate == null) return false;
-            _mapper.Map(ratedto, rate);
+            if (rate == null)
+            {
+                var user = await _repository.User.GetUserAsync(ratedto.UserId, true);
+                var post = await _repository.Post.GetPostAsync(ratedto.PostId, true);
+
+                rate = _mapper.Map<RateForm, Rate>(ratedto);
+                _mapper.Map(user, rate);
+                _mapper.Map(post, rate);
+                _repository.Rate.Create(rate);
+            }
+            else
+            {
+                if (ratedto.LikeStatus == rate.LikeStatus)
+                    _repository.Rate.Delete(rate);
+                else
+                    _mapper.Map(ratedto, rate);               
+            }
             await _repository.SaveAsync();
-            return true;
+            return;
         }
     }
 }

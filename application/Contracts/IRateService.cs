@@ -10,6 +10,6 @@ namespace SocialNetwork.Application.Contracts
         public Task<IEnumerable<RateForResponseDTO>> GetRatesByUserIdAsync(int userId, bool trackChanges);
         public Task<IEnumerable<RateForResponseDTO>> GetRatesByPostIdAsync(int postId, bool trackChanges);
         public Task<RateForResponseDTO> CreateRateAsync(RateForm rate);
-        public Task<bool> UpdateUserAsync(RateForm rate);
+        public Task UpdateRateAsync(RateForm rate);
     }
 }

@@ -62,10 +62,7 @@ namespace SocialNetwork.Controllers
             {
                 return BadRequest("RateForm is null");
             }
-            if (!(await _rateService.UpdateUserAsync(rateForm)))
-            {
-                return BadRequest("Error updating");
-            }
+            await _rateService.UpdateRateAsync(rateForm);        
             return NoContent();
         }
     }
