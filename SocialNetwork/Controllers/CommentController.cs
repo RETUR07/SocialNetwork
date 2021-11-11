@@ -49,7 +49,6 @@ namespace SocialNetwork.Controllers
             return CreatedAtRoute("GetComment", new { userId = commentdto.User.Id, postId = commentdto.Post.Id }, commentdto);
         }
 
-
         [HttpPut]
         public async Task<IActionResult> UpdateRate([FromBody] CommentForm commentForm)
         {

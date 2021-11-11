@@ -7,7 +7,7 @@ namespace SocialNetwork.Application.DTO
     {
         public int UserId { get; set; }
 
-        public int PostId { get; set; }
+        public int ObjectId { get; set; }
 
         [Range(0, 1)]
         public LikeStatus LikeStatus { get; set; }

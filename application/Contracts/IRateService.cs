@@ -6,10 +6,11 @@ namespace SocialNetwork.Application.Contracts
 {
     public interface IRateService
     {
-        public Task<RateForResponseDTO> GetRateAsync(int userId, int postId, bool trackChanges);
-        public Task<IEnumerable<RateForResponseDTO>> GetRatesByUserIdAsync(int userId, bool trackChanges);
-        public Task<IEnumerable<RateForResponseDTO>> GetRatesByPostIdAsync(int postId, bool trackChanges);
-        public Task<RateForResponseDTO> CreateRateAsync(RateForm rate);
-        public Task UpdateRateAsync(RateForm rate);
+        public Task<PostRateForResponseDTO> GetPostRateAsync(int userId, int postId, bool trackChanges);
+        public Task<PostRateForResponseDTO> GetCommentRateAsync(int userId, int commentId, bool trackChanges);
+        public Task<IEnumerable<PostRateForResponseDTO>> GetRatesByPostIdAsync(int postId, bool trackChanges);
+        public Task<IEnumerable<CommentRateForResponseDTO>> GetRatesByCommentIdAsync(int commentId, bool trackChanges);
+        public Task UpdateCommentRateAsync(RateForm rate);
+        public Task UpdatePostRateAsync(RateForm rate);
     }
 }

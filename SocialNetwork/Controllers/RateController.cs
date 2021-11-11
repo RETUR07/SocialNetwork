@@ -16,25 +16,25 @@ namespace SocialNetwork.Controllers
             _rateService = rateService;
         }
 
-        [HttpGet("{userId}/{postId}", Name = "GetRate")]
+        [HttpGet("post/{userId}/{postId}")]
         public async Task<IActionResult> GetRate(int userId, int postId)
         {
-            var rate = await _rateService.GetRateAsync(userId, postId, false);
+            var rate = await _rateService.GetPostRateAsync(userId, postId, false);
             if (rate == null)
                 return NotFound();
             return Ok(rate);
         }
 
-        [HttpGet("userrates/{userId}")]
-        public async Task<IActionResult> GetRatesOfUser(int userId)
+        [HttpGet("comment/{userId}/{commentId}")]
+        public async Task<IActionResult> GetComment(int userId, int commentId)
         {
-            var rates = await _rateService.GetRatesByUserIdAsync(userId, false);
-            if (rates == null)
+            var rate = await _rateService.GetCommentRateAsync(userId, commentId, false);
+            if (rate == null)
                 return NotFound();
-            return Ok(rates);
+            return Ok(rate);
         }
 
-        [HttpGet("postrates/{postId}")]
+        [HttpGet("post/{postId}")]
         public async Task<IActionResult> GetRatesOfPost(int postId)
         {
             var rates = await _rateService.GetRatesByPostIdAsync(postId, false);
@@ -43,26 +43,34 @@ namespace SocialNetwork.Controllers
             return Ok(rates);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateRate(RateForm rateForm)
+        [HttpGet("comment/{commentId}")]
+        public async Task<IActionResult> GetRatesOfcomment(int commentId)
         {
-            var ratedto = await _rateService.CreateRateAsync(rateForm);
-            if (ratedto == null)
-            {
-                return BadRequest("rate is null");
-            }
-            return CreatedAtRoute("GetRate", new { userId = ratedto.UserId, postId = ratedto.PostId }, ratedto);
+            var rates = await _rateService.GetRatesByCommentIdAsync(commentId, false);
+            if (rates == null)
+                return NotFound();
+            return Ok(rates);
         }
 
-
-        [HttpPut]
-        public async Task<IActionResult> UpdateRate([FromBody]RateForm rateForm)
+        [HttpPut("post")]
+        public async Task<IActionResult> UpdatePostRate([FromBody]RateForm rateForm)
         {
             if (rateForm == null)
             {
                 return BadRequest("RateForm is null");
             }
-            await _rateService.UpdateRateAsync(rateForm);        
+            await _rateService.UpdatePostRateAsync(rateForm);        
+            return NoContent();
+        }
+
+        [HttpPut("comment")]
+        public async Task<IActionResult> UpdateCommentRate([FromBody] RateForm rateForm)
+        {
+            if (rateForm == null)
+            {
+                return BadRequest("RateForm is null");
+            }
+            await _rateService.UpdateCommentRateAsync(rateForm);
             return NoContent();
         }
     }

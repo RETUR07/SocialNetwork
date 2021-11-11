@@ -19,51 +19,38 @@ namespace SocialNetwork.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<RateForResponseDTO> CreateRateAsync(RateForm ratedto)
+        public async Task<PostRateForResponseDTO> GetPostRateAsync(int userId, int postId, bool trackChanges)
         {
-            if (ratedto == null)
-            {
-                return null;
-            }
-
-            var user = await _repository.User.GetUserAsync(ratedto.UserId, true);
-            var post = await _repository.Post.GetPostAsync(ratedto.PostId, true);
-
-            var rate = _mapper.Map<RateForm, Rate>(ratedto);
-            _mapper.Map(user, rate);
-            _mapper.Map(post, rate);
-
-            _repository.Rate.Create(rate);
-            await _repository.SaveAsync();
-            return _mapper.Map<Rate, RateForResponseDTO>(rate);
+            var rate = await _repository.Rate.GetPostRateAsync(userId, postId, trackChanges);
+            return _mapper.Map<Rate, PostRateForResponseDTO>(rate);
         }
 
-        public async Task<RateForResponseDTO> GetRateAsync(int userId, int postId, bool trackChanges)
+        public async Task<PostRateForResponseDTO> GetCommentRateAsync(int userId, int commentId, bool trackChanges)
         {
-            var rate = await _repository.Rate.GetRateAsync(userId, postId, trackChanges);
-            return _mapper.Map<Rate, RateForResponseDTO>(rate);
+            var rate = await _repository.Rate.GetCommentRateAsync(userId, commentId, trackChanges);
+            return _mapper.Map<Rate, PostRateForResponseDTO>(rate);
         }
 
-        public async Task<IEnumerable<RateForResponseDTO>> GetRatesByPostIdAsync(int postId, bool trackChanges)
+        public async Task<IEnumerable<PostRateForResponseDTO>> GetRatesByPostIdAsync(int postId, bool trackChanges)
         {
             var rates = await _repository.Rate.GetRatesByPostIdAsync(postId, trackChanges);
-            return _mapper.Map<IEnumerable<Rate>, IEnumerable<RateForResponseDTO>>(rates);
+            return _mapper.Map<IEnumerable<Rate>, IEnumerable<PostRateForResponseDTO>>(rates);
         }
 
-        public async Task<IEnumerable<RateForResponseDTO>> GetRatesByUserIdAsync(int userId, bool trackChanges)
+        public async Task<IEnumerable<CommentRateForResponseDTO>> GetRatesByCommentIdAsync(int commentId, bool trackChanges)
         {
-            var rates = await _repository.Rate.GetRatesByPostIdAsync(userId, trackChanges);
-            return _mapper.Map<IEnumerable<Rate>, IEnumerable<RateForResponseDTO>>(rates);
+            var rates = await _repository.Rate.GetRatesByCommentIdAsync(commentId, trackChanges);
+            return _mapper.Map<IEnumerable<Rate>, IEnumerable<CommentRateForResponseDTO>>(rates);
         }
 
-        public async Task UpdateRateAsync(RateForm ratedto)
+        public async Task UpdatePostRateAsync(RateForm ratedto)
         {
             if (ratedto == null) return;
-            var rate = await _repository.Rate.GetRateAsync(ratedto.UserId, ratedto.PostId, true);
+            var rate = await _repository.Rate.GetPostRateAsync(ratedto.UserId, ratedto.ObjectId, true);
             if (rate == null)
             {
                 var user = await _repository.User.GetUserAsync(ratedto.UserId, true);
-                var post = await _repository.Post.GetPostAsync(ratedto.PostId, true);
+                var post = await _repository.Post.GetPostAsync(ratedto.ObjectId, true);
 
                 rate = _mapper.Map<RateForm, Rate>(ratedto);
                 _mapper.Map(user, rate);
@@ -76,6 +63,31 @@ namespace SocialNetwork.Application.Services
                     _repository.Rate.Delete(rate);
                 else
                     _mapper.Map(ratedto, rate);               
+            }
+            await _repository.SaveAsync();
+            return;
+        }
+
+        public async Task UpdateCommentRateAsync(RateForm ratedto)
+        {
+            if (ratedto == null) return;
+            var rate = await _repository.Rate.GetCommentRateAsync(ratedto.UserId, ratedto.ObjectId, true);
+            if (rate == null)
+            {
+                var user = await _repository.User.GetUserAsync(ratedto.UserId, true);
+                var comment = await _repository.Comment.GetCommentAsync(ratedto.UserId, ratedto.ObjectId, true);
+
+                rate = _mapper.Map<RateForm, Rate>(ratedto);
+                _mapper.Map(user, rate);
+                _mapper.Map(comment, rate);
+                _repository.Rate.Create(rate);
+            }
+            else
+            {
+                if (ratedto.LikeStatus == rate.LikeStatus)
+                    _repository.Rate.Delete(rate);
+                else
+                    _mapper.Map(ratedto, rate);
             }
             await _repository.SaveAsync();
             return;

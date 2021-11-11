@@ -1,13 +1,11 @@
 ﻿using SocialNetwork.Entities.Models;
+using System;
 
 namespace SocialNetwork.Application.DTO
 {
-    public class RateForResponseDTO
+    public class PostRateForResponseDTO
     {
         public int UserId { get; set; }
-
-        public int PostId { get; set; }
-
-        public LikeStatus LikeStatus { get; set; }
+        public string LikeStatus { get; set; }
     }
 }
