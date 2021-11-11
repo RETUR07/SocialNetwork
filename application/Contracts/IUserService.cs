@@ -12,5 +12,6 @@ namespace SocialNetwork.Application.Contracts
         public Task<User> CreateUserAsync(UserForm userdto);
         public Task<bool> UpdateUserAsync(int userId, UserForm userdto);
         public Task DeleteUserAsync(int userId);
+        public Task AddFriendAsync(int userId, int friendId);
     }
 }

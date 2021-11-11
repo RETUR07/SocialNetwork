@@ -116,9 +116,6 @@ namespace SocialNetwork.Migrations
                     b.Property<int?>("PostId")
                         .HasColumnType("int");
 
-                    b.Property<int>("StoredType")
-                        .HasColumnType("int");
-
                     b.Property<int?>("UserId")
                         .HasColumnType("int");
 
@@ -159,14 +156,29 @@ namespace SocialNetwork.Migrations
                     b.Property<int>("FriendsId")
                         .HasColumnType("int");
 
+                    b.Property<int>("MakedFriendId")
+                        .HasColumnType("int");
+
+                    b.HasKey("FriendsId", "MakedFriendId");
+
+                    b.HasIndex("MakedFriendId");
+
+                    b.ToTable("UserUser");
+                });
+
+            modelBuilder.Entity("UserUser1", b =>
+                {
+                    b.Property<int>("SubscribedId")
+                        .HasColumnType("int");
+
                     b.Property<int>("SubscribersId")
                         .HasColumnType("int");
 
-                    b.HasKey("FriendsId", "SubscribersId");
+                    b.HasKey("SubscribedId", "SubscribersId");
 
                     b.HasIndex("SubscribersId");
 
-                    b.ToTable("UserUser");
+                    b.ToTable("UserUser1");
                 });
 
             modelBuilder.Entity("SocialNetwork.Entities.Models.Blob", b =>
@@ -224,6 +236,21 @@ namespace SocialNetwork.Migrations
                     b.HasOne("SocialNetwork.Entities.Models.User", null)
                         .WithMany()
                         .HasForeignKey("FriendsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SocialNetwork.Entities.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("MakedFriendId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("UserUser1", b =>
+                {
+                    b.HasOne("SocialNetwork.Entities.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("SubscribedId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

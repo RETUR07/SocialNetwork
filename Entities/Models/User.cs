@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SocialNetwork.Entities.Models
 {
@@ -15,6 +16,9 @@ namespace SocialNetwork.Entities.Models
         public IEnumerable<Post> Posts { get; set; }
 
         public virtual List<User> Friends { get; set; }
+        public virtual List<User> MakedFriend { get; set; }
+
         public virtual List<User> Subscribers { get; set; }
+        public virtual List<User> Subscribed { get; set; }
     }
 }

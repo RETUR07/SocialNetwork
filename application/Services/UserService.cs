@@ -18,7 +18,27 @@ namespace SocialNetwork.Application.Services
             _repository = repository;
             _mapper = mapper;
         }
-    
+
+        public async Task AddFriendAsync(int userId, int friendId)
+        {
+            var user = await _repository.User.GetUserAsync(userId, true);
+            var friend = await _repository.User.GetUserAsync(friendId, true);
+
+            if (user == null || friend == null) return;
+
+            if (user.Subscribers.Contains(friend))
+            {
+                friend.Friends.Add(user);
+                user.Friends.Add(friend);
+                user.Subscribers.Remove(friend);
+            }
+            else
+            {
+                friend.Subscribers.Add(user);
+            }
+            await _repository.SaveAsync();
+        }
+
         public async Task<User> CreateUserAsync(UserForm userdto)
         {
             if (userdto == null)

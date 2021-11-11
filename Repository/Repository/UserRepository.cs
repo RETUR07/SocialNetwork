@@ -18,6 +18,7 @@ namespace SocialNetworks.Repository.Repository
             await FindAll(trackChanges).OrderBy(u => u.LastName).ToListAsync();
 
         public async Task<User> GetUserAsync(int userId, bool trackChanges) =>
-            await FindByCondition(u => u.Id == userId, trackChanges).SingleOrDefaultAsync();
+            await FindByCondition(u => u.Id == userId, trackChanges)
+            .Include(x => x.Friends).Include(x => x.Subscribers).SingleOrDefaultAsync();
     }
 }

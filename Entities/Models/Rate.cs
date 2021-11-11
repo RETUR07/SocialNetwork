@@ -25,8 +25,6 @@ namespace SocialNetwork.Entities.Models
 
         public virtual Comment Comment { get; set; }
 
-        public virtual StoredType StoredType { get; set; }
-
         public LikeStatus LikeStatus { get; set; }
     }
 }

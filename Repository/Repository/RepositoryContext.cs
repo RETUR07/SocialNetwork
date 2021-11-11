@@ -25,6 +25,20 @@ namespace SocialNetworks.Repository.Repository
                 .HasConversion(
                     v => v.ToString(),
                     v => (LikeStatus)Enum.Parse(typeof(LikeStatus), v));
+
+            modelBuilder
+                .Entity<User>()
+                .HasKey(x => x.Id);
+
+            modelBuilder
+                .Entity<User>()
+                .HasMany(u => u.Friends)
+                .WithMany(u => u.MakedFriend);
+
+            modelBuilder
+                .Entity<User>()
+                .HasMany(u => u.Subscribers)
+                .WithMany(u => u.Subscribed);
         }
     }
 }
