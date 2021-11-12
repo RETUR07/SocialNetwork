@@ -69,5 +69,12 @@ namespace SocialNetwork.Controllers
             await _userService.AddFriendAsync(userId, friendId);
             return NoContent();
         }
+
+        [HttpPut("deletefriend/{userId}/{friendId}")]
+        public async Task<IActionResult> DeleteFriend(int userId, int friendId)
+        {
+            await _userService.DeleteFriendAsync(userId, friendId);
+            return NoContent();
+        }
     }
 }

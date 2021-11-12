@@ -25,16 +25,37 @@ namespace SocialNetwork.Application.Services
             var friend = await _repository.User.GetUserAsync(friendId, true);
 
             if (user == null || friend == null) return;
+            if (user.Friends.Contains(friend) || friend.Friends.Contains(user)) return;
 
-            if (user.Subscribers.Contains(friend))
+            if(user.Subscribers.Contains(friend))
             {
-                friend.Friends.Add(user);
                 user.Friends.Add(friend);
                 user.Subscribers.Remove(friend);
             }
             else
             {
                 friend.Subscribers.Add(user);
+            }
+            await _repository.SaveAsync();
+        }
+
+        public async Task DeleteFriendAsync(int userId, int friendId)
+        {
+            var user = await _repository.User.GetUserAsync(userId, true);
+            var friend = await _repository.User.GetUserAsync(friendId, true);
+
+            if (user == null || friend == null) return;
+
+            if(friend.Subscribers.Contains(user))
+            {
+                friend.Subscribers.Remove(user);
+            }
+            if(user.Friends.Contains(friend) || friend.Friends.Contains(user))
+            {
+                user.Friends.Remove(friend);
+                friend.Friends.Remove(user);
+
+                user.Subscribers.Add(friend);
             }
             await _repository.SaveAsync();
         }

@@ -11,6 +11,7 @@ namespace SocialNetwork.Application.DTO
 
         public List<int> Friends { get; set; }
         public List<int> Subscribers { get; set; }
+        public List<int> Subscribed { get; set; }
         public string DateOfBirth { get; set; }
     }
 }
