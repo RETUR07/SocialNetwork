@@ -23,8 +23,6 @@ namespace SocialNetwork.Entities.Models
 
         public virtual Post Post { get; set; }
 
-        public virtual Comment Comment { get; set; }
-
         public LikeStatus LikeStatus { get; set; }
     }
 }

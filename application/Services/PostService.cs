@@ -25,6 +25,11 @@ namespace SocialNetwork.Application.Services
                 return null;
             }
             var post = _mapper.Map<Post>(postdto);
+            var user = await _repository.User.GetUserAsync(postdto.UserId, true);
+            var parentpost = await _repository.Post.GetPostAsync(postdto.ParentPostId, true);
+            if (user == null || parentpost == null) return null;
+            post.Author = user;
+            post.ParentPost = parentpost;
             _repository.Post.Create(post);
             await _repository.SaveAsync();
             return post;
@@ -35,6 +40,13 @@ namespace SocialNetwork.Application.Services
             var post = await _repository.Post.GetPostAsync(postId, true);
             _repository.Post.Delete(post);
             await _repository.SaveAsync();
+        }
+
+        public async Task<IEnumerable<PostForResponseDTO>> GetChildPosts(int postId)
+        {
+            var posts = await _repository.Post.GetChildrenPostsByPostIdAsync(postId, false);
+            var postsdto = _mapper.Map<IEnumerable<PostForResponseDTO>>(posts);
+            return postsdto;
         }
 
         public async Task<PostForResponseDTO> GetPost(int postId)
@@ -48,9 +60,9 @@ namespace SocialNetwork.Application.Services
             return postdto;
         }
 
-        public async Task<IEnumerable<PostForResponseDTO>> GetPosts()
+        public async Task<IEnumerable<PostForResponseDTO>> GetPosts(int userId)
         {
-            var posts = await _repository.Post.GetAllPostsAsync(false);
+            var posts = await _repository.Post.GetAllPostsAsync(userId, false);
             var postsdto = _mapper.Map<IEnumerable<PostForResponseDTO>>(posts);
             return postsdto;
         }

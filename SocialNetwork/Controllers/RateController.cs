@@ -25,28 +25,10 @@ namespace SocialNetwork.Controllers
             return Ok(rate);
         }
 
-        [HttpGet("comment/{userId}/{commentId}")]
-        public async Task<IActionResult> GetComment(int userId, int commentId)
-        {
-            var rate = await _rateService.GetCommentRateAsync(userId, commentId, false);
-            if (rate == null)
-                return NotFound();
-            return Ok(rate);
-        }
-
         [HttpGet("post/{postId}")]
         public async Task<IActionResult> GetRatesOfPost(int postId)
         {
             var rates = await _rateService.GetRatesByPostIdAsync(postId, false);
-            if (rates == null)
-                return NotFound();
-            return Ok(rates);
-        }
-
-        [HttpGet("comment/{commentId}")]
-        public async Task<IActionResult> GetRatesOfcomment(int commentId)
-        {
-            var rates = await _rateService.GetRatesByCommentIdAsync(commentId, false);
             if (rates == null)
                 return NotFound();
             return Ok(rates);
@@ -60,17 +42,6 @@ namespace SocialNetwork.Controllers
                 return BadRequest("RateForm is null");
             }
             await _rateService.UpdatePostRateAsync(rateForm);        
-            return NoContent();
-        }
-
-        [HttpPut("comment")]
-        public async Task<IActionResult> UpdateCommentRate([FromBody] RateForm rateForm)
-        {
-            if (rateForm == null)
-            {
-                return BadRequest("RateForm is null");
-            }
-            await _rateService.UpdateCommentRateAsync(rateForm);
             return NoContent();
         }
     }

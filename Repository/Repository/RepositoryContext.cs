@@ -15,7 +15,6 @@ namespace SocialNetworks.Repository.Repository
         public DbSet<Post> Posts { get; set; }
         public DbSet<Blob> Blobs { get; set; }
         public DbSet<Rate> Rates { get; set; }
-        public DbSet<Comment> Comments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -39,6 +38,11 @@ namespace SocialNetworks.Repository.Repository
                 .Entity<User>()
                 .HasMany(u => u.Subscribers)
                 .WithMany(u => u.Subscribed);
+
+            modelBuilder
+                .Entity<Post>()
+                .HasMany(p => p.Comments)
+                .WithOne(p => p.ParentPost);
         }
     }
 }

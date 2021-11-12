@@ -15,7 +15,9 @@ namespace SocialNetwork.Application.Mapping
 
             CreateMap<Post, PostForResponseDTO>()
                 .ForMember(p => p.Content,
-                opt => opt.MapFrom(x => x.BlobIds.BlobsToFileContentResults()));
+                opt => opt.MapFrom(x => x.BlobIds.BlobsToFileContentResults()))
+                .ForMember(p => p.UserId, opt => opt.MapFrom(x => x.Author.Id))
+                .ForMember(p => p.ParentPostId, opt => opt.MapFrom(x => x.ParentPost.Id));
         }
     }
 }
