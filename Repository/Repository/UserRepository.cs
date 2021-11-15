@@ -14,6 +14,15 @@ namespace SocialNetworks.Repository.Repository
         {
         }
 
+        public new void Delete(User entity)
+        {
+            entity.Friends.Clear();
+            entity.MakedFriend.Clear();
+            entity.Subscribed.Clear();
+            entity.Subscribers.Clear();
+            base.Delete(entity);
+        }
+
         public async Task<List<User>> GetAllUsersAsync(bool trackChanges) =>
             await FindAll(trackChanges).OrderBy(u => u.LastName).ToListAsync();
 
