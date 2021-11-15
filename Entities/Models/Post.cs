@@ -2,10 +2,8 @@
 
 namespace SocialNetwork.Entities.Models
 {
-    public class Post
+    public class Post : ParentModel
     {
-        public int Id { get; set; }
-
         public string Header { get; set; }
 
         public string Text { get; set; }

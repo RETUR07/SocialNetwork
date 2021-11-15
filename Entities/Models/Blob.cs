@@ -1,8 +1,7 @@
 ﻿namespace SocialNetwork.Entities.Models
 {
-    public class Blob
+    public class Blob : ParentModel
     {
-        public int Id { get; set; }
         public long Lenth { get; set; }
         public string Name { get; set; }
         public string Filename { get; set; }

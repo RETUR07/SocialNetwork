@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SocialNetworks.Repository.Repository;
 
 namespace SocialNetwork.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20211115154713_Soft delete")]
+    partial class Softdelete
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,6 +49,9 @@ namespace SocialNetwork.Migrations
                     b.Property<int?>("PostId")
                         .HasColumnType("int");
 
+                    b.Property<int>("SoftDeleteId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("PostId");
@@ -71,6 +76,9 @@ namespace SocialNetwork.Migrations
                         .HasColumnType("bit");
 
                     b.Property<int?>("ParentPostId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SoftDeleteId")
                         .HasColumnType("int");
 
                     b.Property<string>("Text")
@@ -100,6 +108,9 @@ namespace SocialNetwork.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SoftDeleteId")
                         .HasColumnType("int");
 
                     b.Property<int?>("UserId")
@@ -132,6 +143,9 @@ namespace SocialNetwork.Migrations
 
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SoftDeleteId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

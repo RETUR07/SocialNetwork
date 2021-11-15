@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SocialNetwork.Entities.Models;
 using SocialNetworks.Repository.Contracts;
 using System;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Linq.Expressions;
 
 namespace SocialNetworks.Repository.Repository
 {
-    public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
+    public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : ParentModel
     {
         protected RepositoryContext RepositoryContext;
         private DbSet<T> RepContextSet;
@@ -19,21 +20,32 @@ namespace SocialNetworks.Repository.Repository
         public IQueryable<T> FindAll(bool trackChanges) =>
         !trackChanges ?
             RepContextSet
+            .Where(e => e.IsEnable)
             .AsNoTracking() :
             RepositoryContext.Set<T>();
 
         public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression, bool trackChanges) =>
             !trackChanges ?
             RepContextSet
+            .Where(e => e.IsEnable)
             .Where(expression)
             .AsNoTracking() :
             RepContextSet
+            .Where(e => e.IsEnable)
             .Where(expression);
 
         public void Create(T entity) => RepContextSet.Add(entity);
 
-        public void Update(T entity) => RepContextSet.Update(entity);
+        public void Update(T entity)
+        {
+            if(entity.IsEnable)RepContextSet.Update(entity);
+        }
 
-        public void Delete(T entity) => RepContextSet.Remove(entity);
+        public void Delete(T entity)
+        {
+            entity.IsEnable = false;
+            RepContextSet.Update(entity);
+        }
+        public void NotSoftDelete(T entity) => RepContextSet.Remove(entity);
     }
 }

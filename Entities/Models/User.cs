@@ -4,10 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SocialNetwork.Entities.Models
 {
-    public class User
+    public class User : ParentModel
     {
-        public int Id { get; set; }
-
         public string FirstName { get; set; }
         public string LastName { get; set; }
         

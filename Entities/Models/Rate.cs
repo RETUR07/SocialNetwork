@@ -15,10 +15,8 @@ namespace SocialNetwork.Entities.Models
     }
 
 
-    public class Rate
+    public class Rate : ParentModel
     {
-        public int Id { get; set; }
-
         public virtual User User { get; set; }
 
         public virtual Post Post { get; set; }
