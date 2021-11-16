@@ -13,7 +13,10 @@ namespace SocialNetwork.Extensions
     {
         public static void ConfigureAutoMapper(this IServiceCollection services)
         {
-            services.AddAutoMapper(typeof(UserMappingProfile), typeof(PostMappingProfile));
+            services.AddAutoMapper(
+                typeof(UserMappingProfile),
+                typeof(PostMappingProfile), 
+                typeof(ChatMappingProfile));
         }
         public static void ConfigureServices(this IServiceCollection services)
         {
@@ -22,6 +25,7 @@ namespace SocialNetwork.Extensions
             services.AddScoped<IPostService, PostService>();
             services.AddScoped<IBlobService, BlobService>();
             services.AddScoped<IRateService, RateService>();
+            services.AddScoped<IChatService, ChatService>();
         }
         public static void ConfigureDatabase(this IServiceCollection services, IConfiguration Configuration)
         {

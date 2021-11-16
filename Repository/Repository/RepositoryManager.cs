@@ -11,6 +11,8 @@ namespace SocialNetworks.Repository.Repository
         private IPostRepository _postRepository;
         private IBlobRepository _blobRepository;
         private IRateRepository _rateRepository;
+        private IChatRepository _chatRepository;
+        private IMessageRepository _messageRepository;
 
         public RepositoryManager(RepositoryContext repositoryContext)
         {
@@ -54,6 +56,24 @@ namespace SocialNetworks.Repository.Repository
                 if (_rateRepository == null)
                     _rateRepository = new RateRepository(_repositoryContext);
                 return _rateRepository;
+            }
+        }
+        public IChatRepository Chat
+        {
+            get
+            {
+                if (_chatRepository == null)
+                    _chatRepository = new ChatRepository(_repositoryContext);
+                return _chatRepository;
+            }
+        }
+        public IMessageRepository Message
+        {
+            get
+            {
+                if (_messageRepository == null)
+                    _messageRepository = new MessageRepository(_repositoryContext);
+                return _messageRepository;
             }
         }
 

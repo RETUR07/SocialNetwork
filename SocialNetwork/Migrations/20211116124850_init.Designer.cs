@@ -10,8 +10,8 @@ using SocialNetworks.Repository.Repository;
 namespace SocialNetwork.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20211111142614_Start")]
-    partial class Start
+    [Migration("20211116124850_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,21 @@ namespace SocialNetwork.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.12")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("ChatUser", b =>
+                {
+                    b.Property<int>("ChatsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsersId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ChatsId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("ChatUser");
+                });
 
             modelBuilder.Entity("SocialNetwork.Entities.Models.Blob", b =>
                 {
@@ -37,8 +52,14 @@ namespace SocialNetwork.Migrations
                     b.Property<string>("Filename")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsEnable")
+                        .HasColumnType("bit");
+
                     b.Property<long>("Lenth")
                         .HasColumnType("bigint");
+
+                    b.Property<int?>("MessageId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -48,20 +69,40 @@ namespace SocialNetwork.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("MessageId");
+
                     b.HasIndex("PostId");
 
                     b.ToTable("Blobs");
                 });
 
-            modelBuilder.Entity("SocialNetwork.Entities.Models.Comment", b =>
+            modelBuilder.Entity("SocialNetwork.Entities.Models.Chat", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("PostId")
+                    b.Property<bool>("IsEnable")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Chats");
+                });
+
+            modelBuilder.Entity("SocialNetwork.Entities.Models.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("ChatId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsEnable")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Text")
                         .HasColumnType("nvarchar(max)");
@@ -71,11 +112,11 @@ namespace SocialNetwork.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PostId");
+                    b.HasIndex("ChatId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("SocialNetwork.Entities.Models.Post", b =>
@@ -85,18 +126,26 @@ namespace SocialNetwork.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("AuthorId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Header")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsEnable")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("ParentPostId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Text")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("ParentPostId");
 
                     b.ToTable("Posts");
                 });
@@ -108,8 +157,8 @@ namespace SocialNetwork.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CommentId")
-                        .HasColumnType("int");
+                    b.Property<bool>("IsEnable")
+                        .HasColumnType("bit");
 
                     b.Property<string>("LikeStatus")
                         .IsRequired()
@@ -122,8 +171,6 @@ namespace SocialNetwork.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CommentId");
 
                     b.HasIndex("PostId");
 
@@ -144,6 +191,9 @@ namespace SocialNetwork.Migrations
 
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsEnable")
+                        .HasColumnType("bit");
 
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
@@ -183,41 +233,64 @@ namespace SocialNetwork.Migrations
                     b.ToTable("UserUser1");
                 });
 
+            modelBuilder.Entity("ChatUser", b =>
+                {
+                    b.HasOne("SocialNetwork.Entities.Models.Chat", null)
+                        .WithMany()
+                        .HasForeignKey("ChatsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SocialNetwork.Entities.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("SocialNetwork.Entities.Models.Blob", b =>
                 {
+                    b.HasOne("SocialNetwork.Entities.Models.Message", null)
+                        .WithMany("Blobs")
+                        .HasForeignKey("MessageId");
+
                     b.HasOne("SocialNetwork.Entities.Models.Post", null)
                         .WithMany("BlobIds")
                         .HasForeignKey("PostId");
                 });
 
-            modelBuilder.Entity("SocialNetwork.Entities.Models.Comment", b =>
+            modelBuilder.Entity("SocialNetwork.Entities.Models.Message", b =>
                 {
-                    b.HasOne("SocialNetwork.Entities.Models.Post", "Post")
-                        .WithMany("Comments")
-                        .HasForeignKey("PostId");
+                    b.HasOne("SocialNetwork.Entities.Models.Chat", "Chat")
+                        .WithMany("Messages")
+                        .HasForeignKey("ChatId");
 
                     b.HasOne("SocialNetwork.Entities.Models.User", "User")
-                        .WithMany()
+                        .WithMany("Messages")
                         .HasForeignKey("UserId");
 
-                    b.Navigation("Post");
+                    b.Navigation("Chat");
 
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("SocialNetwork.Entities.Models.Post", b =>
                 {
-                    b.HasOne("SocialNetwork.Entities.Models.User", null)
+                    b.HasOne("SocialNetwork.Entities.Models.User", "Author")
                         .WithMany("Posts")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("AuthorId");
+
+                    b.HasOne("SocialNetwork.Entities.Models.Post", "ParentPost")
+                        .WithMany("Comments")
+                        .HasForeignKey("ParentPostId");
+
+                    b.Navigation("Author");
+
+                    b.Navigation("ParentPost");
                 });
 
             modelBuilder.Entity("SocialNetwork.Entities.Models.Rate", b =>
                 {
-                    b.HasOne("SocialNetwork.Entities.Models.Comment", "Comment")
-                        .WithMany()
-                        .HasForeignKey("CommentId");
-
                     b.HasOne("SocialNetwork.Entities.Models.Post", "Post")
                         .WithMany()
                         .HasForeignKey("PostId");
@@ -225,8 +298,6 @@ namespace SocialNetwork.Migrations
                     b.HasOne("SocialNetwork.Entities.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
-
-                    b.Navigation("Comment");
 
                     b.Navigation("Post");
 
@@ -263,6 +334,16 @@ namespace SocialNetwork.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("SocialNetwork.Entities.Models.Chat", b =>
+                {
+                    b.Navigation("Messages");
+                });
+
+            modelBuilder.Entity("SocialNetwork.Entities.Models.Message", b =>
+                {
+                    b.Navigation("Blobs");
+                });
+
             modelBuilder.Entity("SocialNetwork.Entities.Models.Post", b =>
                 {
                     b.Navigation("BlobIds");
@@ -272,6 +353,8 @@ namespace SocialNetwork.Migrations
 
             modelBuilder.Entity("SocialNetwork.Entities.Models.User", b =>
                 {
+                    b.Navigation("Messages");
+
                     b.Navigation("Posts");
                 });
 #pragma warning restore 612, 618

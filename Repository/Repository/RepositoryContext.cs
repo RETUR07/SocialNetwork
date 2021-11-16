@@ -15,6 +15,8 @@ namespace SocialNetworks.Repository.Repository
         public DbSet<Post> Posts { get; set; }
         public DbSet<Blob> Blobs { get; set; }
         public DbSet<Rate> Rates { get; set; }
+        public DbSet<Chat> Chats { get; set; }
+        public DbSet<Message> Messages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -38,6 +40,16 @@ namespace SocialNetworks.Repository.Repository
                 .Entity<User>()
                 .HasMany(u => u.Subscribers)
                 .WithMany(u => u.Subscribed);
+
+            modelBuilder
+                .Entity<User>()
+                .HasMany(u => u.Messages)
+                .WithOne(m => m.User);
+
+            modelBuilder
+                .Entity<User>()
+                .HasMany(u => u.Chats)
+                .WithMany(ch => ch.Users);
 
             modelBuilder
                 .Entity<Post>()

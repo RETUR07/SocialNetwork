@@ -41,7 +41,7 @@ namespace SocialNetwork.Application.Services
                 if (formfile == null)
                     continue;
                 var blob = await Converters.FormFileToBlobAsync(formfile);
-                _repository.Blob.CreateBlob(blob);
+                _repository.Blob.Create(blob);
                 blobs.Add(blob);
             }
             await _repository.SaveAsync();

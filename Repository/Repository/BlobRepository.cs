@@ -12,8 +12,6 @@ namespace SocialNetworks.Repository.Repository
         {
         }
 
-        public void CreateBlob(Blob blob) => Create(blob);
-
         public async Task<Blob> GetBlob(int blobId, bool trackChanges) =>
              await FindByCondition(b => b.Id == blobId, trackChanges).SingleOrDefaultAsync();
 

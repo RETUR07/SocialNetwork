@@ -20,6 +20,7 @@ namespace SocialNetwork.Controllers
         public async Task<IActionResult> GetUsers()
         {
             var usersdto = await _userService.GetUsersAsync();
+            if (usersdto == null) return NotFound();
             return Ok(usersdto);
         }
 

@@ -19,6 +19,21 @@ namespace SocialNetwork.Migrations
                 .HasAnnotation("ProductVersion", "5.0.12")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("ChatUser", b =>
+                {
+                    b.Property<int>("ChatsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsersId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ChatsId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("ChatUser");
+                });
+
             modelBuilder.Entity("SocialNetwork.Entities.Models.Blob", b =>
                 {
                     b.Property<int>("Id")
@@ -41,6 +56,9 @@ namespace SocialNetwork.Migrations
                     b.Property<long>("Lenth")
                         .HasColumnType("bigint");
 
+                    b.Property<int?>("MessageId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -49,9 +67,54 @@ namespace SocialNetwork.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("MessageId");
+
                     b.HasIndex("PostId");
 
                     b.ToTable("Blobs");
+                });
+
+            modelBuilder.Entity("SocialNetwork.Entities.Models.Chat", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("IsEnable")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Chats");
+                });
+
+            modelBuilder.Entity("SocialNetwork.Entities.Models.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("ChatId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsEnable")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChatId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("SocialNetwork.Entities.Models.Post", b =>
@@ -168,11 +231,45 @@ namespace SocialNetwork.Migrations
                     b.ToTable("UserUser1");
                 });
 
+            modelBuilder.Entity("ChatUser", b =>
+                {
+                    b.HasOne("SocialNetwork.Entities.Models.Chat", null)
+                        .WithMany()
+                        .HasForeignKey("ChatsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SocialNetwork.Entities.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("SocialNetwork.Entities.Models.Blob", b =>
                 {
+                    b.HasOne("SocialNetwork.Entities.Models.Message", null)
+                        .WithMany("Blobs")
+                        .HasForeignKey("MessageId");
+
                     b.HasOne("SocialNetwork.Entities.Models.Post", null)
                         .WithMany("BlobIds")
                         .HasForeignKey("PostId");
+                });
+
+            modelBuilder.Entity("SocialNetwork.Entities.Models.Message", b =>
+                {
+                    b.HasOne("SocialNetwork.Entities.Models.Chat", "Chat")
+                        .WithMany("Messages")
+                        .HasForeignKey("ChatId");
+
+                    b.HasOne("SocialNetwork.Entities.Models.User", "User")
+                        .WithMany("Messages")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Chat");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("SocialNetwork.Entities.Models.Post", b =>
@@ -235,6 +332,16 @@ namespace SocialNetwork.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("SocialNetwork.Entities.Models.Chat", b =>
+                {
+                    b.Navigation("Messages");
+                });
+
+            modelBuilder.Entity("SocialNetwork.Entities.Models.Message", b =>
+                {
+                    b.Navigation("Blobs");
+                });
+
             modelBuilder.Entity("SocialNetwork.Entities.Models.Post", b =>
                 {
                     b.Navigation("BlobIds");
@@ -244,6 +351,8 @@ namespace SocialNetwork.Migrations
 
             modelBuilder.Entity("SocialNetwork.Entities.Models.User", b =>
                 {
+                    b.Navigation("Messages");
+
                     b.Navigation("Posts");
                 });
 #pragma warning restore 612, 618

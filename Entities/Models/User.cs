@@ -18,5 +18,8 @@ namespace SocialNetwork.Entities.Models
 
         public virtual List<User> Subscribers { get; set; }
         public virtual List<User> Subscribed { get; set; }
+
+        public virtual List<Chat> Chats { get; set; }
+        public virtual List<Message> Messages { get; set; }
     }
 }
