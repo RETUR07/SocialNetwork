@@ -84,7 +84,7 @@ namespace SocialNetwork.Controllers
             return NoContent();
         }
 
-        [HttpPut("addmessage{chatId}")]
+        [HttpPut("addmessage/{chatId}")]
         public async Task<IActionResult> AddMessage([FromBody]MessageForm messagedto, int chatId)
         {
             var success = await _chatService.AddMessage(chatId, messagedto);

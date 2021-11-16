@@ -83,6 +83,11 @@ namespace SocialNetwork.Application.Services
         public async Task DeleteChat(int chatId)
         {
             var chat = await _repository.Chat.GetChatAsync(chatId, true);
+            if (chat != null && chat.Messages != null)
+                foreach(var x in chat.Messages)
+                {
+                    _repository.Message.Delete(x);
+                }
             _repository.Chat.Delete(chat);
             await _repository.SaveAsync();
         }
