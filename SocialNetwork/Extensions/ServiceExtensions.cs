@@ -6,6 +6,7 @@ using SocialNetwork.Application.Mapping;
 using SocialNetwork.Application.Services;
 using SocialNetworks.Repository.Contracts;
 using SocialNetworks.Repository.Repository;
+using System;
 
 namespace SocialNetwork.Extensions
 {
@@ -30,7 +31,7 @@ namespace SocialNetwork.Extensions
         public static void ConfigureDatabase(this IServiceCollection services, IConfiguration Configuration)
         {
             services.AddDbContext<RepositoryContext>(opts =>
-                   opts.UseSqlServer(Configuration.GetConnectionString("sqlConnection"), x => x.MigrationsAssembly("SocialNetwork")));
+                    opts.UseSqlServer(Environment.GetEnvironmentVariable("sqlConnection"), x => x.MigrationsAssembly("SocialNetwork")));
         }
     }
 }
