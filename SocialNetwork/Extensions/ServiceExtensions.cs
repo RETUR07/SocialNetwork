@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SocialNetwork.Application.Contracts;
 using SocialNetwork.Application.Mapping;
 using SocialNetwork.Application.Services;
+using SocialNetwork.Security.Authorization;
 using SocialNetworks.Repository.Contracts;
 using SocialNetworks.Repository.Repository;
 using System;
@@ -27,6 +28,7 @@ namespace SocialNetwork.Extensions
             services.AddScoped<IBlobService, BlobService>();
             services.AddScoped<IRateService, RateService>();
             services.AddScoped<IChatService, ChatService>();
+            services.AddScoped<IJwtUtils, JwtUtils>();
         }
         public static void ConfigureDatabase(this IServiceCollection services, IConfiguration Configuration)
         {

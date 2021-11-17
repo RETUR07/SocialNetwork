@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SocialNetwork.Entities.SecurityModels;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -21,5 +22,11 @@ namespace SocialNetwork.Entities.Models
 
         public virtual List<Chat> Chats { get; set; }
         public virtual List<Message> Messages { get; set; }
+
+
+        public string PasswordHash { get; set; }
+
+        public List<RefreshToken> RefreshTokens { get; set; }
+        public string Username { get; set; }
     }
 }

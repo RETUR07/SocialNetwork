@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SocialNetwork.Application.Contracts;
 using SocialNetwork.Application.DTO;
+using SocialNetwork.Security.Authorization;
 using System.Threading.Tasks;
 
 namespace SocialNetwork.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class RateController : ControllerBase
