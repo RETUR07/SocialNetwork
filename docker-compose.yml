@@ -7,4 +7,4 @@ services:
       - "8080:80"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - sqlConnection=Data Source=172.25.64.1\SQLExpress, 1433; database=SocialNetworkDb; User ID=sa;Password=root;MultipleActiveResultSets=true;
+      - sqlConnection=Data Source=host.docker.internal\SQLExpress, 1433; database=SocialNetworkDb; User ID=sa;Password=root;MultipleActiveResultSets=true;
