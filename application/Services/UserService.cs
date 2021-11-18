@@ -79,6 +79,8 @@ namespace SocialNetwork.Application.Services
             {
                 return null;
             }
+
+            if (_repository.User.FindByCondition(u => u.Username == userdto.Username, false).Count() != 0) return null;        
             var user = _mapper.Map<User>(userdto);
             user.PasswordHash = BCryptNet.HashPassword(userdto.Password);
             _repository.User.Create(user);
