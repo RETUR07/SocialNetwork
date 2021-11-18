@@ -25,7 +25,6 @@ namespace SocialNetwork.Entities.Models
 
 
         public string PasswordHash { get; set; }
-
         public List<RefreshToken> RefreshTokens { get; set; }
         public string Username { get; set; }
     }

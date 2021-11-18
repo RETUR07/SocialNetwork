@@ -38,14 +38,15 @@ namespace SocialNetwork.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateUser([FromBody] UserForm userdto)
+        [AllowAnonymous]
+        public async Task<IActionResult> CreateUser([FromBody] UserRegistrationForm userdto)
         {
             var user = await _userService.CreateUserAsync(userdto);
             if (user == null)
             {
                 return BadRequest("User is null");
             }
-            return CreatedAtRoute("GetUser", new { userId = user.Id }, user);
+            return CreatedAtRoute("GetUser", new { userId = user.Id }, user.Id);
         }
 
         [HttpPut("{userId}")]

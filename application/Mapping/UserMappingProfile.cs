@@ -17,6 +17,7 @@ namespace SocialNetwork.Application.Mapping
                     opt => opt.MapFrom(x => x.Friends.Select(x => x.Id).Concat(x.MakedFriend.Select(x => x.Id))));
 
             CreateMap<UserForm, User>();
+            CreateMap<UserRegistrationForm, User>();
         }
     }
 }

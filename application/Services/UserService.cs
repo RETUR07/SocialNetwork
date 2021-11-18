@@ -73,13 +73,14 @@ namespace SocialNetwork.Application.Services
             await _repository.SaveAsync();
         }
 
-        public async Task<User> CreateUserAsync(UserForm userdto)
+        public async Task<User> CreateUserAsync(UserRegistrationForm userdto)
         {
             if (userdto == null)
             {
                 return null;
             }
             var user = _mapper.Map<User>(userdto);
+            user.PasswordHash = BCryptNet.HashPassword(userdto.Password);
             _repository.User.Create(user);
             await _repository.SaveAsync();
             return user;
@@ -142,7 +143,6 @@ namespace SocialNetwork.Application.Services
 
             removeOldRefreshTokens(user);
 
-            _repository.User.Update(user);
             _repository.SaveAsync();
 
             return new AuthenticateResponse(user, jwtToken, refreshToken.Token);
@@ -231,6 +231,13 @@ namespace SocialNetwork.Application.Services
             token.RevokedByIp = ipAddress;
             token.ReasonRevoked = reason;
             token.ReplacedByToken = replacedByToken;
+        }
+
+        public async Task<IEnumerable<RefreshToken>> GetUserRefreshTokensAsync(int id)
+        {
+            var user = await _repository.User.GetUserAsync(id, false);
+            if (user == null || user.RefreshTokens == null) return null;
+            return user.RefreshTokens;
         }
     }
 }

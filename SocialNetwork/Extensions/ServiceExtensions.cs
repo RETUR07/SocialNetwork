@@ -5,6 +5,7 @@ using SocialNetwork.Application.Contracts;
 using SocialNetwork.Application.Mapping;
 using SocialNetwork.Application.Services;
 using SocialNetwork.Security.Authorization;
+using SocialNetwork.Security.Settings;
 using SocialNetworks.Repository.Contracts;
 using SocialNetworks.Repository.Repository;
 using System;
@@ -30,10 +31,13 @@ namespace SocialNetwork.Extensions
             services.AddScoped<IChatService, ChatService>();
             services.AddScoped<IJwtUtils, JwtUtils>();
         }
-        public static void ConfigureDatabase(this IServiceCollection services, IConfiguration Configuration)
+        public static void ConfigureDatabase(this IServiceCollection services)
         {
             services.AddDbContext<RepositoryContext>(opts =>
                     opts.UseSqlServer(Environment.GetEnvironmentVariable("sqlConnection"), x => x.MigrationsAssembly("SocialNetwork")));
         }
+
+        public static void ConfigureJWT(this IServiceCollection services, IConfiguration Configuration)
+            => services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
     }
 }

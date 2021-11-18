@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using SocialNetwork.Extensions;
+using SocialNetwork.Security.Authorization;
 
 namespace SocialNetwork
 {
@@ -21,8 +23,18 @@ namespace SocialNetwork
             services.AddControllers();
             services.ConfigureAutoMapper();
             services.ConfigureServices();
-            services.ConfigureDatabase(Configuration);
-            services.AddSwaggerGen();
+            services.ConfigureDatabase();
+            services.AddSwaggerGen(c =>
+            {
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey
+                });
+            });
+            services.ConfigureJWT(Configuration);
 
         }
 
@@ -35,6 +47,7 @@ namespace SocialNetwork
                 app.UseSwaggerUI(options =>
                 {
                     options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+                    options.EnablePersistAuthorization();
                     options.RoutePrefix = string.Empty;
                 });
             }
@@ -47,7 +60,7 @@ namespace SocialNetwork
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseMiddleware<JwtMiddleware>();
             app.UseRouting();
 
             app.UseAuthorization();

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
-using SocialNetwork.Application.Contracts;
 using SocialNetwork.Security.Settings;
+using SocialNetworks.Repository.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -18,13 +18,13 @@ namespace SocialNetwork.Security.Authorization
             _appSettings = appSettings.Value;
         }
 
-        public async Task Invoke(HttpContext context, IUserService userService, IJwtUtils jwtUtils)
+        public async Task Invoke(HttpContext context, IRepositoryManager userService, IJwtUtils jwtUtils)
         {
             var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
             var userId = jwtUtils.ValidateJwtToken(token);
             if (userId != null)
             {
-                context.Items["User"] = userService.GetUserAsync(userId.Value);
+                context.Items["User"] = await userService.User.GetUserAsync(userId.Value, false);
             }
 
             await _next(context);
