@@ -27,7 +27,7 @@ namespace SocialNetworks.Repository.Repository
             }
         }
 
-        public async Task<IEnumerable<Post>> GetAllPostsAsync(int userId, bool trackChanges) =>
+        public async Task<List<Post>> GetAllPostsAsync(int userId, bool trackChanges) =>
             await FindByCondition(p => p.Author.Id == userId, trackChanges)
             .Include(p => p.Comments)
             .Include(p => p.ParentPost)
@@ -42,7 +42,7 @@ namespace SocialNetworks.Repository.Repository
             .Include(p => p.ParentPost)
             .SingleOrDefaultAsync();
 
-        public async Task<IEnumerable<Post>> GetChildrenPostsByPostIdAsync(int postId, bool trackChanges) =>
+        public async Task<List<Post>> GetChildrenPostsByPostIdAsync(int postId, bool trackChanges) =>
             await FindByCondition(r => r.ParentPost.Id == postId, trackChanges).ToListAsync();
 
     }

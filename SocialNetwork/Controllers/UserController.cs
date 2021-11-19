@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SocialNetwork.Application.Contracts;
 using SocialNetwork.Application.DTO;
-using SocialNetwork.Security.Authorization;
 using System.Threading.Tasks;
 
 namespace SocialNetwork.Controllers
