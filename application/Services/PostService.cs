@@ -42,10 +42,10 @@ namespace SocialNetwork.Application.Services
             await _repository.SaveAsync();
         }
 
-        public async Task<IEnumerable<PostForResponseDTO>> GetChildPosts(int postId)
+        public async Task<List<PostForResponseDTO>> GetChildPosts(int postId)
         {
             var posts = await _repository.Post.GetChildrenPostsByPostIdAsync(postId, false);
-            var postsdto = _mapper.Map<IEnumerable<PostForResponseDTO>>(posts);
+            var postsdto = _mapper.Map<List<PostForResponseDTO>>(posts);
             return postsdto;
         }
 
@@ -60,10 +60,10 @@ namespace SocialNetwork.Application.Services
             return postdto;
         }
 
-        public async Task<IEnumerable<PostForResponseDTO>> GetPosts(int userId)
+        public async Task<List<PostForResponseDTO>> GetPosts(int userId)
         {
             var posts = await _repository.Post.GetAllPostsAsync(userId, false);
-            var postsdto = _mapper.Map<IEnumerable<PostForResponseDTO>>(posts);
+            var postsdto = _mapper.Map<List<PostForResponseDTO>>(posts);
             return postsdto;
         }
     }

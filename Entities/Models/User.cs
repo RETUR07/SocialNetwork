@@ -12,16 +12,16 @@ namespace SocialNetwork.Entities.Models
         
         public DateTime DateOfBirth { get; set; }
 
-        public IEnumerable<Post> Posts { get; set; }
+        public List<Post> Posts { get; set; }
 
-        public virtual List<User> Friends { get; set; }
-        public virtual List<User> MakedFriend { get; set; }
+        public List<User> Friends { get; set; }
+        public List<User> MakedFriend { get; set; }
 
-        public virtual List<User> Subscribers { get; set; }
-        public virtual List<User> Subscribed { get; set; }
+        public List<User> Subscribers { get; set; }
+        public List<User> Subscribed { get; set; }
 
-        public virtual List<Chat> Chats { get; set; }
-        public virtual List<Message> Messages { get; set; }
+        public List<Chat> Chats { get; set; }
+        public List<Message> Messages { get; set; }
 
 
         public string PasswordHash { get; set; }

@@ -10,8 +10,8 @@ namespace SocialNetwork.Application.Contracts
 {
     public interface IChatService
     {
-        public Task<IEnumerable<ChatForResponseDTO>> GetChats(int userId);
-        public Task<IEnumerable<MessageForResponseDTO>> GetMessages(int chatId);
+        public Task<List<ChatForResponseDTO>> GetChats(int userId);
+        public Task<List<MessageForResponseDTO>> GetMessages(int chatId);
         public Task<ChatForResponseDTO> GetChat(int chatId);
         public Task DeleteChat(int chatId);
         public Task DeleteMessage(int messageId);

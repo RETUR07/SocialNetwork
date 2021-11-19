@@ -10,7 +10,7 @@ namespace SocialNetwork.Application.Contracts
         public Task<Post> CreatePost(PostForm postdto);
         public Task DeletePost(int postId);
         public Task<PostForResponseDTO> GetPost(int postId);
-        public Task<IEnumerable<PostForResponseDTO>> GetPosts(int userId);
-        public Task<IEnumerable<PostForResponseDTO>> GetChildPosts(int postId);
+        public Task<List<PostForResponseDTO>> GetPosts(int userId);
+        public Task<List<PostForResponseDTO>> GetChildPosts(int postId);
     }
 }
