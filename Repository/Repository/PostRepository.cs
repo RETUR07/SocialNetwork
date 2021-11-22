@@ -15,7 +15,7 @@ namespace SocialNetworks.Repository.Repository
         }
 
 
-        public override async void Delete(Post entity)
+        public new async void Delete(Post entity)
         {
             if (entity != null)
             {

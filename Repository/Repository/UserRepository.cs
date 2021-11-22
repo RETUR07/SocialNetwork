@@ -16,10 +16,14 @@ namespace SocialNetworks.Repository.Repository
 
         public new void Delete(User entity)
         {
-            entity.Friends.Clear();
-            entity.MakedFriend.Clear();
-            entity.Subscribed.Clear();
-            entity.Subscribers.Clear();
+            if (entity.Friends != null)
+                entity.Friends.Clear();
+            if (entity.MakedFriend != null)
+                entity.MakedFriend.Clear();
+            if (entity.Subscribed != null)
+                entity.Subscribed.Clear();
+            if (entity.Subscribers != null)
+                entity.Subscribers.Clear();
             base.Delete(entity);
         }
 
