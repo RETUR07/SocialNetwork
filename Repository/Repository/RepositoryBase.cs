@@ -22,7 +22,7 @@ namespace SocialNetworks.Repository.Repository
             RepContextSet
             .Where(e => e.IsEnable)
             .AsNoTracking() :
-            RepositoryContext.Set<T>();
+            RepContextSet;
 
         public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression, bool trackChanges) =>
             !trackChanges ?
