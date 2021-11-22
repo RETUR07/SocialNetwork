@@ -28,7 +28,7 @@ namespace SocialNetwork.Application.Services
             _appSettings = appSettings.Value;
         }
 
-        public AuthenticateResponse Authenticate(AuthenticateRequest model, string ipAddress)
+        public async Task<AuthenticateResponse> AuthenticateAsync(AuthenticateRequest model, string ipAddress)
         {
             var user = _repository.User.FindByCondition(x => x.Username == model.Username, true).SingleOrDefault();
 
@@ -41,12 +41,12 @@ namespace SocialNetwork.Application.Services
 
             removeOldRefreshTokens(user);
 
-            _repository.SaveAsync();
+            await _repository.SaveAsync();
 
             return new AuthenticateResponse(user, jwtToken, refreshToken.Token);
         }
 
-        public AuthenticateResponse RefreshToken(string token, string ipAddress)
+        public async Task<AuthenticateResponse> RefreshTokenAsync(string token, string ipAddress)
         {
             var user = getUserByRefreshToken(token);
             var refreshToken = user.RefreshTokens.Single(x => x.Token == token);
@@ -55,7 +55,7 @@ namespace SocialNetwork.Application.Services
             {
                 revokeDescendantRefreshTokens(refreshToken, user, ipAddress, $"Attempted reuse of revoked ancestor token: {token}");
                 _repository.User.Update(user);
-                _repository.SaveAsync();
+                await _repository.SaveAsync();
             }
 
             if (!refreshToken.IsActive)
@@ -67,14 +67,14 @@ namespace SocialNetwork.Application.Services
             removeOldRefreshTokens(user);
 
             _repository.User.Update(user);
-            _repository.SaveAsync();
+            await _repository.SaveAsync();
 
             var jwtToken = _jwtUtils.GenerateJwtToken(user);
 
             return new AuthenticateResponse(user, jwtToken, newRefreshToken.Token);
         }
 
-        public void RevokeToken(string token, string ipAddress)
+        public async Task RevokeTokenAsync(string token, string ipAddress)
         {
             var user = getUserByRefreshToken(token);
             var refreshToken = user.RefreshTokens.Single(x => x.Token == token);
@@ -84,7 +84,7 @@ namespace SocialNetwork.Application.Services
 
             revokeRefreshToken(refreshToken, ipAddress, "Revoked without replacement");
             _repository.User.Update(user);
-            _repository.SaveAsync();
+            await _repository.SaveAsync();
         }
 
         private User getUserByRefreshToken(string token)

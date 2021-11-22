@@ -10,9 +10,9 @@ namespace SocialNetwork.Application.Contracts
 {
     public interface IAuthorizationService
     {
-        public AuthenticateResponse Authenticate(AuthenticateRequest model, string ipAddress);
-        public AuthenticateResponse RefreshToken(string token, string ipAddress);
-        public void RevokeToken(string token, string ipAddress);
+        public Task<AuthenticateResponse> AuthenticateAsync(AuthenticateRequest model, string ipAddress);
+        public Task<AuthenticateResponse> RefreshTokenAsync(string token, string ipAddress);
+        public Task RevokeTokenAsync(string token, string ipAddress);
         public Task<List<RefreshToken>> GetUserRefreshTokensAsync(int id);
     }
 }
