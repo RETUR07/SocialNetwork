@@ -22,7 +22,7 @@ namespace SocialNetworks.Repository.Repository
             RepContextSet
             .Where(e => e.IsEnable)
             .AsNoTracking() :
-            RepositoryContext.Set<T>();
+            RepContextSet;
 
         public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression, bool trackChanges) =>
             !trackChanges ?
@@ -41,7 +41,7 @@ namespace SocialNetworks.Repository.Repository
             if(entity.IsEnable)RepContextSet.Update(entity);
         }
 
-        public virtual void Delete(T entity)
+        public void Delete(T entity)
         {
             entity.IsEnable = false;
             RepContextSet.Update(entity);

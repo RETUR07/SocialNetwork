@@ -4,13 +4,11 @@ using SocialNetwork.Entities.Models;
 using SocialNetwork.Entities.SecurityModels;
 using SocialNetwork.Security.Settings;
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace SocialNetwork.Security.Authorization
 {
@@ -35,35 +33,6 @@ namespace SocialNetwork.Security.Authorization
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
-        }
-
-        public int? ValidateJwtToken(string token)
-        {
-            if (token == null)
-                return null;
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
-            try
-            {
-                tokenHandler.ValidateToken(token, new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
-                    ClockSkew = TimeSpan.Zero
-                }, out SecurityToken validatedToken);
-
-                var jwtToken = (JwtSecurityToken)validatedToken;
-                var userId = int.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
-
-                return userId;
-            }
-            catch
-            {
-                return null;
-            }
         }
 
         public RefreshToken GenerateRefreshToken(string ipAddress)

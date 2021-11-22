@@ -18,7 +18,7 @@ namespace SocialNetwork.Application.Services
             _repository = repository;
         }
 
-        public async Task<IEnumerable<FileContentResult>> GetBLobsAsync(IEnumerable<int> Ids, bool trackChanges)
+        public async Task<List<FileContentResult>> GetBLobsAsync(IEnumerable<int> Ids, bool trackChanges)
         {
             List<FileContentResult> formfiles = new List<FileContentResult>(); 
             foreach (int id in Ids)
@@ -26,26 +26,26 @@ namespace SocialNetwork.Application.Services
                 var blob = await _repository.Blob.GetBlob(id, trackChanges);
                 if (blob == null)
                     continue;
-                var FormFile = Converters.BlobToFileContentResult(blob);
+                var FormFile = BlobConverters.BlobToFileContentResult(blob);
                 formfiles.Add(FormFile);
             }
             return formfiles;
 
         }
 
-        public async Task<IEnumerable<int>> SaveBlobsAsync(IEnumerable<IFormFile> formFiles)
+        public async Task<List<int>> SaveBlobsAsync(IEnumerable<IFormFile> formFiles)
         {
             List<Blob> blobs = new List<Blob>();
             foreach (IFormFile formfile in formFiles)
             {
                 if (formfile == null)
                     continue;
-                var blob = await Converters.FormFileToBlobAsync(formfile);
+                var blob = await BlobConverters.FormFileToBlobAsync(formfile);
                 _repository.Blob.Create(blob);
                 blobs.Add(blob);
             }
             await _repository.SaveAsync();
-            return blobs.Select(b => b.Id);
+            return blobs.Select(b => b.Id).ToList();
         }
     }
 }

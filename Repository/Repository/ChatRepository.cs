@@ -16,7 +16,7 @@ namespace SocialNetworks.Repository.Repository
         {
         }
 
-        public async Task<IEnumerable<Chat>> GetChatsAsync(User user, bool trackChanges)
+        public async Task<List<Chat>> GetChatsAsync(User user, bool trackChanges)
             => await FindByCondition(ch => ch.Users.Contains(user), trackChanges)
             .Include(x => x.Users.Where(x => x.IsEnable))
             .ToListAsync();

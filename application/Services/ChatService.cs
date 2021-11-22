@@ -110,7 +110,7 @@ namespace SocialNetwork.Application.Services
             return chatdto;
         }
 
-        public async Task<IEnumerable<ChatForResponseDTO>> GetChats(int userId)
+        public async Task<List<ChatForResponseDTO>> GetChats(int userId)
         {
             var user = await _repository.User.GetUserAsync(userId, true);
             if (user == null) return null;
@@ -119,7 +119,7 @@ namespace SocialNetwork.Application.Services
             {
                 return null;
             }
-            var chatdto = _mapper.Map<IEnumerable<ChatForResponseDTO>>(chats);
+            var chatdto = _mapper.Map<List<ChatForResponseDTO>>(chats);
             return chatdto;
         }
 
@@ -134,14 +134,14 @@ namespace SocialNetwork.Application.Services
             return messagedto;
         }
 
-        public async Task<IEnumerable<MessageForResponseDTO>> GetMessages(int chatId)
+        public async Task<List<MessageForResponseDTO>> GetMessages(int chatId)
         {
             var messages = await _repository.Message.GetMessgesByChatIdAsync(chatId, false);
             if (messages == null)
             {
                 return null;
             }
-            var messagesdto = _mapper.Map<IEnumerable<MessageForResponseDTO>>(messages);
+            var messagesdto = _mapper.Map<List<MessageForResponseDTO>>(messages);
             return messagesdto;
         }
     }

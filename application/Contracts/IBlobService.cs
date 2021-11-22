@@ -10,7 +10,7 @@ namespace SocialNetwork.Application.Contracts
 {
     public interface IBlobService
     {
-        public Task<IEnumerable<FileContentResult>> GetBLobsAsync(IEnumerable<int> ids, bool trackChanges);
-        public Task<IEnumerable<int>> SaveBlobsAsync(IEnumerable<IFormFile> formFile);
+        public Task<List<FileContentResult>> GetBLobsAsync(IEnumerable<int> ids, bool trackChanges);
+        public Task<List<int>> SaveBlobsAsync(IEnumerable<IFormFile> formFile);
     }
 }

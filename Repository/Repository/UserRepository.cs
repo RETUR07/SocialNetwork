@@ -16,10 +16,14 @@ namespace SocialNetworks.Repository.Repository
 
         public new void Delete(User entity)
         {
-            entity.Friends.Clear();
-            entity.MakedFriend.Clear();
-            entity.Subscribed.Clear();
-            entity.Subscribers.Clear();
+            if (entity.Friends != null)
+                entity.Friends.Clear();
+            if (entity.MakedFriend != null)
+                entity.MakedFriend.Clear();
+            if (entity.Subscribed != null)
+                entity.Subscribed.Clear();
+            if (entity.Subscribers != null)
+                entity.Subscribers.Clear();
             base.Delete(entity);
         }
 
@@ -28,11 +32,10 @@ namespace SocialNetworks.Repository.Repository
 
         public async Task<User> GetUserAsync(int userId, bool trackChanges) =>
             await FindByCondition(u => u.Id == userId, trackChanges)
-            .Include(x => x.Friends).OrderBy(x => x.Id)
-            .Include(x => x.MakedFriend).OrderBy(x => x.Id)
-            .Include(x => x.Subscribers).OrderBy(x => x.Id)
-            .Include(x => x.Subscribed).OrderBy(x => x.Id)
-            .AsSplitQuery()        
+            .Include(x => x.Friends.OrderBy(x => x.Id))
+            .Include(x => x.MakedFriend.OrderBy(x => x.Id))
+            .Include(x => x.Subscribers.OrderBy(x => x.Id))
+            .Include(x => x.Subscribed.OrderBy(x => x.Id))
             .SingleOrDefaultAsync();
     }
 }

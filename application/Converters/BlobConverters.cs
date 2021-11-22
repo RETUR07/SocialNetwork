@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SocialNetwork.Application.Services
 {
-    public static class Converters
+    public static class BlobConverters
     {
         public static async Task<Blob> FormFileToBlobAsync(this IFormFile formfile)
         {
@@ -45,7 +45,7 @@ namespace SocialNetwork.Application.Services
             }
         }
 
-        public static async Task<IEnumerable<Blob>> FormFilesToBlobsAsync(this IEnumerable<IFormFile> formfiles)
+        public static async Task<List<Blob>> FormFilesToBlobsAsync(this IEnumerable<IFormFile> formfiles)
         {
             List<Blob> blobs = new List<Blob>();
             foreach (IFormFile ff in formfiles)
@@ -56,7 +56,7 @@ namespace SocialNetwork.Application.Services
             return blobs;
         }
 
-        public static IEnumerable<Blob> FormFilesToBlobs(this IEnumerable<IFormFile> formfiles)
+        public static List<Blob> FormFilesToBlobs(this IEnumerable<IFormFile> formfiles)
         {
             List<Blob> blobs = new List<Blob>();
             foreach (IFormFile ff in formfiles)
@@ -74,7 +74,7 @@ namespace SocialNetwork.Application.Services
             return returnfile;
         }
 
-        public static IEnumerable<FileContentResult> BlobsToFileContentResults(this IEnumerable<Blob> blobs)
+        public static List<FileContentResult> BlobsToFileContentResults(this IEnumerable<Blob> blobs)
         {
             List<FileContentResult> files = new List<FileContentResult>();
             foreach(var blob in blobs)

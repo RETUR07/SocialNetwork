@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace SocialNetwork.Entities.Models
 {
-    public class Chat : ParentModel
+    public enum LikeStatus
     {
-        public List<User> Users { get; set; }
-        public List<Message> Messages { get; set; }
+        Liked,
+        Disliked
     }
 }

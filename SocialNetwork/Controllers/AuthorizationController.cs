@@ -1,11 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SocialNetwork.Application.Contracts;
-using SocialNetwork.Security.Authorization;
 using SocialNetwork.Security.DTO;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace SocialNetwork.Controllers
@@ -15,47 +12,46 @@ namespace SocialNetwork.Controllers
     [ApiController]
     public class AuthorizationController : ControllerBase
     {
-        private IUserService _userService;
+        private Application.Contracts.IAuthorizationService _authorizationService;
 
-        public AuthorizationController(IUserService userService)
+        public AuthorizationController(Application.Contracts.IAuthorizationService authorizationService)
         {
-            _userService = userService;
+            _authorizationService = authorizationService;
         }
         [AllowAnonymous]
         [HttpPost("authenticate")]
-        public IActionResult Authenticate(AuthenticateRequest model)
+        public async Task<IActionResult> AuthenticateAsync(AuthenticateRequest model)
         {
-            var response = _userService.Authenticate(model, ipAddress());
+            var response = await _authorizationService.AuthenticateAsync(model, ipAddress());
             setTokenCookie(response.RefreshToken);
             return Ok(response);
         }
         [AllowAnonymous]
         [HttpPost("refresh-token")]
-        public IActionResult RefreshToken()
+        public async Task<IActionResult> RefreshToken()
         {
             var refreshToken = Request.Cookies["refreshToken"];
-            var response = _userService.RefreshToken(refreshToken, ipAddress());
+            var response = await _authorizationService.RefreshTokenAsync(refreshToken, ipAddress());
             setTokenCookie(response.RefreshToken);
             return Ok(response);
         }
 
         [HttpPost("revoke-token")]
-        public IActionResult RevokeToken(RevokeTokenRequest model)
+        public async Task<IActionResult> RevokeTokenAsync(RevokeTokenRequest model)
         {
-            // accept refresh token in request body or cookie
             var token = model.Token ?? Request.Cookies["refreshToken"];
 
             if (string.IsNullOrEmpty(token))
                 return BadRequest(new { message = "Token is required" });
 
-            _userService.RevokeToken(token, ipAddress());
+            await _authorizationService.RevokeTokenAsync(token, ipAddress());
             return Ok(new { message = "Token revoked" });
         }
 
         [HttpGet("{id}/refresh-tokens")]
-        public IActionResult GetRefreshTokens(int id)
+        public async Task<IActionResult> GetRefreshTokensAsync(int id)
         {
-            var refreshTokens = _userService.GetUserRefreshTokensAsync(id);
+            var refreshTokens = await _authorizationService.GetUserRefreshTokensAsync(id);
             return Ok(refreshTokens);
         }
 

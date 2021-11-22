@@ -25,10 +25,10 @@ namespace SocialNetwork.Application.Services
             return _mapper.Map<Rate, PostRateForResponseDTO>(rate);
         }
 
-        public async Task<IEnumerable<PostRateForResponseDTO>> GetRatesByPostIdAsync(int postId, bool trackChanges)
+        public async Task<List<PostRateForResponseDTO>> GetRatesByPostIdAsync(int postId, bool trackChanges)
         {
             var rates = await _repository.Rate.GetRatesByPostIdAsync(postId, trackChanges);
-            return _mapper.Map<IEnumerable<Rate>, IEnumerable<PostRateForResponseDTO>>(rates);
+            return _mapper.Map<List<Rate>, List<PostRateForResponseDTO>>(rates);
         }
 
         public async Task UpdatePostRateAsync(RateForm ratedto)

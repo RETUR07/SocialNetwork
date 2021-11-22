@@ -17,7 +17,7 @@ namespace SocialNetworks.Repository.Repository
            await FindByCondition(r => r.User.Id == userId && r.Post.Id == postId, trackChanges)
             .Include(x => x.Post).Include(x => x.User).SingleOrDefaultAsync();
 
-        public async Task<IEnumerable<Rate>> GetRatesByPostIdAsync(int postId, bool trackChanges) =>
+        public async Task<List<Rate>> GetRatesByPostIdAsync(int postId, bool trackChanges) =>
            await FindByCondition(r => r.Post.Id == postId, trackChanges)
             .Include(x => x.User).ToListAsync();
     }
