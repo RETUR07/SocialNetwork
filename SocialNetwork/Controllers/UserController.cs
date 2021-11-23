@@ -19,6 +19,7 @@ namespace SocialNetwork.Controllers
             _userService = userService;
         }
 
+        [Authorize(Roles = "admin")]
         [HttpGet]
         public async Task<IActionResult> GetUsers()
         {
@@ -58,6 +59,21 @@ namespace SocialNetwork.Controllers
                 await _userService.UpdateUserAsync(userId, userdto);
             }
             catch(InvalidDataException exc)
+            {
+                return BadRequest(exc.Message);
+            }
+            return NoContent();
+        }
+
+        [Authorize(Roles = "admin")]
+        [HttpPut("admin/{userId}")]
+        public async Task<IActionResult> AdminUpdateUser(int userId, [FromBody] AdminUserForm userdto)
+        {
+            try
+            {
+                await _userService.AdminUpdateUserAsync(userId, userdto);
+            }
+            catch (InvalidDataException exc)
             {
                 return BadRequest(exc.Message);
             }

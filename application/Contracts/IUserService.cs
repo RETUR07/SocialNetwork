@@ -16,5 +16,6 @@ namespace SocialNetwork.Application.Contracts
         public Task DeleteUserAsync(int userId);
         public Task AddFriendAsync(int userId, int friendId);
         public Task DeleteFriendAsync(int userId, int friendId);
+        public Task AdminUpdateUserAsync(int userId, AdminUserForm userdto);
     }
 }
