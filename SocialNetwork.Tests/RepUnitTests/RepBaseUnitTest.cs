@@ -1,9 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Moq;
 using SocialNetwork.Entities.Models;
+using SocialNetworks.Repository.Contracts;
 using SocialNetworks.Repository.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
@@ -99,6 +102,27 @@ namespace SocialNetwork.Tests.RepUnitTests
                 var afterChange = await userRep.FindByCondition(x => x.Id == 1, false).SingleOrDefaultAsync();
                 Assert.Null(afterChange);
             }
+        }
+
+        [Fact]
+        public void MockUnitTest()
+        {
+            var testObject = new User() { Id = 1 };
+            var testList = new List<User>() { testObject };
+
+            var dbSetMock = new Mock<DbSet<User>>();
+            dbSetMock.As<IQueryable<User>>().Setup(x => x.Provider).Returns(testList.AsQueryable().Provider);
+            dbSetMock.As<IQueryable<User>>().Setup(x => x.Expression).Returns(testList.AsQueryable().Expression);
+            dbSetMock.As<IQueryable<User>>().Setup(x => x.ElementType).Returns(testList.AsQueryable().ElementType);
+            dbSetMock.As<IQueryable<User>>().Setup(x => x.GetEnumerator()).Returns(testList.AsQueryable().GetEnumerator());
+
+            var context = new Mock<RepositoryContext>(new DbContextOptionsBuilder().Options);
+            context.Setup(x => x.Set<User>()).Returns(dbSetMock.Object);
+
+            var repository = new UserRepository(context.Object);
+            var result = repository.FindByCondition(x=>x.Id == 1, false);
+
+            Assert.Equal(testList, result.ToList());
         }
     }
 }
