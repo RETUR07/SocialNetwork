@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using SocialNetwork.Application.Contracts;
 using SocialNetwork.Application.DTO;
+using SocialNetwork.Application.Exceptions;
 using SocialNetwork.Entities.Models;
 using SocialNetworks.Repository.Contracts;
 using System;
@@ -21,32 +22,30 @@ namespace SocialNetwork.Application.Services
             _repository = repository;
             _mapper = mapper;
         }
-        public async Task<bool> AddMessage(int chatId, MessageForm messagedto)
+        public async Task AddMessage(int chatId, MessageForm messagedto)
         {
-            if (messagedto == null) return false;
+            if (messagedto == null) throw new InvalidDataException("message dto is null");
             var chat = await _repository.Chat.GetChatAsync(chatId, true);
-            if (chat == null) return false;
+            if (chat == null) throw new InvalidDataException("no such chat");
             var user = await _repository.User.GetUserAsync(messagedto.From, true);
-            if (user == null) return false;        
+            if (user == null) throw new InvalidDataException("no such user");
             var message = _mapper.Map<MessageForm, Message>(messagedto);
             message.User = user;
             chat.Messages.Add(message);
             await _repository.SaveAsync();
-            return true;
         }
 
-        public async Task<bool> AddUser(int chatId, int userId)
+        public async Task AddUser(int chatId, int userId)
         {
             var user = await _repository.User.GetUserAsync(userId, true);
-            if (user == null) return false;
+            if (user == null) throw new InvalidDataException("no such user");
             var chat = await _repository.Chat.GetChatAsync(chatId, true);
-            if (chat == null) return false;
+            if (chat == null) throw new InvalidDataException("no such chat");
             if (chat.Users.Contains(user))
                 chat.Users.Remove(user);
             else
                 chat.Users.Add(user);
             await _repository.SaveAsync();
-            return true;
         }
 
         public async Task<Chat> CreateChat(ChatForm chatdto)

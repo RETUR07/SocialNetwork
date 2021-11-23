@@ -12,7 +12,7 @@ namespace SocialNetwork.Application.Contracts
         public Task<List<UserForResponseDTO>> GetUsersAsync();
         public Task<UserForResponseDTO> GetUserAsync(int userId);
         public Task<User> CreateUserAsync(UserRegistrationForm userdto);
-        public Task<bool> UpdateUserAsync(int userId, UserForm userdto);
+        public Task UpdateUserAsync(int userId, UserForm userdto);
         public Task DeleteUserAsync(int userId);
         public Task AddFriendAsync(int userId, int friendId);
         public Task DeleteFriendAsync(int userId, int friendId);

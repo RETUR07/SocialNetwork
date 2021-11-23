@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using SocialNetwork.Application.Contracts;
 using SocialNetwork.Application.DTO;
+using SocialNetwork.Application.Exceptions;
 using SocialNetwork.Entities.Models;
 using SocialNetworks.Repository.Contracts;
 using System.Collections.Generic;
@@ -103,23 +104,16 @@ namespace SocialNetwork.Application.Services
             return usersdto;
         }
 
-        public async Task<bool> UpdateUserAsync(int userId, UserForm userdto)
+        public async Task UpdateUserAsync(int userId, UserForm userdto)
         {
-            if (userdto == null)
-            {
-                return false;
-            }
+            if (userdto == null) throw new InvalidDataException("user dto is null");
 
             var user = await _repository.User.GetUserAsync(userId, true);
 
-            if (user == null)
-            {
-                return false;
-            }
+            if (user == null) throw new InvalidDataException("no such user");
 
             _mapper.Map(userdto, user);
             await _repository.SaveAsync();
-            return true;
         }
     }
 }
