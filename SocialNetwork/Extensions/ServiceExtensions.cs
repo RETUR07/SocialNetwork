@@ -35,10 +35,10 @@ namespace SocialNetwork.Extensions
             services.AddScoped<IAuthorizationService, AuthorizationService>();
             services.AddSingleton<IJwtUtils, JwtUtils>();
         }
-        public static void ConfigureDatabase(this IServiceCollection services)
+        public static void ConfigureDatabase(this IServiceCollection services, IConfiguration Configuration)
         {
             services.AddDbContext<RepositoryContext>(opts =>
-                    opts.UseSqlServer(Environment.GetEnvironmentVariable("sqlConnection"), x => x.MigrationsAssembly("SocialNetwork")));
+                    opts.UseSqlServer(Configuration.GetConnectionString("sqlConnection"), x => x.MigrationsAssembly("SocialNetwork")));
         }
 
         public static void ConfigureJWTAppSettings(this IServiceCollection services, IConfiguration Configuration)
