@@ -23,7 +23,7 @@ namespace SocialNetworks.Repository.Repository
             .Include(x => x.User)
             .SingleOrDefaultAsync();
 
-        public async Task<IEnumerable<Message>> GetMessgesByChatIdAsync(int chatId, bool trackChanges)
+        public async Task<List<Message>> GetMessgesByChatIdAsync(int chatId, bool trackChanges)
             => await FindByCondition(m => m.Chat.Id == chatId, trackChanges).ToListAsync();
     }
 }
