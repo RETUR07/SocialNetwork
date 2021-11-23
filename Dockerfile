@@ -6,11 +6,13 @@ COPY SocialNetwork/*.csproj ./SocialNetwork/
 COPY application/*.csproj ./application/
 COPY Entities/*.csproj ./Entities/
 COPY Repository/*.csproj ./Repository/
+COPY SocialNetwork.Tests/*.csproj ./SocialNetwork.Tests/
 
 COPY SocialNetwork/. ./SocialNetwork/
 COPY application/. ./application/
 COPY Entities/. ./Entities/
 COPY Repository/. ./Repository/
+COPY SocialNetwork.Tests/. ./SocialNetwork.Tests/
 
 RUN dotnet publish -c release -o /app
 

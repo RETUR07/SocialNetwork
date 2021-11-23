@@ -6,5 +6,6 @@ services:
     ports:
       - "8080:80"
     environment:
+      - JWT:Secret="ThisismySecretKey"
       - ASPNETCORE_ENVIRONMENT=Development
-      - sqlConnection=Data Source=host.docker.internal\SQLExpress, 1433; database=SocialNetworkDb; User ID=sa;Password=root;MultipleActiveResultSets=true;
+      - ConnectionStrings:sqlConnection=Data Source=host.docker.internal\SQLExpress, 1433; database=SocialNetworkDb; User ID=sa;Password=root;MultipleActiveResultSets=true;

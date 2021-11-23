@@ -1,5 +1,4 @@
-﻿using Moq;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Xunit;
 using SocialNetworks.Repository.Repository;
 using SocialNetwork.Entities.Models;

@@ -26,7 +26,7 @@ namespace SocialNetwork
             services.AddControllers();
             services.ConfigureAutoMapper();
             services.ConfigureServices();
-            services.ConfigureDatabase();
+            services.ConfigureDatabase(Configuration);
             services.AddSwaggerGen(c =>
             {
                 var jwtSecurityScheme = new OpenApiSecurityScheme
