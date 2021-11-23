@@ -18,7 +18,7 @@ namespace SocialNetwork.Tests
         public UserRepUnitTest()
         : base(
             new DbContextOptionsBuilder<RepositoryContext>()
-                .UseInMemoryDatabase("Filename=Test.db")
+                .UseInMemoryDatabase("Filename=UserRepTest.db")
                 .Options)
         {
         }
@@ -57,10 +57,11 @@ namespace SocialNetwork.Tests
                 var userRep = new UserRepository(repositoryContext);
                 var deletionUser = await userRep.GetUserAsync(2, true);
                 userRep.Delete(deletionUser);
-                
+                repositoryContext.SaveChanges();
                 var dbuser = await userRep.GetUserAsync(2, true);
                 Assert.Null(dbuser);
-                Assert.False(deletionUser.IsEnable);
+                var users = await userRep.GetAllUsersAsync(false);
+                Assert.Equal(2, users.Count);
             }
         }
     }

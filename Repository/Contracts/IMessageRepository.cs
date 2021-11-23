@@ -9,7 +9,7 @@ namespace SocialNetworks.Repository.Contracts
 {
     public interface IMessageRepository : IRepositoryBase<Message>
     {
-        public Task<IEnumerable<Message>> GetMessgesByChatIdAsync(int chatId, bool trackChanges);
+        public Task<List<Message>> GetMessgesByChatIdAsync(int chatId, bool trackChanges);
         public Task<Message> GetMessageAsync(int messageId, bool trackChanges);
     }
 }
