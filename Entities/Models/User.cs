@@ -1,7 +1,6 @@
 ﻿using SocialNetwork.Entities.SecurityModels;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SocialNetwork.Entities.Models
 {
@@ -27,5 +26,7 @@ namespace SocialNetwork.Entities.Models
         public string PasswordHash { get; set; }
         public List<RefreshToken> RefreshTokens { get; set; }
         public string Username { get; set; }
+
+        public string Role { get; set; } = Roles.User;
     }
 }

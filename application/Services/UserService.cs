@@ -115,5 +115,17 @@ namespace SocialNetwork.Application.Services
             _mapper.Map(userdto, user);
             await _repository.SaveAsync();
         }
+
+        public async Task AdminUpdateUserAsync(int userId, AdminUserForm userdto)
+        {
+            if (userdto == null) throw new InvalidDataException("user dto is null");
+
+            var user = await _repository.User.GetUserAsync(userId, true);
+
+            if (user == null) throw new InvalidDataException("no such user");
+
+            user.Role = userdto.Role;
+            await _repository.SaveAsync();
+        }
     }
 }

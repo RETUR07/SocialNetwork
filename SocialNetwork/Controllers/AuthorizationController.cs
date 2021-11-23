@@ -22,9 +22,17 @@ namespace SocialNetwork.Controllers
         [HttpPost("authenticate")]
         public async Task<IActionResult> AuthenticateAsync(AuthenticateRequest model)
         {
-            var response = await _authorizationService.AuthenticateAsync(model, ipAddress());
-            setTokenCookie(response.RefreshToken);
-            return Ok(response);
+            try
+            {
+                var response = await _authorizationService.AuthenticateAsync(model, ipAddress());
+                setTokenCookie(response.RefreshToken);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
         }
         [AllowAnonymous]
         [HttpPost("refresh-token")]
