@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SocialNetwork.Application.Contracts;
 using SocialNetwork.Application.DTO;
+using SocialNetwork.Application.Exceptions;
 using System.Threading.Tasks;
 
 namespace SocialNetwork.Controllers
@@ -52,10 +53,13 @@ namespace SocialNetwork.Controllers
         [HttpPut("{userId}")]
         public async Task<IActionResult> UpdateUser(int userId, [FromBody] UserForm userdto)
         {
-            var success = await _userService.UpdateUserAsync(userId, userdto);
-            if (!success)
+            try
             {
-                return BadRequest();
+                await _userService.UpdateUserAsync(userId, userdto);
+            }
+            catch(InvalidDataException exc)
+            {
+                return BadRequest(exc.Message);
             }
             return NoContent();
         }

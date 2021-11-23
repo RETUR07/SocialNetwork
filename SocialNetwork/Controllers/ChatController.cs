@@ -3,6 +3,7 @@ using SocialNetwork.Application.Contracts;
 using SocialNetwork.Application.DTO;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
+using SocialNetwork.Application.Exceptions;
 
 namespace SocialNetwork.Controllers
 {
@@ -78,10 +79,13 @@ namespace SocialNetwork.Controllers
         [HttpPut("{chatId}/adduser/{userId}")]
         public async Task<IActionResult> AddUser(int chatId, int userId)
         {
-            var success = await _chatService.AddUser(chatId, userId);
-            if (!success)
+            try
             {
-                return BadRequest();
+                await _chatService.AddUser(chatId, userId);
+            }
+            catch(InvalidDataException exc)
+            {
+                return BadRequest(exc.Message);
             }
             return NoContent();
         }
@@ -89,10 +93,13 @@ namespace SocialNetwork.Controllers
         [HttpPut("addmessage/{chatId}")]
         public async Task<IActionResult> AddMessage([FromForm]MessageForm messagedto, int chatId)
         {
-            var success = await _chatService.AddMessage(chatId, messagedto);
-            if (!success)
+            try
             {
-                return BadRequest();
+                await _chatService.AddMessage(chatId, messagedto);
+            }
+            catch(InvalidDataException exc)
+            {
+                return BadRequest(exc.Message);
             }
             return NoContent();
         }

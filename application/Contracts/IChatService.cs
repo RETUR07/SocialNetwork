@@ -17,7 +17,7 @@ namespace SocialNetwork.Application.Contracts
         public Task DeleteMessage(int messageId);
         public Task<MessageForResponseDTO> GetMessage(int messageId);
         public Task<Chat> CreateChat(ChatForm chatdto);
-        public Task<bool> AddUser(int chatId, int userId);
-        public Task<bool> AddMessage(int chatId, MessageForm messagedto);
+        public Task AddUser(int chatId, int userId);
+        public Task AddMessage(int chatId, MessageForm messagedto);
     }
 }
