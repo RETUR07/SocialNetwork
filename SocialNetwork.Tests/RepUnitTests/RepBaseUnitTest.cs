@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using Moq;
 using SocialNetwork.Entities.Models;
 using SocialNetworks.Repository.Contracts;
@@ -104,11 +106,16 @@ namespace SocialNetwork.Tests.RepUnitTests
             }
         }
 
-        [Fact]
-        public void MockUnitTest()
+        //mock setup
+
+        private UserRepository _repository;
+
+
+        private List<User> MockSetup()
         {
-            var testObject = new User() { Id = 1 };
-            var testList = new List<User>() { testObject };
+            User testObject1 = new User() { Id = 1, IsEnable = true };
+            User testObject2 = new User() { Id = 2, IsEnable = true };
+            List<User> testList = new List<User>() { testObject1, testObject2 };
 
             var dbSetMock = new Mock<DbSet<User>>();
             dbSetMock.As<IQueryable<User>>().Setup(x => x.Provider).Returns(testList.AsQueryable().Provider);
@@ -119,10 +126,39 @@ namespace SocialNetwork.Tests.RepUnitTests
             var context = new Mock<RepositoryContext>(new DbContextOptionsBuilder().Options);
             context.Setup(x => x.Set<User>()).Returns(dbSetMock.Object);
 
-            var repository = new UserRepository(context.Object);
-            var result = repository.FindByCondition(x=>x.Id == 1, false);
+            _repository = new UserRepository(context.Object);
+            return testList;
+        }
 
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        public void MockFindByConditionUnitTest(int value)
+        {
+            MockSetup();
+            var result = _repository.FindByCondition(x=>x.Id == value, false);
+
+            Assert.Equal(value, result.ToList()[0].Id);
+        }
+
+        [Fact]
+        public void MockFindAllUnitTest()
+        {
+            var testList = MockSetup();
+            var result = _repository.FindAll(false);
             Assert.Equal(testList, result.ToList());
+        }
+
+        [Fact]
+        public void MockDeleteUnitTest()
+        {
+            var testList = MockSetup();
+            var user = _repository.FindByCondition(x => x.Id == 1, true);
+            _repository.Delete(user.ToList()[0]);
+            //save
+            var result = _repository.FindAll(false);
+            Assert.DoesNotContain(testList[0], result);
+            Assert.Single(result);
         }
     }
 }
