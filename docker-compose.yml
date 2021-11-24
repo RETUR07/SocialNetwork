@@ -1,11 +1,38 @@
 version: "2.1.1"
 
 services:
+
+  rabbitmq: # login guest:guest
+    image: rabbitmq:3-management-alpine
+    hostname: "rabbitmq"
+    labels:
+      NAME: "rabbitmq"
+    ports:
+    - "5672:5672"
+    - "15672:15672"
+    
+    
   web:
-    build: .
+    depends_on:
+      - rabbitmq
+    build:
+      context: ./
+      dockerfile: DockerfileSocialNetwork
     ports:
       - "8080:80"
     environment:
       - JWT:Secret="ThisismySecretKey"
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings:sqlConnection=Data Source=host.docker.internal\SQLExpress, 1433; database=SocialNetworkDb; User ID=sa;Password=root;MultipleActiveResultSets=true;
+    restart: on-failure
+
+
+    
+  worker:
+    depends_on:
+      - rabbitmq
+    build:
+      context: ./
+      dockerfile: DockerfileWorker
+    restart: on-failure
+

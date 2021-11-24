@@ -4,6 +4,8 @@ using SocialNetwork.Application.DTO;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
 using SocialNetwork.Application.Exceptions;
+using Newtonsoft.Json;
+using System.Net;
 
 namespace SocialNetwork.Controllers
 {
@@ -13,17 +15,25 @@ namespace SocialNetwork.Controllers
     public class ChatController : ControllerBase
     {
         private readonly IChatService _chatService;
+        private readonly IMessageService _messageService;
 
-        public ChatController(IChatService chatService)
+        public ChatController(IChatService chatService, IMessageService messageService)
         {
             _chatService = chatService;
+            _messageService = messageService;
         }
 
+        [AllowAnonymous]
         [HttpGet("chats/{userId}")]
         public async Task<IActionResult> GetChats(int userId)
         {
             var chats = await _chatService.GetChats(userId);
-            if (chats == null) return NotFound();
+            if (chats == null)
+            {
+                _messageService.Enqueue(HttpStatusCode.BadRequest.ToString());
+                return BadRequest();
+            }
+            _messageService.Enqueue(JsonConvert.SerializeObject(chats));
             return Ok(chats);
         }
 

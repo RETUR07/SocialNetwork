@@ -34,6 +34,7 @@ namespace SocialNetwork.Extensions
             services.AddScoped<IChatService, ChatService>();
             services.AddScoped<IAuthorizationService, AuthorizationService>();
             services.AddSingleton<IJwtUtils, JwtUtils>();
+            services.AddSingleton<IMessageService, MessageService>();
         }
         public static void ConfigureDatabase(this IServiceCollection services, IConfiguration Configuration)
         {
