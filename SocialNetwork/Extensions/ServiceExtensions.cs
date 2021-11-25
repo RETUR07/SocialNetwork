@@ -32,7 +32,6 @@ namespace SocialNetwork.Extensions
             services.AddScoped<IBlobService, BlobService>();
             services.AddScoped<IRateService, RateService>();
             services.AddScoped<IChatService, ChatService>();
-            services.AddScoped<IAuthorizationService, AuthorizationService>();
             services.AddSingleton<IJwtUtils, JwtUtils>();
             services.AddSingleton<IMessageService, MessageService>();
         }
