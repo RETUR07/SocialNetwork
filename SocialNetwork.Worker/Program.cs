@@ -19,16 +19,14 @@ namespace SocialNetwork.Worker
                 httpClientHandler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; };
                 using (var client = new HttpClient(httpClientHandler))
                 {
-                    var result = await client.GetAsync("http://web:80/api/Chat/chats/1");
-                    string resultContent = await result.Content.ReadAsStringAsync();
+                    await client.GetAsync("http://web:80/api/Chat/chats/1");
                 }
             }
         }
 
         static void Main(string[] args)
         {
-            //GetMessage().Wait();
-
+            GetMessage().Wait();
             ConnectionFactory factory = new ConnectionFactory() { HostName = "rabbitmq", Port = 5672 };
             factory.UserName = "guest";
             factory.Password = "guest";
@@ -50,6 +48,8 @@ namespace SocialNetwork.Worker
             channel.BasicConsume(queue: "hello",
                                     autoAck: true,
                                     consumer: consumer);
+            Task.Delay(10000).Wait();
+            channel.Close();
         }
     }
 }

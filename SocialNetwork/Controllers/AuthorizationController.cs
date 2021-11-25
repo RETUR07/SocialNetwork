@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SocialNetwork.Application.Contracts;
 using SocialNetwork.Security.DTO;
 using System;
 using System.Threading.Tasks;
@@ -12,9 +13,9 @@ namespace SocialNetwork.Controllers
     [ApiController]
     public class AuthorizationController : ControllerBase
     {
-        private Application.Contracts.IAuthorizationService _authorizationService;
+        private IAuthService _authorizationService;
 
-        public AuthorizationController(Application.Contracts.IAuthorizationService authorizationService)
+        public AuthorizationController(IAuthService authorizationService)
         {
             _authorizationService = authorizationService;
         }
