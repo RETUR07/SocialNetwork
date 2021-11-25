@@ -38,5 +38,10 @@ namespace SocialNetwork.Application.Services
             Console.WriteLine(" [x] Published {0} to RabbitMQ", messageString);
             return true;
         }
+
+        public void CloseConnection()
+        {
+            _conn?.Close();
+        }
     }
 }
