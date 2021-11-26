@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SocialNetwork.Application.Contracts
+namespace SocialNetwork.Entities.Models
 {
-    public interface IMessageService
+    public class ParentLog : ParentModel
     {
-        bool Enqueue(string message);
+        public string Message { get; set; }
     }
 }
