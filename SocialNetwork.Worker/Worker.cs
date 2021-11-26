@@ -64,8 +64,6 @@ namespace SocialNetwork.Worker
             var consumer = new AsyncEventingBasicConsumer(_channel);
             consumer.Received += async (bc, ea) =>
             {
-                var t = DateTimeOffset.FromUnixTimeMilliseconds(ea.BasicProperties.Timestamp.UnixTime);
-                _logger.LogInformation($"{t.LocalDateTime:O} ID=[{ea.BasicProperties.MessageId}]");
                 var message = Encoding.UTF8.GetString(ea.Body.ToArray());
                 _logger.LogInformation($"Processing msg: '{message}'.");
 

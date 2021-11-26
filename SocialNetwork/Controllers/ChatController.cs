@@ -23,7 +23,6 @@ namespace SocialNetwork.Controllers
             _messageService = messageService;
         }
 
-        [AllowAnonymous]
         [HttpGet("chats/{userId}")]
         public async Task<IActionResult> GetChats(int userId)
         {
