@@ -1,8 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SocialNetwork.Worker;
 
-namespace EmailWorker
+namespace SocialNetwork.Worker
 {
     public class Program
     {
@@ -11,11 +12,12 @@ namespace EmailWorker
             CreateHostBuilder(args).Build().Run();
         }
 
+
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureServices((hostContext, services) =>
+                .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    services.AddHostedService<Worker>();
+                    webBuilder.UseStartup<Startup>();
                 });
     }
 }
