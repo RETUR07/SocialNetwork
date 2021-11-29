@@ -8,7 +8,6 @@ using SocialNetwork.Application.Mapping;
 using SocialNetwork.Application.Services;
 using SocialNetwork.Security.Authorization;
 using SocialNetwork.Security.Settings;
-
 using SocialNetworks.Repository.Contracts;
 using SocialNetworks.Repository.Repository;
 using SocialNetworks.Repository.Repository.LogRepository;
@@ -37,7 +36,7 @@ namespace SocialNetwork.Extensions
             services.AddScoped<IAuthService, AuthService>();
             services.AddSingleton<IJwtUtils, JwtUtils>();
 
-            services.AddScoped<IWorkerService, WorkerService>();
+            services.AddSingleton<IWorkerService>(workerService => new WorkerService("queue2"));
             services.AddScoped<ILogRepositoryManager, LogRepositoryManager>();
             services.AddScoped<IMessageLogRepository, MessageLogRepository>();
         }

@@ -12,57 +12,33 @@ namespace SocialNetwork.Application.Services
 {
     public class WorkerService : IWorkerService
     {
-        private readonly ILogRepositoryManager _logRepositoryManager;
         private readonly ConnectionFactory _factory;
         private readonly IConnection _conn;
         private readonly IModel _channel;
+        private readonly string _queueName = "queue";
 
-        public WorkerService(ILogRepositoryManager logRepositoryManager)
+        public WorkerService(string queueName)
         {
-            _logRepositoryManager = logRepositoryManager;
-
+            _queueName = queueName;
             _factory = new ConnectionFactory() { HostName = "rabbitmq", Port = 5672 };
             _factory.UserName = "guest";
             _factory.Password = "guest";
             _conn = _factory.CreateConnection();
             _channel = _conn.CreateModel();
-            _channel.QueueDeclare(queue: "hello",
+            _channel.QueueDeclare(queue: _queueName,
                                     durable: false,
                                     exclusive: false,
                                     autoDelete: false,
                                     arguments: null);
         }
 
-        public void Enqueue(string message, string status, int messageId)
+        public void Enqueue(string message)
         {
-            var msg = _logRepositoryManager.MessageLog.GetMessageLog(messageId, false);
-            if (message == null)
-            {
-                throw new Exception("invalid messageId");
-            }
-            var body = Encoding.UTF8.GetBytes(messageId.ToString());
+            var body = Encoding.UTF8.GetBytes(message);
             _channel.BasicPublish(exchange: "",
-                                routingKey: "hello",
+                                routingKey: _queueName,
                                 basicProperties: null,
                                 body: body);
-            msg.MessageStatus = status;
-            _logRepositoryManager.MessageLog.Update(msg);
-            _logRepositoryManager.SaveAsync();
-        }
-
-        public int LogToDatabase(string message)
-        {
-            var messageLog = new MessageLog() { Message = message, MessageStatus = "recieved from user" };
-            _logRepositoryManager.MessageLog.Create(messageLog);
-            _logRepositoryManager.SaveAsync();
-            return messageLog.Id;
-        }
-
-        public void UpdateLog(int logId, string status)
-        {
-            var msg = _logRepositoryManager.MessageLog.GetMessageLog(logId, false);
-            msg.MessageStatus = status;
-            _logRepositoryManager.SaveAsync();
         }
 
         public void CloseConnection()
