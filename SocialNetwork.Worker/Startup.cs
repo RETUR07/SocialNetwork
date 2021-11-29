@@ -28,8 +28,10 @@ namespace SocialNetwork.Worker
         {
             services.AddHostedService<Worker>();
             services.AddControllers();
+
             services.AddScoped<ILogRepositoryManager, LogRepositoryManager>();
-            services.AddScoped<IWorkerService, WorkerService>();
+            services.AddSingleton<IWorkerService>(workerService => new WorkerService("queue1"));
+
             services.AddDbContext<RepositoryContext>(opts =>
                     opts.UseSqlServer(Configuration.GetConnectionString("sqlConnection"), x => x.MigrationsAssembly("SocialNetwork")));
         }

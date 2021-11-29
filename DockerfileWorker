@@ -2,8 +2,14 @@ FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /source
 
 COPY SocialNetwork.Worker/*.csproj ./SocialNetwork.Worker/
+COPY application/*.csproj ./application/
+COPY Entities/*.csproj ./Entities/
+COPY Repository/*.csproj ./Repository/
 
 COPY SocialNetwork.Worker/. ./SocialNetwork.Worker/
+COPY application/. ./application/
+COPY Entities/. ./Entities/
+COPY Repository/. ./Repository/
 
 WORKDIR /source/SocialNetwork.Worker/
 RUN dotnet publish -c release -o /app

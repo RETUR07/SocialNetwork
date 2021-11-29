@@ -17,17 +17,10 @@ namespace SocialNetwork.Worker
 {
     public class Worker : BackgroundService
     {
-        private readonly IWorkerService _workerService;
-
         private ConnectionFactory _connectionFactory;
         private IConnection _connection;
         private IModel _channel;
-        private const string QueueName = "hello";
-
-        public Worker(IWorkerService workerService)
-        {
-            _workerService = workerService;
-        }
+        private const string QueueName = "queue2";
 
         public override Task StartAsync(CancellationToken cancellationToken)
         {
@@ -44,7 +37,7 @@ namespace SocialNetwork.Worker
 
             _connection = _connectionFactory.CreateConnection();
             _channel = _connection.CreateModel();
-            _channel.QueueDeclare(queue: "hello",
+            _channel.QueueDeclare(queue: QueueName,
                                     durable: false,
                                     exclusive: false,
                                     autoDelete: false,
@@ -61,8 +54,7 @@ namespace SocialNetwork.Worker
             consumer.Received += async (bc, ea) =>
             {
                 var message = Encoding.UTF8.GetString(ea.Body.ToArray());
-                int logId = int.Parse(message.Split()[0]);
-                _workerService.UpdateLog(logId, "Recieved from api");
+                Console.WriteLine(message);
                 _channel.BasicAck(ea.DeliveryTag, false);
 
             };

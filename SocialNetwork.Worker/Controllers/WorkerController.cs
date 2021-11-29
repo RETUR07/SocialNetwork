@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 
 namespace SocialNetwork.Worker.Controllers
 {
+    [ApiController]
+    [Route("")]
     public class WorkerController : ControllerBase
     {
         private readonly IWorkerService _workerService;
@@ -20,11 +22,10 @@ namespace SocialNetwork.Worker.Controllers
         }
 
         [Route("{url}")]
-        public EmptyResult CatchMessage()
-        {          
-            int messageId = _workerService.LogToDatabase(JsonSerializer.Serialize(HttpContext.Request));
-            _workerService.Enqueue(HttpContext.Request.Path + messageId.ToString(), "sent to api", messageId);
-            return new EmptyResult(); 
+        public IActionResult CatchMessage()
+        {
+            _workerService.Enqueue(JsonSerializer.Serialize(HttpContext));
+            return Ok("hello"); 
         }
     }
 }
