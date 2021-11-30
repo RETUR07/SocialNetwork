@@ -15,7 +15,7 @@ namespace SocialNetwork.Application.Services
         private readonly ConnectionFactory _factory;
         private readonly IConnection _conn;
         private readonly IModel _channel;
-        private readonly string _queueName = "queue";
+        private readonly string _queueName;
 
         public WorkerService(string queueName)
         {

@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.WebApiCompatShim;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using SocialNetwork.Application.Contracts;
 using SocialNetwork.Controllers;
+using SocialNetwork.Entities.DTO;
 using System;
 using System.Net;
 using System.Net.Http;
@@ -17,10 +19,16 @@ namespace SocialNetwork.Worker
 {
     public class APIWorker : BackgroundService
     {
+        private readonly IServiceProvider _serviceProvider;
         private ConnectionFactory _connectionFactory;
         private IConnection _connection;
         private IModel _channel;
         private const string QueueName = "queue1";
+
+        public APIWorker(IServiceProvider serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
+        }
 
         public override Task StartAsync(CancellationToken cancellationToken)
         {
@@ -56,11 +64,14 @@ namespace SocialNetwork.Worker
                 var message = Encoding.UTF8.GetString(ea.Body.ToArray());
                 Console.WriteLine(message);
 
-                var httpContext = JsonSerializer.Deserialize<HttpContext>(message);
-                HttpRequestMessageFeature hreqmf = new HttpRequestMessageFeature(httpContext);
-                HttpRequestMessage httpRequestMessage = hreqmf.HttpRequestMessage;
-                HttpClient httpClient = new HttpClient();
-                httpClient.Send(httpRequestMessage);
+                var dto = JsonSerializer.Deserialize<WorkersDTO>(message);
+                using (IServiceScope scope = _serviceProvider.CreateScope())
+                {
+                    IChatWorkerService _chatWorkerService =
+                        scope.ServiceProvider.GetRequiredService<IChatWorkerService>();
+                    await _chatWorkerService.ProcessMessage(dto);
+                }
+
                 _channel.BasicAck(ea.DeliveryTag, false);
             };
 
