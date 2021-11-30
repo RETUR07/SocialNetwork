@@ -14,12 +14,10 @@ namespace SocialNetwork.Controllers
     public class ChatController : ControllerBase
     {
         private readonly IChatService _chatService;
-        private readonly IWorkerService _workerService;
 
-        public ChatController(IChatService chatService, IWorkerService workerService)
+        public ChatController(IChatService chatService)
         {
             _chatService = chatService;
-            _workerService = workerService;
         }
 
         [HttpGet("chats/{userId}")]
@@ -30,7 +28,6 @@ namespace SocialNetwork.Controllers
             {
                 return BadRequest();
             }
-            _workerService.Enqueue(JsonSerializer.Serialize(Ok(chats)));
             return Ok(chats);
         }
 

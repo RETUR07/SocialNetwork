@@ -58,7 +58,7 @@ namespace SocialNetwork.Worker
                 _channel.BasicAck(ea.DeliveryTag, false);
 
             };
-
+            
             _channel.BasicConsume(queue: QueueName, autoAck: false, consumer: consumer);
 
             await Task.CompletedTask;

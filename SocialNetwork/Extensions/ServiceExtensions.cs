@@ -34,7 +34,10 @@ namespace SocialNetwork.Extensions
             services.AddScoped<IRateService, RateService>();
             services.AddScoped<IChatService, ChatService>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IChatWorkerService, ChatWorkerService>();
+
             services.AddSingleton<IJwtUtils, JwtUtils>();
+            
 
             services.AddSingleton<IWorkerService>(workerService => new WorkerService("queue2"));
             services.AddScoped<ILogRepositoryManager, LogRepositoryManager>();
