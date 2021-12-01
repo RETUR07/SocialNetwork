@@ -2,11 +2,11 @@
 using Microsoft.AspNetCore.Mvc.WebApiCompatShim;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json.Linq;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using SocialNetwork.Application.Contracts;
 using SocialNetwork.Controllers;
-using SocialNetwork.Entities.DTO;
 using System;
 using System.Net;
 using System.Net.Http;
@@ -50,7 +50,6 @@ namespace SocialNetwork.Worker
                                     exclusive: false,
                                     autoDelete: false,
                                     arguments: null);
-            _channel.BasicQos(0, 1, false);
             return base.StartAsync(cancellationToken);
         }
 
@@ -64,7 +63,8 @@ namespace SocialNetwork.Worker
                 var message = Encoding.UTF8.GetString(ea.Body.ToArray());
                 Console.WriteLine(message);
 
-                var dto = JsonSerializer.Deserialize<WorkersDTO>(message);
+                JObject dto = JObject.Parse(message);
+
                 using (IServiceScope scope = _serviceProvider.CreateScope())
                 {
                     IChatWorkerService _chatWorkerService =

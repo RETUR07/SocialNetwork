@@ -32,10 +32,11 @@ namespace SocialNetworks.Repository.Repository
 
         public async Task<User> GetUserAsync(int userId, bool trackChanges) =>
             await FindByCondition(u => u.Id == userId, trackChanges)
-            .Include(x => x.Friends.OrderBy(x => x.Id))
-            .Include(x => x.MakedFriend.OrderBy(x => x.Id))
-            .Include(x => x.Subscribers.OrderBy(x => x.Id))
-            .Include(x => x.Subscribed.OrderBy(x => x.Id))
+            .Include(x => x.Friends)
+            .Include(x => x.MakedFriend)
+            .Include(x => x.Subscribers)
+            .Include(x => x.Subscribed)
+            .AsSplitQuery()
             .SingleOrDefaultAsync();
     }
 }

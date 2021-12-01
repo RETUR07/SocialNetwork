@@ -42,7 +42,6 @@ namespace SocialNetwork.Worker
                                     exclusive: false,
                                     autoDelete: false,
                                     arguments: null);
-            _channel.BasicQos(0, 1, false);            
             return base.StartAsync(cancellationToken);
         }
 
