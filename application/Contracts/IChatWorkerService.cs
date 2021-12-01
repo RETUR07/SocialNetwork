@@ -1,4 +1,4 @@
-﻿using SocialNetwork.Entities.DTO;
+﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +9,6 @@ namespace SocialNetwork.Application.Contracts
 {
     public interface IChatWorkerService
     {
-        Task ProcessMessage(WorkersDTO workerDTO);
+        Task ProcessMessage(JObject workerDTO);
     }
 }

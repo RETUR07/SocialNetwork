@@ -1,16 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using SocialNetwork.Application.Contracts;
 using SocialNetwork.Application.DTO;
-using SocialNetwork.Application.Exceptions;
-using SocialNetwork.Entities.DTO;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace SocialNetwork.Worker.Controllers
 {
@@ -28,9 +20,7 @@ namespace SocialNetwork.Worker.Controllers
         [HttpGet("chats/{userId}")]
         public IActionResult GetChats(int userId)
         {
-            var data = new List<object>();
-            data.Add(userId);
-            _workerService.Enqueue(JsonSerializer.Serialize(new WorkersDTO() { RequestType = 0, Data = data }));
+            _workerService.Enqueue(JsonConvert.SerializeObject(new{ RequestType = 0, UserId = userId }));
             return Ok();
         }
 
@@ -39,72 +29,56 @@ namespace SocialNetwork.Worker.Controllers
         {
             var data = new List<object>();
             data.Add(chatId);
-            _workerService.Enqueue(JsonSerializer.Serialize(new WorkersDTO() { RequestType = 1, Data = data }));
+            _workerService.Enqueue(JsonConvert.SerializeObject(new { RequestType = 1, ChatId = chatId }));
             return Ok();
         }
 
-        [HttpGet("message/{messageId}", Name = "GetMessage")]
+        [HttpGet("message/{messageId}")]
         public IActionResult GetMessage(int messageId)
         {
-            var data = new List<object>();
-            data.Add(messageId);
-            _workerService.Enqueue(JsonSerializer.Serialize(new WorkersDTO() { RequestType = 2, Data = data }));
+            _workerService.Enqueue(JsonConvert.SerializeObject(new { RequestType = 2, MessageId = messageId }));
             return Ok();
         }
 
         [HttpGet("{chatId}", Name = "GetChat")]
         public IActionResult GetChat(int chatId)
         {
-            var data = new List<object>();
-            data.Add(chatId);
-            _workerService.Enqueue(JsonSerializer.Serialize(new WorkersDTO() { RequestType = 3, Data = data }));
+            _workerService.Enqueue(JsonConvert.SerializeObject(new { RequestType = 3, ChatId = chatId }));
             return Ok();
         }
 
         [HttpDelete("chat/{chatId}")]
         public IActionResult DeleteChat(int chatId)
         {
-            var data = new List<object>();
-            data.Add(chatId);
-            _workerService.Enqueue(JsonSerializer.Serialize(new WorkersDTO() { RequestType = 4, Data = data }));
+            _workerService.Enqueue(JsonConvert.SerializeObject(new { RequestType = 4, ChatId = chatId }));
             return Ok();
         }
 
         [HttpDelete("message/{messageId}")]
         public IActionResult DeleteMessage(int messageId)
         {
-            var data = new List<object>();
-            data.Add(messageId);
-            _workerService.Enqueue(JsonSerializer.Serialize(new WorkersDTO() { RequestType = 5, Data = data }));
+            _workerService.Enqueue(JsonConvert.SerializeObject(new { RequestType = 5, MessageId = messageId }));
             return Ok();
         }
 
         [HttpPost]
         public IActionResult CreateChat([FromBody] ChatForm chatdto)
         {
-            var data = new List<object>();
-            data.Add(chatdto);
-            _workerService.Enqueue(JsonSerializer.Serialize(new WorkersDTO() { RequestType = 6, Data = data }));
+            _workerService.Enqueue(JsonConvert.SerializeObject(new { RequestType = 6, Chatdto = chatdto }));
             return Ok();
         }
 
         [HttpPut("{chatId}/adduser/{userId}")]
         public IActionResult AddUser(int chatId, int userId)
         {
-            var data = new List<object>();
-            data.Add(chatId);
-            data.Add(userId);
-            _workerService.Enqueue(JsonSerializer.Serialize(new WorkersDTO() { RequestType = 7, Data = data }));
+            _workerService.Enqueue(JsonConvert.SerializeObject(new { RequestType = 7, ChatId = chatId, UserId = userId }));
             return Ok();
         }
 
         [HttpPut("addmessage/{chatId}")]
         public IActionResult AddMessage([FromForm] MessageForm messagedto, int chatId)
         {
-            var data = new List<object>();
-            data.Add(messagedto);
-            data.Add(chatId);
-            _workerService.Enqueue(JsonSerializer.Serialize(new WorkersDTO() { RequestType = 8, Data = data }));
+            _workerService.Enqueue(JsonConvert.SerializeObject(new { RequestType = 8, Messagedto = messagedto, ChatId = chatId }));
             return Ok();
         }
     }       

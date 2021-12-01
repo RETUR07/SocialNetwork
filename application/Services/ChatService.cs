@@ -17,13 +17,11 @@ namespace SocialNetwork.Application.Services
     {
         private readonly IRepositoryManager _repository;
         private readonly IMapper _mapper;
-        private readonly IWorkerService _workerService;
 
-        public ChatService(IRepositoryManager repository, IMapper mapper, IWorkerService workerService)
+        public ChatService(IRepositoryManager repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
-            _workerService = workerService;
 
         }
         public async Task AddMessage(int chatId, MessageForm messagedto)
@@ -37,7 +35,6 @@ namespace SocialNetwork.Application.Services
             message.User = user;
             chat.Messages.Add(message);
             await _repository.SaveAsync();
-            _workerService.Enqueue("completed");
         }
 
         public async Task AddUser(int chatId, int userId)
@@ -51,7 +48,6 @@ namespace SocialNetwork.Application.Services
             else
                 chat.Users.Add(user);
             await _repository.SaveAsync();
-            _workerService.Enqueue("completed");
         }
 
         public async Task<Chat> CreateChat(ChatForm chatdto)
@@ -69,7 +65,6 @@ namespace SocialNetwork.Application.Services
             }
             _repository.Chat.Create(chat);
             await _repository.SaveAsync();
-            _workerService.Enqueue(JsonSerializer.Serialize(chat));
             return chat;
         }
 
@@ -83,7 +78,6 @@ namespace SocialNetwork.Application.Services
             
             _repository.Message.Create(message);
             await _repository.SaveAsync();
-            _workerService.Enqueue(JsonSerializer.Serialize(message));
             return message;
         }
 
@@ -97,7 +91,6 @@ namespace SocialNetwork.Application.Services
                 }
             _repository.Chat.Delete(chat);
             await _repository.SaveAsync();
-            _workerService.Enqueue("completed");
         }
 
         public async Task DeleteMessage(int messageId)
@@ -105,7 +98,6 @@ namespace SocialNetwork.Application.Services
             var message = await _repository.Message.GetMessageAsync(messageId, true);
             _repository.Message.Delete(message);
             await _repository.SaveAsync();
-            _workerService.Enqueue("completed");
         }
 
         public async Task<ChatForResponseDTO> GetChat(int chatId)
@@ -116,7 +108,6 @@ namespace SocialNetwork.Application.Services
                 return null;
             }
             var chatdto = _mapper.Map<ChatForResponseDTO>(chat);
-            _workerService.Enqueue(JsonSerializer.Serialize(chatdto));
             return chatdto;
         }
 
@@ -130,7 +121,6 @@ namespace SocialNetwork.Application.Services
                 return null;
             }
             var chatdto = _mapper.Map<List<ChatForResponseDTO>>(chats);
-            _workerService.Enqueue(JsonSerializer.Serialize(chatdto));
             return chatdto;
         }
 
@@ -142,7 +132,6 @@ namespace SocialNetwork.Application.Services
                 return null;
             }
             var messagedto = _mapper.Map<MessageForResponseDTO>(message);
-            _workerService.Enqueue(JsonSerializer.Serialize(messagedto));
             return messagedto;
         }
 
@@ -154,7 +143,6 @@ namespace SocialNetwork.Application.Services
                 return null;
             }
             var messagesdto = _mapper.Map<List<MessageForResponseDTO>>(messages);
-            _workerService.Enqueue(JsonSerializer.Serialize(messagesdto));
             return messagesdto;
         }
     }
