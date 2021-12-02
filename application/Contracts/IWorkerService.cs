@@ -8,6 +8,6 @@ namespace SocialNetwork.Application.Contracts
 {
     public interface IWorkerService
     {
-        void Enqueue(string message);
+        Task EnqueueAsync(string message);
     }
 }

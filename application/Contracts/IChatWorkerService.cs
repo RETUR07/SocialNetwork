@@ -9,6 +9,6 @@ namespace SocialNetwork.Application.Contracts
 {
     public interface IChatWorkerService
     {
-        Task ProcessMessage(JObject workerDTO);
+        Task ProcessMessage(JObject workerDTO, int messageLogId);
     }
 }

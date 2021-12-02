@@ -23,7 +23,7 @@ namespace SocialNetwork.Worker
         private ConnectionFactory _connectionFactory;
         private IConnection _connection;
         private IModel _channel;
-        private const string QueueName = "queue1";
+        private const string QueueName = "APIWorkerQueue";
 
         public APIWorker(IServiceProvider serviceProvider)
         {
@@ -63,13 +63,14 @@ namespace SocialNetwork.Worker
                 var message = Encoding.UTF8.GetString(ea.Body.ToArray());
                 Console.WriteLine(message);
 
-                JObject dto = JObject.Parse(message);
-
+                int i = message.IndexOf(" ");
+                int messageLogId = int.Parse(message[..i].Trim());
+                JObject dto = JObject.Parse(message[i..].Trim());
                 using (IServiceScope scope = _serviceProvider.CreateScope())
                 {
                     IChatWorkerService _chatWorkerService =
                         scope.ServiceProvider.GetRequiredService<IChatWorkerService>();
-                    await _chatWorkerService.ProcessMessage(dto);
+                    await _chatWorkerService.ProcessMessage(dto, messageLogId);
                 }
 
                 _channel.BasicAck(ea.DeliveryTag, false);

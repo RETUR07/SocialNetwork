@@ -1,9 +1,11 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using RabbitMQ.Client.Exceptions;
 using SocialNetwork.Application.Contracts;
+using SocialNetworks.Repository.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,10 +19,16 @@ namespace SocialNetwork.Worker
 {
     public class Worker : BackgroundService
     {
+        private readonly IServiceProvider _serviceProvider;
         private ConnectionFactory _connectionFactory;
         private IConnection _connection;
         private IModel _channel;
-        private const string QueueName = "queue2";
+        private const string QueueName = "WorkerQueue";
+
+        public Worker(IServiceProvider serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
+        }
 
         public override Task StartAsync(CancellationToken cancellationToken)
         {
@@ -54,6 +62,15 @@ namespace SocialNetwork.Worker
             {
                 var message = Encoding.UTF8.GetString(ea.Body.ToArray());
                 Console.WriteLine(message);
+                int i = message.IndexOf(" ");
+                using (IServiceScope scope = _serviceProvider.CreateScope())
+                {
+                    ILogRepositoryManager _logRepositoryManager =
+                        scope.ServiceProvider.GetRequiredService<ILogRepositoryManager>();
+                    var log = _logRepositoryManager.MessageLog.GetMessageLog(int.Parse(message[..i].Trim()), true);
+                    log.MessageStatus = "Recieved by worker";
+                    await _logRepositoryManager.SaveAsync();
+                }
                 _channel.BasicAck(ea.DeliveryTag, false);
 
             };
