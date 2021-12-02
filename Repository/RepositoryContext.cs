@@ -17,6 +17,7 @@ namespace SocialNetworks.Repository.Repository
         public DbSet<Rate> Rates { get; set; }
         public DbSet<Chat> Chats { get; set; }
         public DbSet<Message> Messages { get; set; }
+        public DbSet<MessageLog> MessageLogs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

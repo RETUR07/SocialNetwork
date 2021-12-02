@@ -1,7 +1,7 @@
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace SocialNetwork
+namespace SocialNetwork.Worker
 {
     public class Program
     {

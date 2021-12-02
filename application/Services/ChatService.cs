@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace SocialNetwork.Application.Services
@@ -21,6 +22,7 @@ namespace SocialNetwork.Application.Services
         {
             _repository = repository;
             _mapper = mapper;
+
         }
         public async Task AddMessage(int chatId, MessageForm messagedto)
         {

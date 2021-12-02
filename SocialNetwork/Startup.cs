@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using SocialNetwork.Extensions;
+using SocialNetwork.Worker;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,7 @@ namespace SocialNetwork
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHostedService<APIWorker>();
             services.AddControllers();
             services.ConfigureAutoMapper();
             services.ConfigureServices();
@@ -76,7 +78,6 @@ namespace SocialNetwork
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
 

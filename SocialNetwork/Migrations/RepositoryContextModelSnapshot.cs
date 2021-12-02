@@ -117,6 +117,27 @@ namespace SocialNetwork.Migrations
                     b.ToTable("Messages");
                 });
 
+            modelBuilder.Entity("SocialNetwork.Entities.Models.MessageLog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("IsEnable")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MessageStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MessageLogs");
+                });
+
             modelBuilder.Entity("SocialNetwork.Entities.Models.Post", b =>
                 {
                     b.Property<int>("Id")

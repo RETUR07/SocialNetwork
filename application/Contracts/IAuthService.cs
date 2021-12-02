@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SocialNetwork.Application.Contracts
 {
-    public interface IAuthorizationService
+    public interface IAuthService
     {
         public Task<AuthenticateResponse> AuthenticateAsync(AuthenticateRequest model, string ipAddress);
         public Task<AuthenticateResponse> RefreshTokenAsync(string token, string ipAddress);

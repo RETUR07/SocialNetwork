@@ -15,13 +15,13 @@ using BCryptNet = BCrypt.Net.BCrypt;
 
 namespace SocialNetwork.Application.Services
 {
-    public class AuthorizationService : IAuthorizationService
+    public class AuthService : IAuthService
     {
         private readonly IRepositoryManager _repository;
         private IJwtUtils _jwtUtils;
         private readonly AppSettings _appSettings;
 
-        public AuthorizationService(IRepositoryManager repository, IJwtUtils jwtUtils, IOptions<AppSettings> appSettings)
+        public AuthService(IRepositoryManager repository, IJwtUtils jwtUtils, IOptions<AppSettings> appSettings)
         {
             _repository = repository;
             _jwtUtils = jwtUtils;

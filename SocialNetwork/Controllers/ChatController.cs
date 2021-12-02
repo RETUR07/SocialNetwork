@@ -4,6 +4,7 @@ using SocialNetwork.Application.DTO;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
 using SocialNetwork.Application.Exceptions;
+using System.Text.Json;
 
 namespace SocialNetwork.Controllers
 {
@@ -23,7 +24,10 @@ namespace SocialNetwork.Controllers
         public async Task<IActionResult> GetChats(int userId)
         {
             var chats = await _chatService.GetChats(userId);
-            if (chats == null) return NotFound();
+            if (chats == null)
+            {
+                return BadRequest();
+            }
             return Ok(chats);
         }
 

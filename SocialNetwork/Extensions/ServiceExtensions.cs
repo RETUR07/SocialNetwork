@@ -10,6 +10,7 @@ using SocialNetwork.Security.Authorization;
 using SocialNetwork.Security.Settings;
 using SocialNetworks.Repository.Contracts;
 using SocialNetworks.Repository.Repository;
+using SocialNetworks.Repository.Repository.LogRepository;
 using System;
 using System.Text;
 
@@ -32,8 +33,15 @@ namespace SocialNetwork.Extensions
             services.AddScoped<IBlobService, BlobService>();
             services.AddScoped<IRateService, RateService>();
             services.AddScoped<IChatService, ChatService>();
-            services.AddScoped<IAuthorizationService, AuthorizationService>();
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IChatWorkerService, ChatWorkerService>();
+
             services.AddSingleton<IJwtUtils, JwtUtils>();
+
+
+            services.AddSingleton<IWorkerService, WorkerService>(x => new WorkerService("WorkerQueue", x));
+            services.AddScoped<ILogRepositoryManager, LogRepositoryManager>();
+            services.AddScoped<IMessageLogRepository, MessageLogRepository>();
         }
         public static void ConfigureDatabase(this IServiceCollection services, IConfiguration Configuration)
         {
