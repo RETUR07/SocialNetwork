@@ -30,7 +30,7 @@ namespace SocialNetwork.Worker
             services.AddControllers();
 
             services.AddScoped<ILogRepositoryManager, LogRepositoryManager>();
-            services.AddSingleton<IWorkerService>(workerService => new WorkerService("queue1"));
+            services.AddSingleton<IWorkerService, WorkerService>(x => new WorkerService("APIWorkerQueue", x));
 
             services.AddDbContext<RepositoryContext>(opts =>
                     opts.UseSqlServer(Configuration.GetConnectionString("sqlConnection"), x => x.MigrationsAssembly("SocialNetwork")));
