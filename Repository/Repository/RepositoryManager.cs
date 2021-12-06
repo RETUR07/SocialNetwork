@@ -5,7 +5,7 @@ namespace SocialNetworks.Repository.Repository
 {
     public class RepositoryManager : IRepositoryManager
     {
-        private RepositoryContext _repositoryContext;
+        private readonly RepositoryContext _repositoryContext;
 
         private IUserRepository _userRepository;
         private IPostRepository _postRepository;

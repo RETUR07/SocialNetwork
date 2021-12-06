@@ -12,5 +12,6 @@ namespace SocialNetwork.Application.Contracts
     {
         public Task<List<FileContentResult>> GetBLobsAsync(IEnumerable<int> ids, bool trackChanges);
         public Task<List<int>> SaveBlobsAsync(IEnumerable<IFormFile> formFile);
+        public  Task<List<List<FileContentResult>>> GetBLobsAsync(IEnumerable<IEnumerable<int>> collection, bool trackChanges);
     }
 }
