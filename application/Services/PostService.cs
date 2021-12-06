@@ -33,6 +33,7 @@ namespace SocialNetwork.Application.Services
             if (user == null || parentpost == null) return null;
             post.Author = user;
             post.ParentPost = parentpost;
+            await _blobService.SaveBlobsAsync(postdto.Content);
             _repository.Post.Create(post);
             await _repository.SaveAsync();
             return post;

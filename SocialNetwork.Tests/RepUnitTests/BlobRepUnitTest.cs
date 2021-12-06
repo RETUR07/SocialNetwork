@@ -25,7 +25,7 @@ namespace SocialNetwork.Tests
             {
                 var blobRep = new BlobRepository(repositoryContext);
                 var result = await blobRep.GetBlob(2, false);
-                Assert.Equal("2", result.Name);
+                Assert.Equal("2", result.Filename);
             }
         }
     }
