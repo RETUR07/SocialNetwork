@@ -4,6 +4,7 @@ using SocialNetwork.Application.DTO;
 using SocialNetwork.Entities.Models;
 using SocialNetworks.Repository.Contracts;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SocialNetwork.Application.Services
@@ -12,10 +13,12 @@ namespace SocialNetwork.Application.Services
     {
         private readonly IRepositoryManager _repository;
         private readonly IMapper _mapper;
-        public PostService(IRepositoryManager repository, IMapper mapper)
+        private readonly IBlobService _blobService;
+        public PostService(IRepositoryManager repository, IMapper mapper, IBlobService blobService)
         {
             _repository = repository;
             _mapper = mapper;
+            _blobService = blobService;
         }
 
         public async Task<Post> CreatePost(PostForm postdto)
@@ -46,6 +49,10 @@ namespace SocialNetwork.Application.Services
         {
             var posts = await _repository.Post.GetChildrenPostsByPostIdAsync(postId, false);
             var postsdto = _mapper.Map<List<PostForResponseDTO>>(posts);
+            for (int i = 0; i < posts.Count(); i++)
+            {
+                postsdto[i].Content = await _blobService.GetBLobsAsync(posts[i].BlobIds.Select(x => x.Id), false);
+            }
             return postsdto;
         }
 
@@ -57,6 +64,7 @@ namespace SocialNetwork.Application.Services
                 return null;
             }
             var postdto = _mapper.Map<PostForResponseDTO>(post);
+            postdto.Content = await _blobService.GetBLobsAsync(post.BlobIds.Select(x => x.Id), false);
             return postdto;
         }
 
@@ -64,6 +72,10 @@ namespace SocialNetwork.Application.Services
         {
             var posts = await _repository.Post.GetAllPostsAsync(userId, false);
             var postsdto = _mapper.Map<List<PostForResponseDTO>>(posts);
+            for (int i = 0; i < posts.Count(); i++)
+            {
+                postsdto[i].Content = await _blobService.GetBLobsAsync(posts[i].BlobIds.Select(x => x.Id), false);
+            }
             return postsdto;
         }
     }

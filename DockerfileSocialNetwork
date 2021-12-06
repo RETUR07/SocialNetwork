@@ -16,6 +16,7 @@ WORKDIR /source/SocialNetwork/
 RUN dotnet publish -c release -o /app
 
 FROM mcr.microsoft.com/dotnet/aspnet:5.0
+EXPOSE 80
 WORKDIR /app
 COPY --from=build /app ./
 ENTRYPOINT ["dotnet", "SocialNetwork.dll"]

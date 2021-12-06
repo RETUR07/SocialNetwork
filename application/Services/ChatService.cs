@@ -17,11 +17,13 @@ namespace SocialNetwork.Application.Services
     {
         private readonly IRepositoryManager _repository;
         private readonly IMapper _mapper;
+        private readonly IBlobService _blobService;
 
-        public ChatService(IRepositoryManager repository, IMapper mapper)
+        public ChatService(IRepositoryManager repository, IMapper mapper, IBlobService blobService)
         {
             _repository = repository;
             _mapper = mapper;
+            _blobService = blobService;
 
         }
         public async Task AddMessage(int chatId, MessageForm messagedto)
@@ -132,6 +134,7 @@ namespace SocialNetwork.Application.Services
                 return null;
             }
             var messagedto = _mapper.Map<MessageForResponseDTO>(message);
+            messagedto.Content = await _blobService.GetBLobsAsync(message.Blobs.Select(x => x.Id), false);
             return messagedto;
         }
 
@@ -143,6 +146,10 @@ namespace SocialNetwork.Application.Services
                 return null;
             }
             var messagesdto = _mapper.Map<List<MessageForResponseDTO>>(messages);
+            for(int i = 0; i < messages.Count(); i++)
+            {
+                messagesdto[i].Content = await _blobService.GetBLobsAsync(messages[i].Blobs.Select(x => x.Id), false);
+            }
             return messagesdto;
         }
     }

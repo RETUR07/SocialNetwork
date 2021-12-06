@@ -18,8 +18,7 @@ namespace SocialNetwork.Application.Mapping
                 .ForMember(m => m.Blobs, opt => opt.MapFrom(x => x.Content.FormFilesToBlobs()));
 
             CreateMap<Message, MessageForResponseDTO>()
-                .ForMember(m => m.From, opt => opt.MapFrom(x => x.User.Id))
-                .ForMember(m => m.Content, opt => opt.MapFrom(x => x.Blobs.BlobsToFileContentResults()));
+                .ForMember(m => m.From, opt => opt.MapFrom(x => x.User.Id));
 
             CreateMap<Chat, ChatForResponseDTO>()
                 .ForMember(ch => ch.Users, opt => opt.MapFrom(x => x.Users.Select(x=>x.Id)));
