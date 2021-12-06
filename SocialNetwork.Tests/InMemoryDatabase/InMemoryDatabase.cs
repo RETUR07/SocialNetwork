@@ -50,9 +50,9 @@ namespace SocialNetwork.Tests
                 chat2.Messages.Add(message2);
                 chat2.Messages.Add(message3);
 
-                var blob1 = new Blob(){ Id = 1, Name = "1", IsEnable = true };
-                var blob2 = new Blob(){ Id = 2, Name = "2", IsEnable = true };
-                var blob3 = new Blob(){ Id = 3, Name = "3", IsEnable = true };
+                var blob1 = new Blob(){ Id = 1, Filename = "1", IsEnable = true };
+                var blob2 = new Blob(){ Id = 2, Filename = "2", IsEnable = true };
+                var blob3 = new Blob(){ Id = 3, Filename = "3", IsEnable = true };
 
                 context.AddRange(user1, user2, user3);
                 context.AddRange(post1, post2, post3);

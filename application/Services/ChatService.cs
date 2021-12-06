@@ -34,6 +34,7 @@ namespace SocialNetwork.Application.Services
             var user = await _repository.User.GetUserAsync(messagedto.From, true);
             if (user == null) throw new InvalidDataException("no such user");
             var message = _mapper.Map<MessageForm, Message>(messagedto);
+            await _blobService.SaveBlobsAsync(messagedto.Content);
             message.User = user;
             chat.Messages.Add(message);
             await _repository.SaveAsync();
@@ -79,6 +80,7 @@ namespace SocialNetwork.Application.Services
             var message = _mapper.Map<Message>(messagedto);
             
             _repository.Message.Create(message);
+            await _blobService.SaveBlobsAsync(messagedto.Content);
             await _repository.SaveAsync();
             return message;
         }
