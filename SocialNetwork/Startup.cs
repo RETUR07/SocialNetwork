@@ -27,7 +27,7 @@ namespace SocialNetwork
             services.AddHostedService<APIWorker>();
             services.AddControllers();
             services.ConfigureAutoMapper();
-            services.ConfigureServices();
+            services.ConfigureServices(Configuration);
             services.ConfigureDatabase(Configuration);
             services.AddSwaggerGen(c =>
             {
