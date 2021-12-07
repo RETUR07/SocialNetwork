@@ -22,7 +22,6 @@ stages:
         dockerComposeFile: '**/docker-compose.yml'
         projectName: 'retur//$(Build.Repository.Name)'
         action: 'Build services'
-        includeLatestTag: true
 
     - task: DockerCompose@0
       inputs:
