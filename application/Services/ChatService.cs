@@ -17,11 +17,13 @@ namespace SocialNetwork.Application.Services
     {
         private readonly IRepositoryManager _repository;
         private readonly IMapper _mapper;
+        private readonly IBlobService _blobService;
 
-        public ChatService(IRepositoryManager repository, IMapper mapper)
+        public ChatService(IRepositoryManager repository, IMapper mapper, IBlobService blobService)
         {
             _repository = repository;
             _mapper = mapper;
+            _blobService = blobService;
 
         }
         public async Task AddMessage(int chatId, MessageForm messagedto)
@@ -32,6 +34,7 @@ namespace SocialNetwork.Application.Services
             var user = await _repository.User.GetUserAsync(messagedto.From, true);
             if (user == null) throw new InvalidDataException("no such user");
             var message = _mapper.Map<MessageForm, Message>(messagedto);
+            await _blobService.SaveBlobsAsync(messagedto.Content);
             message.User = user;
             chat.Messages.Add(message);
             await _repository.SaveAsync();
@@ -77,6 +80,7 @@ namespace SocialNetwork.Application.Services
             var message = _mapper.Map<Message>(messagedto);
             
             _repository.Message.Create(message);
+            await _blobService.SaveBlobsAsync(messagedto.Content);
             await _repository.SaveAsync();
             return message;
         }
@@ -132,6 +136,7 @@ namespace SocialNetwork.Application.Services
                 return null;
             }
             var messagedto = _mapper.Map<MessageForResponseDTO>(message);
+            messagedto.Content = await _blobService.GetBLobsAsync(message.Blobs.Select(x => x.Id), false);
             return messagedto;
         }
 
@@ -143,6 +148,10 @@ namespace SocialNetwork.Application.Services
                 return null;
             }
             var messagesdto = _mapper.Map<List<MessageForResponseDTO>>(messages);
+            for(int i = 0; i < messages.Count(); i++)
+            {
+                messagesdto[i].Content = await _blobService.GetBLobsAsync(messages[i].Blobs.Select(x => x.Id), false);
+            }
             return messagesdto;
         }
     }

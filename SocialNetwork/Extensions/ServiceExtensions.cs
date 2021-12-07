@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Azure.Storage.Blobs;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,7 +26,7 @@ namespace SocialNetwork.Extensions
                 typeof(PostMappingProfile), 
                 typeof(ChatMappingProfile));
         }
-        public static void ConfigureServices(this IServiceCollection services)
+        public static void ConfigureServices(this IServiceCollection services, IConfiguration Configuration)
         {
             services.AddScoped<IRepositoryManager, RepositoryManager>();
             services.AddScoped<IUserService, UserService>();
@@ -42,6 +43,10 @@ namespace SocialNetwork.Extensions
             services.AddSingleton<IWorkerService, WorkerService>(x => new WorkerService("WorkerQueue", x));
             services.AddScoped<ILogRepositoryManager, LogRepositoryManager>();
             services.AddScoped<IMessageLogRepository, MessageLogRepository>();
+
+            services.AddScoped(_ => {
+                return new BlobServiceClient(Configuration.GetConnectionString("AzureBlobStorage"));
+            });
         }
         public static void ConfigureDatabase(this IServiceCollection services, IConfiguration Configuration)
         {

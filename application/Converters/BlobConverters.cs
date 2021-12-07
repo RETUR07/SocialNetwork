@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SocialNetwork.Application.Contracts;
 using SocialNetwork.Entities.Models;
 using System.Collections.Generic;
 using System.IO;
@@ -18,10 +19,7 @@ namespace SocialNetwork.Application.Services
                 Blob blob = new Blob();
 
                 await formfile.CopyToAsync(ms);
-                blob.Buffer = ms.ToArray();
                 blob.Filename = formfile.FileName;
-                blob.Name = formfile.Name;
-                blob.Lenth = formfile.Length;
                 blob.ContentType = formfile.ContentType;
                 return blob;
             }
@@ -36,10 +34,7 @@ namespace SocialNetwork.Application.Services
                 Blob blob = new Blob();
 
                 formfile.CopyTo(ms);
-                blob.Buffer = ms.ToArray();
                 blob.Filename = formfile.FileName;
-                blob.Name = formfile.Name;
-                blob.Lenth = formfile.Length;
                 blob.ContentType = formfile.ContentType;
                 return blob;
             }
@@ -67,21 +62,13 @@ namespace SocialNetwork.Application.Services
             return blobs;
         }
 
-        public static FileContentResult BlobToFileContentResult(this Blob blob)
+        public static FileContentResult BlobToFileContentResult(this Blob blob, byte[] buffer)
         {
-            var returnfile = new FileContentResult(blob.Buffer, blob.ContentType);
-            returnfile.FileDownloadName = blob.Filename;
-            return returnfile;
-        }
-
-        public static List<FileContentResult> BlobsToFileContentResults(this IEnumerable<Blob> blobs)
-        {
-            List<FileContentResult> files = new List<FileContentResult>();
-            foreach(var blob in blobs)
+            var returnfile = new FileContentResult(buffer, blob.ContentType)
             {
-                files.Add(blob.BlobToFileContentResult());
-            }
-            return files;
+                FileDownloadName = blob.Filename
+            };
+            return returnfile;
         }
     }
 }
