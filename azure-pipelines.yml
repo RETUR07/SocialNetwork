@@ -16,7 +16,7 @@ stages:
 - stage: Build
   displayName: Build image
   jobs:  
-  - job: DockerImage
+  - job: Build
     displayName: Build and push Docker image
     steps:
     - task: DockerCompose@0
@@ -24,9 +24,7 @@ stages:
         containerregistrytype: 'Container Registry'
         dockerRegistryEndpoint: 'Docker Hub'
         dockerComposeFile: '**/docker-compose.yml'
-        projectName: '$(PrePath)$(Build.Repository.Name):$(Version)'
         action: 'Build services'
-        serviceName: 'retur/'
 
     - task: DockerCompose@0
       inputs:
