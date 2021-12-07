@@ -2,11 +2,15 @@ name : Docker-CI
 trigger:
   branches:
     include:
-      - azure-build
+      - main
  
 pool:
   name: default 
   vmImage: 'ubuntu-latest'
+
+variables:
+  Version: '$(Build.BuildId)'
+  PrePath: 'retur/'
 
 stages:
 - stage: Build
@@ -20,8 +24,9 @@ stages:
         containerregistrytype: 'Container Registry'
         dockerRegistryEndpoint: 'Docker Hub'
         dockerComposeFile: '**/docker-compose.yml'
-        projectName: 'retur//$(Build.Repository.Name)'
+        projectName: '$(PrePath)$(Build.Repository.Name):$(Version)'
         action: 'Build services'
+        serviceName: 'retur/'
 
     - task: DockerCompose@0
       inputs:
