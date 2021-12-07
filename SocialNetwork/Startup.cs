@@ -24,7 +24,7 @@ namespace SocialNetwork
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddHostedService<APIWorker>();
+            //services.AddHostedService<APIWorker>();
             services.AddControllers();
             services.ConfigureAutoMapper();
             services.ConfigureServices();

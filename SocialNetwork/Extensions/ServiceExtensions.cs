@@ -34,14 +34,14 @@ namespace SocialNetwork.Extensions
             services.AddScoped<IRateService, RateService>();
             services.AddScoped<IChatService, ChatService>();
             services.AddScoped<IAuthService, AuthService>();
-            services.AddScoped<IChatWorkerService, ChatWorkerService>();
+            //services.AddScoped<IChatWorkerService, ChatWorkerService>();
 
             services.AddSingleton<IJwtUtils, JwtUtils>();
 
 
-            services.AddSingleton<IWorkerService, WorkerService>(x => new WorkerService("WorkerQueue", x));
-            services.AddScoped<ILogRepositoryManager, LogRepositoryManager>();
-            services.AddScoped<IMessageLogRepository, MessageLogRepository>();
+            //services.AddSingleton<IWorkerService, WorkerService>(x => new WorkerService("WorkerQueue", x));
+            //services.AddScoped<ILogRepositoryManager, LogRepositoryManager>();
+            //services.AddScoped<IMessageLogRepository, MessageLogRepository>();
         }
         public static void ConfigureDatabase(this IServiceCollection services, IConfiguration Configuration)
         {
