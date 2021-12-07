@@ -7,9 +7,6 @@ trigger:
 pool:
   name: default 
   vmImage: 'ubuntu-latest'
- 
-variables:
-  ImageName: 'retur/SocialNetwork:$(Build.BuildId)'
 
 stages:
 - stage: Build
@@ -18,22 +15,20 @@ stages:
   - job: DockerImage
     displayName: Build and push Docker image
     steps:
-    - task: Docker@1
+    - task: DockerCompose@0
       displayName: 'Build the Docker image'
       inputs:
         containerregistrytype: 'Container Registry'
         dockerRegistryEndpoint: 'Docker Hub'
-        command: 'Build an image'
-        dockerFile: '**/DockerfileSocialNetwork'
-        imageName: '$(ImageName)'
+        dockerComposeFile: '**/docker-compose.yml'
+        action: 'Build services'
+        includeSourceTags: true
         includeLatestTag: true
-        useDefaultContext: false
-        buildContext: '.'
-    - task: Docker@1
-      displayName: 'Push the Docker image to Dockerhub'
+    - task: DockerCompose@0
       inputs:
         containerregistrytype: 'Container Registry'
         dockerRegistryEndpoint: 'Docker Hub'
-        command: 'Push an image'
-        imageName: '$(ImageName)'
-      condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest')) 
+        dockerComposeFile: '**/docker-compose.yml'
+        action: 'Push services'
+        includeSourceTags: true
+        includeLatestTag: true
