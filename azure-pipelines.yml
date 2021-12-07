@@ -20,9 +20,8 @@ stages:
         containerregistrytype: 'Container Registry'
         dockerRegistryEndpoint: 'Docker Hub'
         dockerComposeFile: '**/docker-compose.yml'
-        projectName: 'retur/$(Build.Repository.Name)'
+        projectName: 'retur//$(Build.Repository.Name)'
         action: 'Build services'
-        includeSourceTags: true
         includeLatestTag: true
 
     - task: DockerCompose@0
