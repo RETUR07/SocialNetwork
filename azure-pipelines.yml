@@ -35,3 +35,4 @@ stages:
         projectName: 'retur/$(Build.Repository.Name)'
         qualifyImageNames: false
         action: 'Push services'
+        
