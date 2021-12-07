@@ -10,7 +10,6 @@ pool:
 
 variables:
   Version: '$(Build.BuildId)'
-  PrePath: 'retur/'
 
 stages:
 - stage: Build
@@ -21,7 +20,7 @@ stages:
     steps:
     - task: DockerCompose@0
       inputs:
-        containerName: 'retur/SocialNetworkProj'
+        containerName: 'retur/SocialNetworkProj:$(Version)'
         containerregistrytype: 'Container Registry'
         dockerRegistryEndpoint: 'Docker Hub'
         dockerComposeFile: '**/docker-compose.yml'
