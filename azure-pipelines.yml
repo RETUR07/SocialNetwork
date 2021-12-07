@@ -18,6 +18,7 @@ stages:
     - task: DockerCompose@0
       displayName: 'Build the Docker image'
       inputs:
+        projectName: 'retur/$(Build.Repository.Name)'
         containerregistrytype: 'Container Registry'
         dockerRegistryEndpoint: 'Docker Hub'
         dockerComposeFile: '**/docker-compose.yml'
