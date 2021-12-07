@@ -21,6 +21,7 @@ stages:
     steps:
     - task: DockerCompose@0
       inputs:
+        containerName: 'retur/SocialNetworkProj'
         containerregistrytype: 'Container Registry'
         dockerRegistryEndpoint: 'Docker Hub'
         dockerComposeFile: '**/docker-compose.yml'
@@ -28,6 +29,7 @@ stages:
 
     - task: DockerCompose@0
       inputs:
+        containerName: 'retur/SocialNetworkProj'
         containerregistrytype: 'Container Registry'
         dockerRegistryEndpoint: 'Docker Hub'
         dockerComposeFile: '**/docker-compose.yml'
