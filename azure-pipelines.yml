@@ -9,7 +9,7 @@ pool:
   vmImage: 'ubuntu-latest'
  
 variables:
-  ImageName: 'SocialNetwork:$(Build.BuildId)'
+  ImageName: 'retur/SocialNetwork:$(Build.BuildId)'
 
 stages:
 - stage: Build
