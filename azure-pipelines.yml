@@ -4,9 +4,6 @@ trigger:
     include:
       - main
 
-variables:
-  SecretConnectionToBlob: $(ConnectionToBlob)
-
 pool:
   name: default 
   vmImage: 'ubuntu-latest'
@@ -23,12 +20,12 @@ stages:
         containerregistrytype: 'Container Registry'
         dockerRegistryEndpoint: 'Docker Hub'
         dockerComposeFile: '**/docker-compose.yml'
-        dockerComposeFileArgs: ConnectionStrings:AzureBlobStorage=$(SecretConnectionToBlob)'
+        dockerComposeFileArgs: SecretConnectionToBlob=$(ConnectionToBlob)'
         action: 'Build services'
     - task: DockerCompose@0
       inputs:
         containerregistrytype: 'Container Registry'
         dockerRegistryEndpoint: 'Docker Hub'
         dockerComposeFile: '**/docker-compose.yml'
-        dockerComposeFileArgs: ConnectionStrings:AzureBlobStorage=$(SecretConnectionToBlob)'
+        dockerComposeFileArgs: SecretConnectionToBlob=$(ConnectionToBlob)'
         action: 'Push services'
