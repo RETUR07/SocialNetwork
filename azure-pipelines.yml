@@ -4,6 +4,8 @@ trigger:
     include:
       - main
 
+variables:
+  Connection: 'Docker Hub'
 pool:
   name: default 
   vmImage: 'ubuntu-latest'
@@ -18,14 +20,12 @@ stages:
     - task: DockerCompose@0
       inputs:
         containerregistrytype: 'Container Registry'
-        dockerRegistryEndpoint: 'Docker Hub'
+        dockerRegistryEndpoint: $(Connection)
         dockerComposeFile: '**/docker-compose.yml'
-        dockerComposeFileArgs: SecretConnectionToBlob=$(ConnectionToBlob)'
         action: 'Build services'
     - task: DockerCompose@0
       inputs:
         containerregistrytype: 'Container Registry'
-        dockerRegistryEndpoint: 'Docker Hub'
+        dockerRegistryEndpoint: $(Connection)
         dockerComposeFile: '**/docker-compose.yml'
-        dockerComposeFileArgs: SecretConnectionToBlob=$(ConnectionToBlob)'
         action: 'Push services'
