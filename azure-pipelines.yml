@@ -23,7 +23,7 @@ stages:
         containerregistrytype: 'Container Registry'
         dockerRegistryEndpoint: 'Docker Hub'
         dockerComposeFile: '**/docker-compose.yml'
-        dockerComposeFileArgs: 'ConnectionStrings:AzureBlobStorage=$(AzureBlobConnectionString)'
+        dockerComposeFileArgs: 'AzureBlobConnectionString=$(AzureBlobConnectionString)'
         action: 'Build services'
     - task: DockerCompose@0
       inputs:
