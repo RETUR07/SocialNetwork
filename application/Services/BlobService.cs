@@ -55,10 +55,11 @@ namespace SocialNetwork.Application.Services
 
             foreach (IEnumerable<int> Ids in collection)
             {
+                var blobs = _repository.Blob.FindByCondition(x => Ids.Contains(x.Id), trackChanges);
                 List<FileContentResult> formfiles = new List<FileContentResult>();
-                foreach (int id in Ids)
-                {
-                    var blob = await _repository.Blob.GetBlob(id, trackChanges);
+
+                foreach (Blob blob in blobs)
+                {              
                     if (blob == null)
                         continue;
 
