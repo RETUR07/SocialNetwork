@@ -13,7 +13,7 @@ services:
     
     
   web:
-    image: retur/socialnetwork_web
+    name: retur/socialnetwork_web
     ports:
       - "5050:80"
     depends_on:
@@ -32,7 +32,7 @@ services:
 
     
   worker:
-    image: retur/socialnetwork_worker
+    name: retur/socialnetwork_worker
     ports:
       - "8080:5000"
     depends_on:
