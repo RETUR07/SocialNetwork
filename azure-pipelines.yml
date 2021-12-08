@@ -5,7 +5,7 @@ trigger:
       - main
 
 variables:
-  ConnectionToBlob: $(ConnectionToBlob)
+  SecretConnectionToBlob: $(ConnectionToBlob)
 
 pool:
   name: default 
@@ -23,12 +23,12 @@ stages:
         containerregistrytype: 'Container Registry'
         dockerRegistryEndpoint: 'Docker Hub'
         dockerComposeFile: '**/docker-compose.yml'
-        dockerComposeFileArgs: 'AzureBlobConnectionString=$(ConnectionToBlob)'
+        dockerComposeFileArgs: 'AzureBlobConnectionString=$(SecretConnectionToBlob)'
         action: 'Build services'
     - task: DockerCompose@0
       inputs:
         containerregistrytype: 'Container Registry'
         dockerRegistryEndpoint: 'Docker Hub'
         dockerComposeFile: '**/docker-compose.yml'
-        dockerComposeFileArgs: 'AzureBlobConnectionString=$(ConnectionToBlob)'
+        dockerComposeFileArgs: 'AzureBlobConnectionString=$(SecretConnectionToBlob)'
         action: 'Push services'
