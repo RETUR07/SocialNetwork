@@ -23,15 +23,11 @@ stages:
         containerregistrytype: 'Container Registry'
         dockerRegistryEndpoint: 'Docker Hub'
         dockerComposeFile: '**/docker-compose.yml'
-        projectName: 'retur/$(Build.Repository.Name)'
-        qualifyImageNames: false
+        serviceName: 'retur/$(Build.Repository.Name)'
         action: 'Build services'
-
     - task: DockerCompose@0
       inputs:
         containerregistrytype: 'Container Registry'
         dockerRegistryEndpoint: 'Docker Hub'
         dockerComposeFile: '**/docker-compose.yml'
-        projectName: 'retur/$(Build.Repository.Name)'
-        qualifyImageNames: false
         action: 'Push services'
