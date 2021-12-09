@@ -30,7 +30,6 @@ stages:
         action: 'Build services'
         additionalImageTags: |
           socn
-          $(Build.BuildId)
 
     - task: Docker@2
       inputs:
