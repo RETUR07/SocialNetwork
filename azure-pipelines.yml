@@ -25,7 +25,7 @@ stages:
         containerregistrytype: 'Container Registry'
         dockerRegistryEndpoint: '$(Connection)'
         dockerComposeFile: '**/docker-compose.yml'
-        projectName: 'retur//$(Build.Repository.Name)'
+        projectName: retur/$(Build.Repository.Name)
         qualifyImageNames: false
         action: 'Build services'
     - task: DockerCompose@0
@@ -35,6 +35,6 @@ stages:
         containerregistrytype: 'Container Registry'
         dockerRegistryEndpoint: '$(Connection)'
         dockerComposeFile: '**/docker-compose.yml'
-        projectName: 'retur//$(Build.Repository.Name)'
+        projectName: retur/$(Build.Repository.Name)
         qualifyImageNames: false
         action: 'Push services'
