@@ -25,9 +25,10 @@ stages:
         containerregistrytype: 'Container Registry'
         dockerRegistryEndpoint: '$(Connection)'
         dockerComposeFile: '**/docker-compose.yml'
-        projectName: retur/$(Build.Repository.Name)
+        projectName: 'retur/'
         qualifyImageNames: false
         action: 'Build services'
+        additionalImageTags: '$(Build.BuildId)'
     - task: DockerCompose@0
       env:
         SecretConnectionToBlob: $(SecretConnectionToBlob)
@@ -35,6 +36,7 @@ stages:
         containerregistrytype: 'Container Registry'
         dockerRegistryEndpoint: '$(Connection)'
         dockerComposeFile: '**/docker-compose.yml'
-        projectName: retur/$(Build.Repository.Name)
+        projectName: 'retur/'
         qualifyImageNames: false
         action: 'Push services'
+        additionalImageTags: '$(Build.BuildId)'
