@@ -31,41 +31,8 @@ stages:
         additionalImageTags: '$(Build.BuildId)'
         includeSourceTags: false
         includeLatestTag: false
-    - task: DockerCompose@0
+    - task: Docker@2
       inputs:
-        containerregistrytype: 'Container Registry'
-        dockerRegistryEndpoint: '$(Connection)'
-        dockerComposeFile: '**/docker-compose.yml'
-        projectName: 
-        qualifyImageNames: false
-        action: 'Run a Docker Compose command'
-        dockerComposeCommand: 'docker tag retur_web retur/socialnetwork:$(Build.BuildId)'
-        includeSourceTags: false
-        includeLatestTag: false
-      
-    - task: DockerCompose@0
-      inputs:
-        containerregistrytype: 'Container Registry'
-        dockerRegistryEndpoint: '$(Connection)'
-        dockerComposeFile: '**/docker-compose.yml'
-        projectName: 
-        qualifyImageNames: false
-        action: 'Run a Docker Compose command'
-        dockerComposeCommand: 'docker tag retur_worker retur/socialnetwork:$(Build.BuildId)'
-        includeSourceTags: false
-        includeLatestTag: false
-      
-    - task: DockerCompose@0
-      env:
-        SecretConnectionToBlob: $(SecretConnectionToBlob)
-      inputs:
-        containerregistrytype: 'Container Registry'
-        dockerRegistryEndpoint: '$(Connection)'
-        dockerComposeFile: '**/docker-compose.yml'
-        projectName: 'retur//'
-        qualifyImageNames: false
-        action: 'Push services'
-        additionalImageTags: '$(Build.BuildId)'
-        arguments: 'retur/socialnetwork'
-        includeSourceTags: false
-        includeLatestTag: false
+        containerRegistry: 'Docker Hub'
+        repository: 'retur/socialnetwork'
+        command: 'push'
