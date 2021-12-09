@@ -42,5 +42,4 @@ stages:
         qualifyImageNames: false
         action: 'Push services'
         additionalImageTags: '$(Build.BuildId)'
-        includeSourceTags: false
-        includeLatestTag: false
+        arguments: 'retur/socialnetwork'
