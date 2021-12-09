@@ -23,14 +23,16 @@ stages:
         SecretConnectionToBlob: $(SecretConnectionToBlob)
       inputs:
         containerregistrytype: 'Container Registry'
-        dockerRegistryEndpoint: $(Connection)
+        dockerRegistryEndpoint: '$(Connection)'
         dockerComposeFile: '**/docker-compose.yml'
+        projectName: 'retur/$(Build.Repository.Name)'
         action: 'Build services'
     - task: DockerCompose@0
       env:
         SecretConnectionToBlob: $(SecretConnectionToBlob)
       inputs:
         containerregistrytype: 'Container Registry'
-        dockerRegistryEndpoint: $(Connection)
+        dockerRegistryEndpoint: '$(Connection)'
         dockerComposeFile: '**/docker-compose.yml'
+        projectName: 'retur/$(Build.Repository.Name)'
         action: 'Push services'
