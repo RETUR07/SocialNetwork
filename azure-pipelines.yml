@@ -30,9 +30,9 @@ stages:
         action: 'Build services'
         additionalImageTags: |
           $(Build.BuildId)
-          retur/socialnetwork
+          retur
     - task: Docker@2
       inputs:
         containerRegistry: 'Docker Hub'
-        repository: 'retur/socialnetwork'
+        repository: 'retur'
         command: 'push'
