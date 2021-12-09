@@ -29,7 +29,7 @@ stages:
         qualifyImageNames: false
         action: 'Build services'
         additionalImageTags: |
-          socialnetwork:$(Build.BuildId)
+          socialnetwork
 
     - task: Docker@2
       inputs:
