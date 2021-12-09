@@ -34,5 +34,10 @@ stages:
     - task: Docker@2
       inputs:
         containerRegistry: 'Docker Hub'
-        repository:
+        repository: 'retur_web'
+        command: 'push'
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'Docker Hub'
+        repository: 'retur_worker'
         command: 'push'
