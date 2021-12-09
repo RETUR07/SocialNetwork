@@ -34,5 +34,5 @@ stages:
     - task: Docker@2
       inputs:
         containerRegistry: 'Docker Hub'
-        repository: retur/socialnetwork
+        repository:
         command: 'push'
