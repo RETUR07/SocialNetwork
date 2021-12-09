@@ -28,9 +28,9 @@ stages:
         projectName: 'retur//'
         qualifyImageNames: false
         action: 'Build services'
-        additionalImageTags: '$(Build.BuildId)'
-        includeSourceTags: false
-        includeLatestTag: false
+        additionalImageTags: |
+          $(Build.BuildId)
+          retur/socialnetwork
     - task: Docker@2
       inputs:
         containerRegistry: 'Docker Hub'
