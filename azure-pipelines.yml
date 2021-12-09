@@ -44,5 +44,11 @@ stages:
     - task: Docker@2
       inputs:
         containerRegistry: 'Docker Hub'
-        repository: retur/socialnetwork:$(Build.BuildId)
+        repository: retur/retur_web:$(Build.BuildId)
+        command: 'push'
+
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'Docker Hub'
+        repository: retur/retur_worker:$(Build.BuildId)
         command: 'push'
