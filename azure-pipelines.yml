@@ -34,7 +34,7 @@ stages:
     - task: Docker@2
       inputs:
         containerRegistry: 'Docker Hub'
-        command: 'docker tag retur_web retur/socialnetwork:$(Build.BuildId)'
+        command: 'docker tag retur_worker retur/socialnetwork:$(Build.BuildId)'
 
     - task: Docker@2
       inputs:
