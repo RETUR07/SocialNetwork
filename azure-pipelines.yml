@@ -33,13 +33,13 @@ stages:
       inputs:
         containerRegistry: 'Docker Hub'
         command: 'tag'
-        arguments: 'retur_worker socialnetwork/retur_worker:$(Build.BuildId)'
+        arguments: 'retur_worker retur/retur_worker:$(Build.BuildId)'
 
     - task: Docker@2
       inputs:
         containerRegistry: 'Docker Hub'
         command: 'tag'
-        arguments: 'retur_web socialnetwork/retur_web:$(Build.BuildId)'
+        arguments: 'retur_web retur/retur_web:$(Build.BuildId)'
 
     - task: Docker@2
       inputs:
