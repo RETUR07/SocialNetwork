@@ -5,7 +5,7 @@ trigger:
       - main
 
 variables:
-  Connection: 'Docker Hub'
+  Connection: Docker Hub
 pool:
   name: default 
   vmImage: 'ubuntu-latest'
