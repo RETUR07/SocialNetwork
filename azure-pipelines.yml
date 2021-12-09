@@ -15,7 +15,7 @@ stages:
   displayName: Build image
   jobs:  
   - job: Build
-    displayName: Build and push Docker image
+    displayName: Build and push Docker images
     steps:
     
     - task: DockerCompose@0
@@ -23,14 +23,34 @@ stages:
         SecretConnectionToBlob: $(SecretConnectionToBlob)
       inputs:
         containerregistrytype: 'Container Registry'
-        dockerRegistryEndpoint: $(Connection)
+        dockerRegistryEndpoint: '$(Connection)'
         dockerComposeFile: '**/docker-compose.yml'
+        projectName: 'retur//'
+        qualifyImageNames: false
         action: 'Build services'
-    - task: DockerCompose@0
-      env:
-        SecretConnectionToBlob: $(SecretConnectionToBlob)
+
+    - task: Docker@2
       inputs:
-        containerregistrytype: 'Container Registry'
-        dockerRegistryEndpoint: $(Connection)
-        dockerComposeFile: '**/docker-compose.yml'
-        action: 'Push services'
+        containerRegistry: 'Docker Hub'
+        command: 'tag'
+        arguments: 'retur_worker retur/retur_worker:$(Build.BuildId)'
+
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'Docker Hub'
+        command: 'tag'
+        arguments: 'retur_web retur/retur_web:$(Build.BuildId)'
+
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'Docker Hub'
+        repository: 'retur/retur_web:$(Build.BuildId)'
+        command: 'push'
+        tags: 
+
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'Docker Hub'
+        repository: 'retur/retur_worker:$(Build.BuildId)'
+        command: 'push'
+        tags: 
