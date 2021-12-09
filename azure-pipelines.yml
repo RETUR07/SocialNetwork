@@ -15,9 +15,8 @@ stages:
   displayName: Build image
   jobs:  
   - job: Build
-    displayName: Build and push Docker image
+    displayName: Build and push Docker images
     steps:
-    
     - task: DockerCompose@0
       env:
         SecretConnectionToBlob: $(SecretConnectionToBlob)
@@ -25,21 +24,10 @@ stages:
         containerregistrytype: 'Container Registry'
         dockerRegistryEndpoint: '$(Connection)'
         dockerComposeFile: '**/docker-compose.yml'
-        projectName: 'retur//'
-        qualifyImageNames: false
-        action: 'Build services'
-        additionalImageTags: '$(Build.BuildId)'
-        includeSourceTags: false
-        includeLatestTag: false
-    - task: DockerCompose@0
-      env:
-        SecretConnectionToBlob: $(SecretConnectionToBlob)
-      inputs:
-        containerregistrytype: 'Container Registry'
-        dockerRegistryEndpoint: '$(Connection)'
-        dockerComposeFile: '**/docker-compose.yml'
-        projectName: 'retur//'
+        projectName: 'retur/socNet'
         qualifyImageNames: false
         action: 'Push services'
         additionalImageTags: '$(Build.BuildId)'
         arguments: 'retur/socialnetwork'
+        includeSourceTags: false
+        includeLatestTag: false
