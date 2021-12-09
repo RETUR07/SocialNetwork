@@ -28,16 +28,19 @@ stages:
         projectName: 'retur//'
         qualifyImageNames: false
         action: 'Build services'
-        additionalImageTags: |
-          $(Build.BuildId)
 
     - task: Docker@2
       inputs:
         containerRegistry: 'Docker Hub'
-        repository: 'retur_web'
-        command: 'push'
+        command: 'docker tag retur_worker socialnetwork/retur_worker:$(Build.BuildId)'
+
     - task: Docker@2
       inputs:
         containerRegistry: 'Docker Hub'
-        repository: 'retur_worker'
+        command: 'docker tag retur_web socialnetwork/retur_web:$(Build.BuildId)' 
+
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'Docker Hub'
+        repository: retur/socialnetwork:$(Build.BuildId)
         command: 'push'
