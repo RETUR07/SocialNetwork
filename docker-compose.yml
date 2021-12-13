@@ -24,8 +24,8 @@ services:
     environment:
       - JWT:Secret=${SecretJWTKey}
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings:sqlConnection=${SecretConnectionToDB}
-      - ConnectionStrings:AzureBlobStorage=${SecretConnectionToBlob}
+      - ConnectionStrings:sqlConnection=${ConnectionToDB}
+      - ConnectionStrings:AzureBlobStorage=${ConnectionToBlob}
     restart: on-failure
 
 
