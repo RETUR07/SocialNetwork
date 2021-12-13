@@ -22,10 +22,10 @@ services:
       dockerfile: DockerfileSocialNetwork
     
     environment:
-      - JWT:Secret=SecretJWTKey
+      - JWT:Secret=&{SecretJWTKey}
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings:sqlConnection=ConnectionToDB
-      - ConnectionStrings:AzureBlobStorage=ConnectionToBlob
+      - ConnectionStrings:sqlConnection=${ConnectionToDB}
+      - ConnectionStrings:AzureBlobStorage=${ConnectionToBlob}
     restart: on-failure
 
 
