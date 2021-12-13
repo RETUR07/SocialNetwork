@@ -27,10 +27,13 @@ stages:
         containerregistrytype: 'Container Registry'
         dockerRegistryEndpoint: '$(Connection)'
         dockerComposeFile: '**/docker-compose.yml'
+        dockerComposeFileArgs: |
+          ConnectionToBlob=$(SecretConnectionToBlob)
+          ConnectionToDB=$(DBConnection)
+          SecretJWTKey=$(JWTKey)
         projectName: 'retur//'
         qualifyImageNames: false
-        action: 'Build services'
-
+        action: 'Run services'
 
     - task: Docker@2
       inputs:
@@ -57,16 +60,3 @@ stages:
         repository: 'retur/retur_worker:$(Build.BuildId)'
         command: 'push'
         tags: 
-
-    - task: DockerCompose@0
-      inputs:
-        containerregistrytype: 'Container Registry'
-        dockerRegistryEndpoint: 'Docker Hub'
-        dockerComposeFile: '**/docker-compose.yml'
-        dockerComposeFileArgs: |
-          ConnectionToBlob=$(SecretConnectionToBlob)
-          ConnectionStrings:sqlConnection=$(DBConnection)
-          JWT:Secret=$(JWTKey)
-        qualifyImageNames: false
-        action: 'Run services'
-        buildImages: false
