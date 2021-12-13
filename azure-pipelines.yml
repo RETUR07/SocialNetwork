@@ -27,9 +27,14 @@ stages:
         containerregistrytype: 'Container Registry'
         dockerRegistryEndpoint: '$(Connection)'
         dockerComposeFile: '**/docker-compose.yml'
+        dockerComposeFileArgs: |
+          SecretConnectionToBlob=$(SecretConnectionToBlob)
+          SecretConnectionToDB=$(DBConnection)
+          SecretJWTKey=$(JWTKey)
         projectName: 'retur//'
         qualifyImageNames: false
         action: 'Build services'
+
 
     - task: Docker@2
       inputs:
