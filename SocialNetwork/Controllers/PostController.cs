@@ -18,14 +18,14 @@ namespace SocialNetwork.Controllers
             _postService = postService;
         }
 
-        [HttpGet("userposts{userId}")]
+        [HttpGet("userposts/{userId}")]
         public async Task<IActionResult> GetUserPosts(int userId)
         {
             var postsdto = await _postService.GetPosts(userId);
             return Ok(postsdto);
         }
 
-        [HttpGet("childposts{postId}")]
+        [HttpGet("childposts/{postId}")]
         public async Task<IActionResult> GetChildPosts(int postId)
         {
             var postsdto = await _postService.GetChildPosts(postId);
