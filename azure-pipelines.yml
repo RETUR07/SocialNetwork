@@ -28,9 +28,9 @@ stages:
         dockerComposeCommand: 'down'
     - task: DockerCompose@0
       env:
-        ConnectionToBlob: SecretConnectionToBlob
-        ConnectionToDB: DBConnection
-        SecretJWTKey: JWTKey
+        ConnectionToBlob: $(SecretConnectionToBlob)
+        ConnectionToDB: $(DBConnection)
+        SecretJWTKey: $(JWTKey)
       inputs:
         containerregistrytype: 'Container Registry'
         dockerRegistryEndpoint: '$(Connection)'
