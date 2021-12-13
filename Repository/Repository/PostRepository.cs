@@ -31,6 +31,7 @@ namespace SocialNetworks.Repository.Repository
             await FindByCondition(p => p.Author.Id == userId, trackChanges)
             .Include(p => p.Comments)
             .Include(p => p.ParentPost)
+            .Include(p => p.BlobIds)
             .OrderBy(p => p.ParentPost.Id).ToListAsync();
 
         public async Task<Post> GetPostAsync(int postId, bool trackChanges) =>
