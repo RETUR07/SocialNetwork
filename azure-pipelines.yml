@@ -20,17 +20,13 @@ stages:
     
     - task: DockerCompose@0
       env:
-        SecretConnectionToBlob: $(SecretConnectionToBlob)
-        SecretConnectionToDB: $(DBConnection)
+        ConnectionToBlob: $(SecretConnectionToBlob)
+        ConnectionToDB: $(DBConnection)
         SecretJWTKey: $(JWTKey)
       inputs:
         containerregistrytype: 'Container Registry'
         dockerRegistryEndpoint: '$(Connection)'
         dockerComposeFile: '**/docker-compose.yml'
-        dockerComposeFileArgs: |
-          SecretConnectionToBlob=$(SecretConnectionToBlob)
-          SecretConnectionToDB=$(DBConnection)
-          SecretJWTKey=$(JWTKey)
         projectName: 'retur//'
         qualifyImageNames: false
         action: 'Build services'
@@ -61,3 +57,15 @@ stages:
         repository: 'retur/retur_worker:$(Build.BuildId)'
         command: 'push'
         tags: 
+
+    - task: DockerCompose@0
+      inputs:
+        containerregistrytype: 'Container Registry'
+        dockerRegistryEndpoint: 'Docker Hub'
+        dockerComposeFile: '**/docker-compose.yml'
+        dockerComposeFileArgs: |
+          ConnectionToBlob=$(SecretConnectionToBlob)
+          ConnectionToDB=$(DBConnection)
+          SecretJWTKey=$(JWTKey)
+        action: 'Run services'
+        buildImages: false
