@@ -19,22 +19,18 @@ stages:
     steps:
     
     - task: DockerCompose@0
-      inputs:
-        containerregistrytype: 'Container Registry'
-        dockerRegistryEndpoint: 'Docker Hub'
-        dockerComposeFile: '**/docker-compose.yml'
-        qualifyImageNames: false
-        action: 'Run a Docker Compose command'
-        dockerComposeCommand: 'down'
-    - task: DockerCompose@0
+      env:
+        ConnectionToBlob: SecretConnectionToBlob
+        ConnectionToDB: DBConnection
+        SecretJWTKey: JWTKey
       inputs:
         containerregistrytype: 'Container Registry'
         dockerRegistryEndpoint: '$(Connection)'
         dockerComposeFile: '**/docker-compose.yml'
         dockerComposeFileArgs: |
-          ConnectionToBlob:SecretConnectionToBlob
-          ConnectionToDB:DBConnection
-          SecretJWTKey:JWTKey
+          ConnectionToBlob=$(ConnectionToBlob)
+          ConnectionToDB=$(ConnectionToDB)
+          SecretJWTKey=$(SecretJWTKey)
         projectName: 'retur//'
         qualifyImageNames: false
         action: 'Run services'
