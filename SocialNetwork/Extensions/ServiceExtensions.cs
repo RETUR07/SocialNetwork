@@ -50,6 +50,7 @@ namespace SocialNetwork.Extensions
         }
         public static void ConfigureDatabase(this IServiceCollection services, IConfiguration Configuration)
         {
+            Console.WriteLine(Configuration.GetConnectionString("sqlConnection"));
             services.AddDbContext<RepositoryContext>(opts =>
                     opts.UseSqlServer(Configuration.GetConnectionString("sqlConnection"), x => x.MigrationsAssembly("SocialNetwork")));
         }
