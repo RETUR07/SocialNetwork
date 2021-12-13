@@ -65,7 +65,8 @@ stages:
         dockerComposeFile: '**/docker-compose.yml'
         dockerComposeFileArgs: |
           ConnectionToBlob=$(SecretConnectionToBlob)
-          ConnectionToDB=$(DBConnection)
-          SecretJWTKey=$(JWTKey)
+          ConnectionStrings:sqlConnection=$(DBConnection)
+          JWT:Secret=$(JWTKey)
+        qualifyImageNames: false
         action: 'Run services'
         buildImages: false
