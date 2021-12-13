@@ -19,6 +19,14 @@ stages:
     steps:
     
     - task: DockerCompose@0
+      inputs:
+        containerregistrytype: 'Container Registry'
+        dockerRegistryEndpoint: 'Docker Hub'
+        dockerComposeFile: '**/docker-compose.yml'
+        qualifyImageNames: false
+        action: 'Run a Docker Compose command'
+        dockerComposeCommand: 'down'
+    - task: DockerCompose@0
       env:
         ConnectionToBlob: SecretConnectionToBlob
         ConnectionToDB: DBConnection
