@@ -36,9 +36,9 @@ stages:
         dockerRegistryEndpoint: '$(Connection)'
         dockerComposeFile: '**/docker-compose.yml'
         dockerComposeFileArgs: |
-          ConnectionToBlob=$(SecretConnectionToBlob)
-          ConnectionToDB=$(DBConnection)
-          SecretJWTKey=$(JWTKey)
+          ConnectionToBlob:$(SecretConnectionToBlob)
+          ConnectionToDB:$(DBConnection)
+          SecretJWTKey:$(JWTKey)
         projectName: 'retur//'
         qualifyImageNames: false
         action: 'Run services'
