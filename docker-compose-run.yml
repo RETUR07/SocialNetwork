@@ -13,22 +13,29 @@ services:
     
     
   web:
-    image: retur_web
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+  image: retur/retur_web
     ports:
       - "5050:80"
     depends_on:
       - rabbitmq
+    environment:
+      - JWT:Secret=${SecretJWTKey}
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings:sqlConnection=${ConnectionToDB}
+      - ConnectionStrings:AzureBlobStorage=${ConnectionToBlob}
     restart: on-failure
 
 
     
   worker:
-    image: retur_worker
+    image: retur/retur_worker
     ports:
       - "8080:5000"
     depends_on:
       - rabbitmq
+    environment:
+      - ASPNETCORE_URLS=http://+:5000
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings:sqlConnection=${ConnectionToDB}
     restart: on-failure
 
