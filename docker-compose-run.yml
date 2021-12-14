@@ -13,7 +13,7 @@ services:
     
     
   web:
-  image: retur/retur_web
+    image: retur/retur_web:157
     ports:
       - "5050:80"
     depends_on:
@@ -28,7 +28,7 @@ services:
 
     
   worker:
-    image: retur/retur_worker
+    image: retur/retur_worker:157
     ports:
       - "8080:5000"
     depends_on:
