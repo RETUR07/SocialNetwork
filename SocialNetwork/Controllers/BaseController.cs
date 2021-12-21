@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Security.Claims;
 
 namespace SocialNetwork.Controllers
@@ -11,9 +12,9 @@ namespace SocialNetwork.Controllers
 
         public Base()
         {
-            var iter = HttpContext.User.Claims.GetEnumerator();
-            while (iter.Current.Type != ClaimTypes.UserData && iter.MoveNext()) ;
-            UserId = int.Parse(iter.Current.Value);
+            var claimIdentity = HttpContext.User.Identities.FirstOrDefault(x => x.Claims.
+                    FirstOrDefault(x => x.Type == ClaimTypes.UserData) != null);
+            UserId = int.Parse(claimIdentity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.UserData).Value);
         }
     }
 }
