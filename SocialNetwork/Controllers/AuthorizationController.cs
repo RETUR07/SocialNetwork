@@ -11,7 +11,7 @@ namespace SocialNetwork.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthorizationController : ControllerBase
+    public class AuthorizationController : Base
     {
         private IAuthService _authorizationService;
 
@@ -57,10 +57,10 @@ namespace SocialNetwork.Controllers
             return Ok(new { message = "Token revoked" });
         }
 
-        [HttpGet("{id}/refresh-tokens")]
-        public async Task<IActionResult> GetRefreshTokensAsync(int id)
+        [HttpGet("refresh-tokens")]
+        public async Task<IActionResult> GetRefreshTokensAsync()
         {
-            var refreshTokens = await _authorizationService.GetUserRefreshTokensAsync(id);
+            var refreshTokens = await _authorizationService.GetUserRefreshTokensAsync(UserId);
             return Ok(refreshTokens);
         }
 

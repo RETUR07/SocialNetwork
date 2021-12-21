@@ -11,7 +11,7 @@ namespace SocialNetwork.Controllers
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
-    public class ChatController : ControllerBase
+    public class ChatController : Base
     {
         private readonly IChatService _chatService;
 
@@ -20,10 +20,10 @@ namespace SocialNetwork.Controllers
             _chatService = chatService;
         }
 
-        [HttpGet("chats/{userId}")]
-        public async Task<IActionResult> GetChats(int userId)
+        [HttpGet("chats/")]
+        public async Task<IActionResult> GetChats()
         {
-            var chats = await _chatService.GetChats(userId);
+            var chats = await _chatService.GetChats(UserId);
             if (chats == null)
             {
                 return BadRequest();
@@ -99,6 +99,7 @@ namespace SocialNetwork.Controllers
         {
             try
             {
+                messagedto.From = UserId;
                 await _chatService.AddMessage(chatId, messagedto);
             }
             catch(InvalidDataException exc)

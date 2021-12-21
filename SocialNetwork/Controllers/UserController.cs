@@ -15,7 +15,6 @@ namespace SocialNetwork.Controllers
         private readonly IUserService _userService;
 
         public UserController(IUserService userService)
-            :base()
         {
             _userService = userService;
         }

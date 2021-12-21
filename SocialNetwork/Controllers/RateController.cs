@@ -9,7 +9,7 @@ namespace SocialNetwork.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class RateController : ControllerBase
+    public class RateController : Base
     {
         private readonly IRateService _rateService;
 
@@ -43,6 +43,7 @@ namespace SocialNetwork.Controllers
             {
                 return BadRequest("RateForm is null");
             }
+            rateForm.UserId = UserId;
             await _rateService.UpdatePostRateAsync(rateForm);        
             return NoContent();
         }
