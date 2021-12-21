@@ -10,11 +10,12 @@ namespace SocialNetwork.Controllers
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
-    public class UserController : ControllerBase
+    public class UserController : Base
     {
         private readonly IUserService _userService;
 
         public UserController(IUserService userService)
+            :base()
         {
             _userService = userService;
         }
@@ -28,10 +29,10 @@ namespace SocialNetwork.Controllers
             return Ok(usersdto);
         }
 
-        [HttpGet("{userId}", Name = "GetUser")]
-        public async Task<IActionResult> GetUser(int userId)
+        [HttpGet("info", Name = "GetUser")]
+        public async Task<IActionResult> GetUser()
         {
-            var user = await _userService.GetUserAsync(userId);
+            var user = await _userService.GetUserAsync(UserId);
             if (user == null)
             {
                 return NotFound();
@@ -48,15 +49,15 @@ namespace SocialNetwork.Controllers
             {
                 return BadRequest("User is null");
             }
-            return CreatedAtRoute("GetUser", new { userId = user.Id }, user.Id);
+            return Ok();
         }
 
-        [HttpPut("{userId}")]
-        public async Task<IActionResult> UpdateUser(int userId, [FromBody] UserForm userdto)
+        [HttpPut("")]
+        public async Task<IActionResult> UpdateUser([FromBody] UserForm userdto)
         {
             try
             {
-                await _userService.UpdateUserAsync(userId, userdto);
+                await _userService.UpdateUserAsync(UserId, userdto);
             }
             catch(InvalidDataException exc)
             {
@@ -80,24 +81,24 @@ namespace SocialNetwork.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{userId}")]
-        public async Task<IActionResult> DeleteUser(int userId)
+        [HttpDelete("")]
+        public async Task<IActionResult> DeleteUser()
         {
-            await _userService.DeleteUserAsync(userId);
+            await _userService.DeleteUserAsync(UserId);
             return NoContent();
         }
 
-        [HttpPut("addfriend/{userId}/{friendId}")]
-        public async Task<IActionResult> AddFriend(int userId, int friendId)
+        [HttpPut("addfriend/{friendId}")]
+        public async Task<IActionResult> AddFriend(int friendId)
         {
-            await _userService.AddFriendAsync(userId, friendId);
+            await _userService.AddFriendAsync(UserId, friendId);
             return NoContent();
         }
 
-        [HttpPut("deletefriend/{userId}/{friendId}")]
-        public async Task<IActionResult> DeleteFriend(int userId, int friendId)
+        [HttpPut("deletefriend/{friendId}")]
+        public async Task<IActionResult> DeleteFriend(int friendId)
         {
-            await _userService.DeleteFriendAsync(userId, friendId);
+            await _userService.DeleteFriendAsync(UserId, friendId);
             return NoContent();
         }
     }
