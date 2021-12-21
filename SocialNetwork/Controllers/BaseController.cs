@@ -8,13 +8,14 @@ namespace SocialNetwork.Controllers
     [ApiController]
     public class Base : ControllerBase
     {
-        public readonly int UserId;
-
-        public Base()
+        public int UserId
         {
-            var claimIdentity = HttpContext.User.Identities.FirstOrDefault(x => x.Claims.
+            get
+            {
+                var claimIdentity = HttpContext.User.Identities.FirstOrDefault(x => x.Claims.
                     FirstOrDefault(x => x.Type == ClaimTypes.UserData) != null);
-            UserId = int.Parse(claimIdentity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.UserData).Value);
-        }
+                return int.Parse(claimIdentity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.UserData).Value);
+            }
+        }     
     }
 }
