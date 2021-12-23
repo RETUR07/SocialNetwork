@@ -8,8 +8,6 @@ namespace SocialNetwork.Application.DTO
     {
         public string Header { get; set; }
         [Required]
-        public int UserId { get; set; }
-        [Required]
         public int ParentPostId { get; set; }
         public string Text { get; set; }
         public IEnumerable<IFormFile> Content { get; set; }

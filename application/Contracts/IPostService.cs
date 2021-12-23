@@ -7,7 +7,7 @@ namespace SocialNetwork.Application.Contracts
 {
     public interface IPostService
     {
-        public Task<Post> CreatePost(PostForm postdto);
+        public Task<Post> CreatePost(PostForm postdto, int userId);
         public Task DeletePost(int postId);
         public Task<PostForResponseDTO> GetPost(int postId);
         public Task<List<PostForResponseDTO>> GetPosts(int userId);

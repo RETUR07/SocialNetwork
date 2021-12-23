@@ -21,14 +21,14 @@ namespace SocialNetwork.Application.Services
             _blobService = blobService;
         }
 
-        public async Task<Post> CreatePost(PostForm postdto)
+        public async Task<Post> CreatePost(PostForm postdto, int userId)
         {
             if (postdto == null)
             {
                 return null;
             }
             var post = _mapper.Map<Post>(postdto);
-            var user = await _repository.User.GetUserAsync(postdto.UserId, true);
+            var user = await _repository.User.GetUserAsync(userId, true);
             var parentpost = await _repository.Post.GetPostAsync(postdto.ParentPostId, true);
             if (user == null || parentpost == null) return null;
             post.Author = user;
