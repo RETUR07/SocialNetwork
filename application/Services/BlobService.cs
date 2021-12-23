@@ -80,6 +80,7 @@ namespace SocialNetwork.Application.Services
 
         public async Task<List<int>> SaveBlobsAsync(IEnumerable<IFormFile> formFiles)
         {
+            if (formFiles == null)return new List<int>();
             List<Blob> blobs = new List<Blob>();
             foreach (IFormFile formfile in formFiles)
             {
