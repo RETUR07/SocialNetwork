@@ -44,7 +44,7 @@ namespace SocialNetworks.Repository.Repository
             .SingleOrDefaultAsync();
 
         public async Task<List<Post>> GetChildrenPostsByPostIdAsync(int postId, bool trackChanges) =>
-            await FindByCondition(r => r.ParentPost.Id == postId, trackChanges).ToListAsync();
+            await FindByCondition(r => r.ParentPost.Id == postId, trackChanges).Include(x => x.BlobIds).ToListAsync();
 
     }
 }
