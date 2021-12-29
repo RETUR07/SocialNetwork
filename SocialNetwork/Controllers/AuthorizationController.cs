@@ -44,9 +44,9 @@ namespace SocialNetwork.Controllers
         }
 
         [HttpPost("revoke-token")]
-        public async Task<IActionResult> RevokeTokenAsync(RevokeTokenRequest model, [FromBody] string refreshToken)
+        public async Task<IActionResult> RevokeTokenAsync(RevokeTokenRequest model)
         {
-            var token = model.Token ?? refreshToken;
+            var token = model.Token ?? model.RefreshToken;
 
             if (string.IsNullOrEmpty(token))
                 return BadRequest(new { message = "Token is required" });
