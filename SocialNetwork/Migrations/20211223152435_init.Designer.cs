@@ -10,8 +10,8 @@ using SocialNetworks.Repository.Repository;
 namespace SocialNetwork.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20211206122407_edited blob model")]
-    partial class editedblobmodel
+    [Migration("20211223152435_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

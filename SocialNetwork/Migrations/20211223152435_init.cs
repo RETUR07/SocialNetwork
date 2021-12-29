@@ -216,11 +216,8 @@ namespace SocialNetwork.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Lenth = table.Column<long>(type: "bigint", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Filename = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ContentType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Buffer = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     MessageId = table.Column<int>(type: "int", nullable: true),
                     PostId = table.Column<int>(type: "int", nullable: true),
                     IsEnable = table.Column<bool>(type: "bit", nullable: false)

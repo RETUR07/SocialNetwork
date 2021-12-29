@@ -19,6 +19,7 @@ namespace SocialNetwork.Controllers
         {
             _authorizationService = authorizationService;
         }
+
         [AllowAnonymous]
         [HttpPost("authenticate")]
         public async Task<IActionResult> AuthenticateAsync(AuthenticateRequest model)
@@ -26,29 +27,26 @@ namespace SocialNetwork.Controllers
             try
             {
                 var response = await _authorizationService.AuthenticateAsync(model, ipAddress());
-                setTokenCookie(response.RefreshToken);
                 return Ok(response);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-            
         }
+
         [AllowAnonymous]
         [HttpPost("refresh-token")]
-        public async Task<IActionResult> RefreshToken()
+        public async Task<IActionResult> RefreshToken([FromBody] string refreshToken)
         {
-            var refreshToken = Request.Cookies["refreshToken"];
             var response = await _authorizationService.RefreshTokenAsync(refreshToken, ipAddress());
-            setTokenCookie(response.RefreshToken);
             return Ok(response);
         }
 
         [HttpPost("revoke-token")]
-        public async Task<IActionResult> RevokeTokenAsync(RevokeTokenRequest model)
+        public async Task<IActionResult> RevokeTokenAsync(RevokeTokenRequest model, [FromBody] string refreshToken)
         {
-            var token = model.Token ?? Request.Cookies["refreshToken"];
+            var token = model.Token ?? refreshToken;
 
             if (string.IsNullOrEmpty(token))
                 return BadRequest(new { message = "Token is required" });
@@ -62,16 +60,6 @@ namespace SocialNetwork.Controllers
         {
             var refreshTokens = await _authorizationService.GetUserRefreshTokensAsync(UserId);
             return Ok(refreshTokens);
-        }
-
-        private void setTokenCookie(string token)
-        {
-            var cookieOptions = new CookieOptions
-            {
-                HttpOnly = true,
-                Expires = DateTime.UtcNow.AddDays(7)
-            };
-            Response.Cookies.Append("refreshToken", token, cookieOptions);
         }
 
         private string ipAddress()
