@@ -3,6 +3,7 @@ using SocialNetwork.Application.Contracts;
 using SocialNetwork.Application.DTO;
 using SocialNetwork.Entities.Models;
 using SocialNetworks.Repository.Contracts;
+using SocialNetworks.Repository.RequestFeatures;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -46,9 +47,9 @@ namespace SocialNetwork.Application.Services
             await _repository.SaveAsync();
         }
 
-        public async Task<List<PostForResponseDTO>> GetChildPosts(int postId)
+        public async Task<List<PostForResponseDTO>> GetChildPosts(int postId, Parameters parameters)
         {
-            var posts = await _repository.Post.GetChildrenPostsByPostIdAsync(postId, false);
+            var posts = await _repository.Post.GetChildrenPostsByPostIdPagedAsync(postId, parameters, false);
             var postsdto = _mapper.Map<List<PostForResponseDTO>>(posts);
             for (int i = 0; i < posts.Count(); i++)
             {
@@ -69,9 +70,9 @@ namespace SocialNetwork.Application.Services
             return postdto;
         }
 
-        public async Task<List<PostForResponseDTO>> GetPosts(int userId)
+        public async Task<List<PostForResponseDTO>> GetPosts(int userId, Parameters parameters)
         {
-            var posts = await _repository.Post.GetAllPostsAsync(userId, false);
+            var posts = await _repository.Post.GetAllPostsPagedAsync(userId, parameters, false);
             var postsdto = _mapper.Map<List<PostForResponseDTO>>(posts);
             for (int i = 0; i < posts.Count(); i++)
             {

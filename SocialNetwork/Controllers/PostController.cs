@@ -3,6 +3,7 @@ using SocialNetwork.Application.Contracts;
 using SocialNetwork.Application.DTO;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
+using SocialNetworks.Repository.RequestFeatures;
 
 namespace SocialNetwork.Controllers
 {
@@ -19,16 +20,16 @@ namespace SocialNetwork.Controllers
         }
 
         [HttpGet("userposts/{userId}")]
-        public async Task<IActionResult> GetUserPosts(int userId)
+        public async Task<IActionResult> GetUserPosts(int userId, [FromQuery] Parameters parameters)
         {
-            var postsdto = await _postService.GetPosts(userId);
+            var postsdto = await _postService.GetPosts(userId, parameters);
             return Ok(postsdto);
         }
 
         [HttpGet("childposts/{postId}")]
-        public async Task<IActionResult> GetChildPosts(int postId)
+        public async Task<IActionResult> GetChildPosts(int postId, [FromQuery] Parameters parameters)
         {
-            var postsdto = await _postService.GetChildPosts(postId);
+            var postsdto = await _postService.GetChildPosts(postId, parameters);
             return Ok(postsdto);
         }
 
