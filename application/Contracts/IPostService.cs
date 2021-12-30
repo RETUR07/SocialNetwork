@@ -11,7 +11,7 @@ namespace SocialNetwork.Application.Contracts
         public Task<Post> CreatePost(PostForm postdto, int userId);
         public Task DeletePost(int postId);
         public Task<PostForResponseDTO> GetPost(int postId);
-        public Task<List<PostForResponseDTO>> GetPosts(int userId, Parameters parameters);
-        public Task<List<PostForResponseDTO>> GetChildPosts(int postId, Parameters parameters);
+        public Task<PagedList<PostForResponseDTO>> GetPosts(int userId, Parameters parameters);
+        public Task<PagedList<PostForResponseDTO>> GetChildPosts(int postId, Parameters parameters);
     }
 }
