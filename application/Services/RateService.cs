@@ -31,13 +31,13 @@ namespace SocialNetwork.Application.Services
             return _mapper.Map<List<Rate>, List<PostRateForResponseDTO>>(rates);
         }
 
-        public async Task UpdatePostRateAsync(RateForm ratedto)
+        public async Task UpdatePostRateAsync(RateForm ratedto, int userId)
         {
             if (ratedto == null) return;
-            var rate = await _repository.Rate.GetPostRateAsync(ratedto.UserId, ratedto.ObjectId, true);
+            var rate = await _repository.Rate.GetPostRateAsync(userId, ratedto.ObjectId, true);
             if (rate == null)
             {
-                var user = await _repository.User.GetUserAsync(ratedto.UserId, true);
+                var user = await _repository.User.GetUserAsync(userId, true);
                 var post = await _repository.Post.GetPostAsync(ratedto.ObjectId, true);
 
                 rate = _mapper.Map<RateForm, Rate>(ratedto);

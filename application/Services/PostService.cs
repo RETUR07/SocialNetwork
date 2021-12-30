@@ -64,7 +64,7 @@ namespace SocialNetwork.Application.Services
 
         public async Task<PagedList<PostForResponseDTO>> GetChildPosts(int postId, Parameters parameters)
         {
-            var posts = await _repository.Post.GetChildrenPostsByPostIdPagedAsync(postId, parameters, false);
+            var posts = _repository.Post.GetChildrenPostsByPostIdPaged(postId, parameters, false);
             var postsdto = _mapper.Map<PagedList<Post>, PagedList<PostForResponseDTO>>(posts);
             for (int i = 0; i < posts.Count(); i++)
             {
@@ -75,7 +75,7 @@ namespace SocialNetwork.Application.Services
 
         public async Task<PagedList<PostForResponseDTO>> GetPosts(int userId, Parameters parameters)
         {
-            var posts = await _repository.Post.GetAllPostsPagedAsync(userId, parameters, false);
+            var posts = _repository.Post.GetAllPostsPaged(userId, parameters, false);
             var postsdto = _mapper.Map<PagedList<Post>, PagedList<PostForResponseDTO>>(posts);
             for (int i = 0; i < posts.Count(); i++)
             {

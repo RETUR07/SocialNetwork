@@ -43,8 +43,7 @@ namespace SocialNetwork.Controllers
             {
                 return BadRequest("RateForm is null");
             }
-            rateForm.UserId = UserId;
-            await _rateService.UpdatePostRateAsync(rateForm);        
+            await _rateService.UpdatePostRateAsync(rateForm, UserId);        
             return NoContent();
         }
     }
