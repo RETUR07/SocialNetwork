@@ -11,7 +11,8 @@ namespace SocialNetwork.Application.Mapping
         {
             CreateMap<Rate, PostRateForResponseDTO>()
                 .ForMember(r => r.UserId, opt => opt.MapFrom(x => x.User.Id))
-                .ForMember(r => r.LikeStatus, opt => opt.MapFrom(x => x.LikeStatus.ToString()));
+                .ForMember(r => r.LikeStatus, opt => opt.MapFrom(x => x.LikeStatus.ToString()))
+                .ForMember(r => r.PostId, opt => opt.MapFrom(x => x.Post.Id));
 
 
 
