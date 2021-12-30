@@ -37,7 +37,8 @@ namespace SocialNetwork.Application.Services
             message.User = user;
             chat.Messages.Add(message);
             await _repository.SaveAsync();
-            await _blobService.SaveBlobsAsync(messagedto.Content, chatId + "-" + message.Id);
+            message.Blobs = await _blobService.SaveBlobsAsync(messagedto.Content, chatId + "-" + message.Id);
+            await _repository.SaveAsync();
         }
 
         public async Task AddUser(int chatId, int userId)

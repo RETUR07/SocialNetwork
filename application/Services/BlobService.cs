@@ -78,9 +78,9 @@ namespace SocialNetwork.Application.Services
 
         }
 
-        public async Task<List<int>> SaveBlobsAsync(IEnumerable<IFormFile> formFiles, string uniqueID)
+        public async Task<List<Blob>> SaveBlobsAsync(IEnumerable<IFormFile> formFiles, string uniqueID)
         {
-            if (formFiles == null)return new List<int>();
+            if (formFiles == null)return new List<Blob>();
             List<Blob> blobs = new List<Blob>();
             foreach (IFormFile formfile in formFiles)
             {
@@ -97,7 +97,7 @@ namespace SocialNetwork.Application.Services
                 blobs.Add(blob);
             }
             await _repository.SaveAsync();
-            return blobs.Select(b => b.Id).ToList();
+            return blobs;
         }
     }
 }

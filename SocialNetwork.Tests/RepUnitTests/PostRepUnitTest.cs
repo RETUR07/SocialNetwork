@@ -21,19 +21,6 @@ namespace SocialNetwork.Tests
                 .Options)
         {
         }
-
-        [Fact]
-        public async Task GetAllPostsAsyncTest()
-        {
-            using (var repositoryContext = new RepositoryContext(ContextOptions))
-            {
-                var postRep = new PostRepository(repositoryContext);
-                var result = await postRep.GetAllPostsAsync(1, false);
-                Assert.Equal(2, result.Count);
-                Assert.Equal(1, result[0].Id);
-                Assert.Equal(3, result[1].Id);
-            }
-        }
         
         [Fact]
         public async Task GetChildrenPostsByPostIdAsyncTest()
