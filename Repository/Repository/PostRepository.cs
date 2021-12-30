@@ -30,11 +30,11 @@ namespace SocialNetworks.Repository.Repository
 
         public async Task<PagedList<Post>> GetAllPostsPagedAsync(int userId, Parameters parameters, bool trackChanges)
         {
-            var posts = await FindByCondition(p => p.Author.Id == userId, trackChanges)
+            var posts = FindByCondition(p => p.Author.Id == userId, trackChanges)
             .Include(p => p.Comments)
             .Include(p => p.ParentPost)
-            .Include(p => p.BlobIds)
-            .OrderBy(p => p.ParentPost.Id).ToListAsync();
+            .Include(p => p.BlobIds);
+            
             return PagedList<Post>.ToPagedList(posts, parameters.PageNumber, parameters.PageSize);
         }          
 
@@ -48,7 +48,7 @@ namespace SocialNetworks.Repository.Repository
             .SingleOrDefaultAsync();
 
         public async Task<PagedList<Post>> GetChildrenPostsByPostIdPagedAsync(int postId, Parameters parameters, bool trackChanges){
-            var posts = await FindByCondition(r => r.ParentPost.Id == postId, trackChanges).Include(x => x.BlobIds).ToListAsync();
+            var posts = FindByCondition(r => r.ParentPost.Id == postId, trackChanges).Include(x => x.BlobIds);
             return PagedList<Post>.ToPagedList(posts, parameters.PageNumber, parameters.PageSize);
         }
 
