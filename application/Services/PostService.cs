@@ -34,7 +34,7 @@ namespace SocialNetwork.Application.Services
             if (user == null || parentpost == null) return null;
             post.Author = user;
             post.ParentPost = parentpost;
-            await _blobService.SaveBlobsAsync(postdto.Content);
+            await _blobService.SaveBlobsAsync(postdto.Content, userId.ToString());
             _repository.Post.Create(post);
             await _repository.SaveAsync();
             return post;
@@ -47,10 +47,10 @@ namespace SocialNetwork.Application.Services
             await _repository.SaveAsync();
         }
 
-        public async Task<List<PostForResponseDTO>> GetChildPosts(int postId, Parameters parameters)
+        public async Task<PagedList<PostForResponseDTO>> GetChildPosts(int postId, Parameters parameters)
         {
             var posts = await _repository.Post.GetChildrenPostsByPostIdPagedAsync(postId, parameters, false);
-            var postsdto = _mapper.Map<List<PostForResponseDTO>>(posts);
+            var postsdto = _mapper.Map<PagedList<PostForResponseDTO>>(posts);
             for (int i = 0; i < posts.Count(); i++)
             {
                 postsdto[i].Content = await _blobService.GetBLobsAsync(posts[i].BlobIds.Select(x => x.Id), false);
@@ -70,10 +70,10 @@ namespace SocialNetwork.Application.Services
             return postdto;
         }
 
-        public async Task<List<PostForResponseDTO>> GetPosts(int userId, Parameters parameters)
+        public async Task<PagedList<PostForResponseDTO>> GetPosts(int userId, Parameters parameters)
         {
             var posts = await _repository.Post.GetAllPostsPagedAsync(userId, parameters, false);
-            var postsdto = _mapper.Map<List<PostForResponseDTO>>(posts);
+            var postsdto = _mapper.Map<PagedList<PostForResponseDTO>>(posts);
             for (int i = 0; i < posts.Count(); i++)
             {
                 postsdto[i].Content = await _blobService.GetBLobsAsync(posts[i].BlobIds.Select(x => x.Id), false);

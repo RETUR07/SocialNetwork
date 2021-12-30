@@ -34,10 +34,10 @@ namespace SocialNetwork.Application.Services
             var user = await _repository.User.GetUserAsync(messagedto.From, true);
             if (user == null) throw new InvalidDataException("no such user");
             var message = _mapper.Map<MessageForm, Message>(messagedto);
-            await _blobService.SaveBlobsAsync(messagedto.Content);
             message.User = user;
             chat.Messages.Add(message);
             await _repository.SaveAsync();
+            await _blobService.SaveBlobsAsync(messagedto.Content, chatId + "-" + message.Id);
         }
 
         public async Task AddUser(int chatId, int userId)
@@ -69,20 +69,6 @@ namespace SocialNetwork.Application.Services
             _repository.Chat.Create(chat);
             await _repository.SaveAsync();
             return chat;
-        }
-
-        public async Task<Message> CreateMessage(MessageForm messagedto)
-        {
-            if (messagedto == null)
-            {
-                return null;
-            }
-            var message = _mapper.Map<Message>(messagedto);
-            
-            _repository.Message.Create(message);
-            await _blobService.SaveBlobsAsync(messagedto.Content);
-            await _repository.SaveAsync();
-            return message;
         }
 
         public async Task DeleteChat(int chatId)

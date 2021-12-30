@@ -78,7 +78,7 @@ namespace SocialNetwork.Application.Services
 
         }
 
-        public async Task<List<int>> SaveBlobsAsync(IEnumerable<IFormFile> formFiles)
+        public async Task<List<int>> SaveBlobsAsync(IEnumerable<IFormFile> formFiles, string uniqueID)
         {
             if (formFiles == null)return new List<int>();
             List<Blob> blobs = new List<Blob>();
@@ -87,10 +87,11 @@ namespace SocialNetwork.Application.Services
                 if (formfile == null)
                     continue;
                 var blob = await BlobConverters.FormFileToBlobAsync(formfile);
+                blob.Filename = uniqueID + "-" + formfile.FileName;
                 _repository.Blob.Create(blob);
 
                 var blobContainer = _blobServiceClient.GetBlobContainerClient("files");
-                var blobClient = blobContainer.GetBlobClient(formfile.FileName);
+                var blobClient = blobContainer.GetBlobClient(uniqueID + "-" + formfile.FileName);
                 await blobClient.UploadAsync(formfile.OpenReadStream());
 
                 blobs.Add(blob);
