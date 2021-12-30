@@ -37,8 +37,9 @@ namespace SocialNetwork.Application.Services
             _repository.Post.Create(post);
             await _repository.SaveAsync();
 
-            post.BlobIds = await _blobService.SaveBlobsAsync(postdto.Content, userId + "-" + post.Id);
-            
+            post.BlobIds = await _blobService.SaveBlobsAsync(postdto.Content, userId + "-post-" + post.Id);
+            await _repository.SaveAsync();
+
             return post;
         }
 

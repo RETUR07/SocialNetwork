@@ -96,7 +96,6 @@ namespace SocialNetwork.Application.Services
 
                 blobs.Add(blob);
             }
-            await _repository.SaveAsync();
             return blobs;
         }
     }

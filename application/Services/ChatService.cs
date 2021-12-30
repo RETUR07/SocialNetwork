@@ -37,7 +37,7 @@ namespace SocialNetwork.Application.Services
             message.User = user;
             chat.Messages.Add(message);
             await _repository.SaveAsync();
-            message.Blobs = await _blobService.SaveBlobsAsync(messagedto.Content, chatId + "-" + message.Id);
+            message.Blobs = await _blobService.SaveBlobsAsync(messagedto.Content, chatId + "-message-" + message.Id);
             await _repository.SaveAsync();
         }
 
