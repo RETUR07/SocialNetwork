@@ -3,6 +3,7 @@ using SocialNetwork.Application.Contracts;
 using SocialNetwork.Application.DTO;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace SocialNetwork.Controllers
 {
@@ -31,6 +32,15 @@ namespace SocialNetwork.Controllers
         public async Task<IActionResult> GetRatesOfPost(int postId)
         {
             var rates = await _rateService.GetRatesByPostIdAsync(postId, false);
+            if (rates == null)
+                return NotFound();
+            return Ok(rates);
+        }
+
+        [HttpGet("posts")]
+        public async Task<IActionResult> GetRatesOfPost([FromQuery] List<int> postIds)
+        {
+            var rates = await _rateService.GetRatesByPostsIdsAsync(postIds, false);
             if (rates == null)
                 return NotFound();
             return Ok(rates);

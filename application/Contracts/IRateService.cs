@@ -8,6 +8,7 @@ namespace SocialNetwork.Application.Contracts
     {
         public Task<PostRateForResponseDTO> GetPostRateAsync(int userId, int postId, bool trackChanges);
         public Task<List<PostRateForResponseDTO>> GetRatesByPostIdAsync(int postId, bool trackChanges);
+        public Task<List<List<PostRateForResponseDTO>>> GetRatesByPostsIdsAsync(List<int> postIds, bool trackChanges);
         public Task UpdatePostRateAsync(RateForm rate, int userId);
     }
 }
