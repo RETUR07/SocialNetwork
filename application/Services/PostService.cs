@@ -62,7 +62,7 @@ namespace SocialNetwork.Application.Services
         public async Task<PagedList<PostForResponseDTO>> GetChildPosts(int postId, Parameters parameters)
         {
             var posts = await _repository.Post.GetChildrenPostsByPostIdPagedAsync(postId, parameters, false);
-            var postsdto = _mapper.Map<PagedList<Post>, PagedList <PostForResponseDTO>>(posts);
+            var postsdto = _mapper.Map<PagedList<Post>, PagedList<PostForResponseDTO>>(posts);
             for (int i = 0; i < posts.Count(); i++)
             {
                 postsdto[i].Content = await _blobService.GetBLobsAsync(posts[i].BlobIds.Select(x => x.Id), false);
