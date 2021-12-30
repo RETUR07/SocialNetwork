@@ -38,7 +38,7 @@ namespace SocialNetwork.Controllers
         }
 
         [HttpGet("posts")]
-        public async Task<IActionResult> GetRatesOfPost([FromQuery] List<int> postIds)
+        public async Task<IActionResult> GetRatesOfPost([FromQuery(Name = "postIDs")] List<int> postIds)
         {
             var rates = await _rateService.GetRatesByPostsIdsAsync(postIds, false);
             if (rates == null)
