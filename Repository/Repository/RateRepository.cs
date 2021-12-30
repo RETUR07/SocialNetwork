@@ -19,6 +19,7 @@ namespace SocialNetworks.Repository.Repository
 
         public async Task<List<Rate>> GetRatesByPostIdAsync(int postId, bool trackChanges) =>
            await FindByCondition(r => r.Post.Id == postId, trackChanges)
-            .Include(x => x.User).ToListAsync();
+            .Include(x => x.User)
+            .Include(x => x.Post).ToListAsync();
     }
 }
