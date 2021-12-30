@@ -47,17 +47,6 @@ namespace SocialNetwork.Application.Services
             await _repository.SaveAsync();
         }
 
-        public async Task<PagedList<PostForResponseDTO>> GetChildPosts(int postId, Parameters parameters)
-        {
-            var posts = await _repository.Post.GetChildrenPostsByPostIdPagedAsync(postId, parameters, false);
-            var postsdto = _mapper.Map<PagedList<PostForResponseDTO>>(posts);
-            for (int i = 0; i < posts.Count(); i++)
-            {
-                postsdto[i].Content = await _blobService.GetBLobsAsync(posts[i].BlobIds.Select(x => x.Id), false);
-            }
-            return postsdto;
-        }
-
         public async Task<PostForResponseDTO> GetPost(int postId)
         {
             var post = await _repository.Post.GetPostAsync(postId, false);
@@ -70,10 +59,21 @@ namespace SocialNetwork.Application.Services
             return postdto;
         }
 
+        public async Task<PagedList<PostForResponseDTO>> GetChildPosts(int postId, Parameters parameters)
+        {
+            var posts = await _repository.Post.GetChildrenPostsByPostIdPagedAsync(postId, parameters, false);
+            var postsdto = _mapper.Map<PagedList<Post>, PagedList <PostForResponseDTO>>(posts);
+            for (int i = 0; i < posts.Count(); i++)
+            {
+                postsdto[i].Content = await _blobService.GetBLobsAsync(posts[i].BlobIds.Select(x => x.Id), false);
+            }
+            return postsdto;
+        }
+
         public async Task<PagedList<PostForResponseDTO>> GetPosts(int userId, Parameters parameters)
         {
             var posts = await _repository.Post.GetAllPostsPagedAsync(userId, parameters, false);
-            var postsdto = _mapper.Map<PagedList<PostForResponseDTO>>(posts);
+            var postsdto = _mapper.Map<PagedList<Post>, PagedList<PostForResponseDTO>>(posts);
             for (int i = 0; i < posts.Count(); i++)
             {
                 postsdto[i].Content = await _blobService.GetBLobsAsync(posts[i].BlobIds.Select(x => x.Id), false);
