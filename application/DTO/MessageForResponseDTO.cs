@@ -12,6 +12,6 @@ namespace SocialNetwork.Application.DTO
         public int From { get; set; }
         public string Text { get; set; }
         public int ChatId { get; set; }
-        public IEnumerable<FileContentResult> Content { get; set; }
+        public IEnumerable<Uri> Content { get; set; }
     }
 }

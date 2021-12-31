@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using Azure.Storage.Blobs;
+using Azure.Storage.Sas;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SocialNetwork.Application.Contracts;
 using SocialNetwork.Entities.Models;
 using SocialNetworks.Repository.Contracts;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -23,9 +25,9 @@ namespace SocialNetwork.Application.Services
             _blobServiceClient = blobServiceClient;
         }
 
-        public async Task<List<FileContentResult>> GetBLobsAsync(IEnumerable<int> Ids, bool trackChanges)
+        public async Task<List<Uri>> GetBLobsAsync(IEnumerable<int> Ids, bool trackChanges)
         {
-            List<FileContentResult> formfiles = new List<FileContentResult>(); 
+            List<Uri> formfiles = new List<Uri>(); 
             foreach (int id in Ids)
             {
                 var blob = await _repository.Blob.GetBlob(id, trackChanges);
@@ -36,27 +38,22 @@ namespace SocialNetwork.Application.Services
                 var blobContainer = _blobServiceClient.GetBlobContainerClient("files");
 
                 var blobClient = blobContainer.GetBlobClient(blob.Filename);
-                var downloadContent = await blobClient.DownloadAsync();
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    await downloadContent.Value.Content.CopyToAsync(ms);
-                    var FormFile = BlobConverters.BlobToFileContentResult(blob, ms.ToArray());
-                    formfiles.Add(FormFile);                  
-                }         
+                var downloadContent = blobClient.GenerateSasUri(BlobSasPermissions.Read, new DateTimeOffset(DateTime.Now.AddMinutes(10)));
+                formfiles.Add(downloadContent);                  
             }
             return formfiles;
 
         }
 
-        public async Task<List<List<FileContentResult>>> GetBLobsAsync(IEnumerable<IEnumerable<int>> collection, bool trackChanges)
+        public List<List<Uri>> GetBLobsAsync(IEnumerable<IEnumerable<int>> collection, bool trackChanges)
         {
-            List<List<FileContentResult>> collectionfiles = new List<List<FileContentResult>>();
+            List<List<Uri>> collectionfiles = new List<List<Uri>>();
             var blobContainer = _blobServiceClient.GetBlobContainerClient("files");
 
             foreach (IEnumerable<int> Ids in collection)
             {
                 var blobs = _repository.Blob.FindByCondition(x => Ids.Contains(x.Id), trackChanges);
-                List<FileContentResult> formfiles = new List<FileContentResult>();
+                List<Uri> formfiles = new List<Uri>();
 
                 foreach (Blob blob in blobs)
                 {              
@@ -64,18 +61,12 @@ namespace SocialNetwork.Application.Services
                         continue;
 
                     var blobClient = blobContainer.GetBlobClient(blob.Filename);
-                    var downloadContent = await blobClient.DownloadAsync();
-                    using (MemoryStream ms = new MemoryStream())
-                    {
-                        await downloadContent.Value.Content.CopyToAsync(ms);
-                        var FormFile = BlobConverters.BlobToFileContentResult(blob, ms.ToArray());
-                        formfiles.Add(FormFile);
-                    }
+                    var downloadContent = blobClient.GenerateSasUri(BlobSasPermissions.Read, new DateTimeOffset(DateTime.Now.AddMinutes(10)));
+                    formfiles.Add(downloadContent);
                 }
                 collectionfiles.Add(formfiles);
             }
             return collectionfiles;
-
         }
 
         public async Task<List<Blob>> SaveBlobsAsync(IEnumerable<IFormFile> formFiles, string uniqueID)

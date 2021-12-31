@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 
 namespace SocialNetwork.Application.DTO
@@ -12,6 +13,6 @@ namespace SocialNetwork.Application.DTO
 
         public string Text { get; set; }
 
-        public IEnumerable<FileContentResult> Content { get; set; }
+        public IEnumerable<Uri> Content { get; set; }
     }
 }

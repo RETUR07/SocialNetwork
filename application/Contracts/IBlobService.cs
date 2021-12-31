@@ -11,8 +11,8 @@ namespace SocialNetwork.Application.Contracts
 {
     public interface IBlobService
     {
-        public Task<List<FileContentResult>> GetBLobsAsync(IEnumerable<int> ids, bool trackChanges);
+        public Task<List<Uri>> GetBLobsAsync(IEnumerable<int> ids, bool trackChanges);
         public Task<List<Blob>> SaveBlobsAsync(IEnumerable<IFormFile> formFile, string uniqueID);
-        public  Task<List<List<FileContentResult>>> GetBLobsAsync(IEnumerable<IEnumerable<int>> collection, bool trackChanges);
+        public List<List<Uri>> GetBLobsAsync(IEnumerable<IEnumerable<int>> collection, bool trackChanges);
     }
 }
