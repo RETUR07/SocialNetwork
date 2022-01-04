@@ -4,6 +4,8 @@ using SocialNetwork.Application.DTO;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.SignalR;
+using SocialNetwork.Hubs;
 
 namespace SocialNetwork.Controllers
 {
@@ -12,11 +14,13 @@ namespace SocialNetwork.Controllers
     [ApiController]
     public class RateController : Base
     {
+        IHubContext<RateHub> _hubContext;
         private readonly IRateService _rateService;
 
-        public RateController(IRateService rateService)
+        public RateController(IRateService rateService, IHubContext<RateHub> hubContext)
         {
             _rateService = rateService;
+            _hubContext = hubContext;
         }
 
         [HttpGet("post/{userId}/{postId}")]
@@ -53,7 +57,10 @@ namespace SocialNetwork.Controllers
             {
                 return BadRequest("RateForm is null");
             }
-            await _rateService.UpdatePostRateAsync(rateForm, UserId);        
+
+            await _rateService.UpdatePostRateAsync(rateForm, UserId);
+            await _hubContext.Clients.All.SendAsync("Notify", _rateService.GetPostRateAsync(UserId, rateForm.ObjectId, false));
+
             return NoContent();
         }
     }

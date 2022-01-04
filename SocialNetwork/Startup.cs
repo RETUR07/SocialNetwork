@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using SocialNetwork.Extensions;
+using SocialNetwork.Hubs;
 using SocialNetwork.Worker;
 using System;
 using System.Collections.Generic;
@@ -25,7 +26,10 @@ namespace SocialNetwork
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHostedService<APIWorker>();
+
             services.AddControllers();
+            services.AddSignalR();
+
             services.ConfigureAutoMapper();
             services.ConfigureServices(Configuration);
             services.ConfigureDatabase(Configuration);
@@ -94,6 +98,7 @@ namespace SocialNetwork
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<RateHub>("/changeRate");
             });
         }
     }
