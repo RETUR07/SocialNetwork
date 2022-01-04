@@ -88,6 +88,7 @@ namespace SocialNetwork
             app.UseCors(builder =>
             {
                 builder.WithOrigins("http://localhost:3000")
+                .AllowCredentials()
                 .AllowAnyMethod()
                 .AllowAnyHeader();
             });
