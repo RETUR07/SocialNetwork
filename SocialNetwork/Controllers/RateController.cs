@@ -59,7 +59,7 @@ namespace SocialNetwork.Controllers
             }
 
             await _rateService.UpdatePostRateAsync(rateForm, UserId);
-            await _hubContext.Clients.All.SendAsync("Notify", _rateService.GetPostRateAsync(UserId, rateForm.ObjectId, false));
+            await _hubContext.Clients.All.SendAsync("Notify", await _rateService.GetPostRateAsync(UserId, rateForm.ObjectId, false));
 
             return NoContent();
         }
