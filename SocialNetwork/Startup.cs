@@ -99,7 +99,7 @@ namespace SocialNetwork
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<RateHub>("/changeRate");
+                endpoints.MapHub<RateHub>("hubs/changeRate");
             });
         }
     }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace SocialNetwork.Hubs
 {
+    [Authorize]
     public class RateHub : Hub
     {
     }
