@@ -1,14 +1,9 @@
-﻿using AutoMapper;
-using Azure.Storage.Blobs;
-using Azure.Storage.Sas;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
 using SocialNetwork.Application.Contracts;
 using SocialNetwork.Entities.Models;
 using SocialNetworks.Repository.Contracts;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,12 +12,10 @@ namespace SocialNetwork.Application.Services
     public class BlobService : IBlobService
     {
         private readonly IRepositoryManager _repository;
-        private readonly BlobServiceClient _blobServiceClient;
 
-        public BlobService(IRepositoryManager repository, BlobServiceClient blobServiceClient)
+        public BlobService(IRepositoryManager repository)
         {
             _repository = repository;
-            _blobServiceClient = blobServiceClient;
         }
 
         public async Task<List<Uri>> GetBLobsAsync(IEnumerable<int> Ids, bool trackChanges)
@@ -33,16 +26,7 @@ namespace SocialNetwork.Application.Services
                 var blob = await _repository.Blob.GetBlob(id, trackChanges);
                 if (blob == null)
                     continue;
-                if(blob.Data == null || blob.Data.Length == 0)
-                {
-                    var blobContainer = _blobServiceClient.GetBlobContainerClient("files");
-
-                    var blobClient = blobContainer.GetBlobClient(blob.Filename);
-                    var downloadContent = blobClient.GenerateSasUri(BlobSasPermissions.Read, new DateTimeOffset(DateTime.Now.AddMinutes(10)));
-                    formfiles.Add(downloadContent);
-                }
-                else
-                    formfiles.Add(new Uri("http://localhost:5050/api/Blob/" + id));
+                formfiles.Add(new Uri("http://localhost:5050/api/Blob/" + id));
             }
             return formfiles;
 
@@ -57,7 +41,6 @@ namespace SocialNetwork.Application.Services
         public List<List<Uri>> GetBLobsAsync(IEnumerable<IEnumerable<int>> collection, bool trackChanges)
         {
             List<List<Uri>> collectionfiles = new List<List<Uri>>();
-            var blobContainer = _blobServiceClient.GetBlobContainerClient("files");
 
             foreach (IEnumerable<int> Ids in collection)
             {
@@ -68,14 +51,8 @@ namespace SocialNetwork.Application.Services
                 {              
                     if (blob == null)
                         continue;
-                    if (blob.Data == null || blob.Data.Length == 0)
-                    {
-                        var blobClient = blobContainer.GetBlobClient(blob.Filename);
-                        var downloadContent = blobClient.GenerateSasUri(BlobSasPermissions.Read, new DateTimeOffset(DateTime.Now.AddMinutes(10)));
-                        formfiles.Add(downloadContent);
-                    }
-                    else
-                        formfiles.Add(new Uri("http://localhost:5050/api/Blob/" + blob.Id));
+
+                    formfiles.Add(new Uri("http://localhost:5050/api/Blob/" + blob.Id));
 
                 }
                 collectionfiles.Add(formfiles);
