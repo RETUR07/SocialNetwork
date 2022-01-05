@@ -50,23 +50,20 @@ namespace SocialNetwork.Application.Services
             var rate = await _repository.Rate.GetPostRateAsync(userId, ratedto.ObjectId, true);
             if (rate == null)
             {
-                var user = await _repository.User.GetUserAsync(userId, true);
                 var post = await _repository.Post.GetPostAsync(ratedto.ObjectId, true);
-
+                if (post == null) return;
                 rate = _mapper.Map<RateForm, Rate>(ratedto);
-                _mapper.Map(user, rate);
-                _mapper.Map(post, rate);
+                rate.UserId = userId;
                 _repository.Rate.Create(rate);
             }
             else
             {
                 if (ratedto.LikeStatus == rate.LikeStatus)
                 {
-                    _mapper.Map(ratedto, rate);
                     rate.LikeStatus = LikeStatus.Viewed;
                 }
                 else
-                    _mapper.Map(ratedto, rate);               
+                   rate.LikeStatus = ratedto.LikeStatus;               
             }
             await _repository.SaveAsync();
             return;

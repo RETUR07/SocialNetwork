@@ -14,12 +14,11 @@ namespace SocialNetworks.Repository.Repository
         }
 
         public async Task<Rate> GetPostRateAsync(int userId, int postId, bool trackChanges) =>
-           await FindByCondition(r => r.User.Id == userId && r.Post.Id == postId, trackChanges)
-            .Include(x => x.Post).Include(x => x.User).SingleOrDefaultAsync();
+           await FindByCondition(r => r.UserId == userId && r.PostId == postId, trackChanges)
+            .SingleOrDefaultAsync();
 
         public async Task<List<Rate>> GetRatesByPostIdAsync(int postId, bool trackChanges) =>
-           await FindByCondition(r => r.Post.Id == postId, trackChanges)
-            .Include(x => x.User)
-            .Include(x => x.Post).ToListAsync();
+           await FindByCondition(r => r.PostId == postId, trackChanges)
+            .ToListAsync();
     }
 }
