@@ -8,6 +8,7 @@ namespace SocialNetwork.Entities.Models
 {
     public enum LikeStatus
     {
+        Viewed,
         Liked,
         Disliked
     }

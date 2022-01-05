@@ -61,7 +61,10 @@ namespace SocialNetwork.Application.Services
             else
             {
                 if (ratedto.LikeStatus == rate.LikeStatus)
-                    _repository.Rate.Delete(rate);
+                {
+                    _mapper.Map(ratedto, rate);
+                    rate.LikeStatus = LikeStatus.Viewed;
+                }
                 else
                     _mapper.Map(ratedto, rate);               
             }
