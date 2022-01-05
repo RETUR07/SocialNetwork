@@ -17,7 +17,7 @@ namespace SocialNetwork.Controllers
             _blobService = blobService;
         }
 
-        [HttpGet("/{blobId}")]
+        [HttpGet("{blobId}")]
         public async Task<IActionResult> GetChildPosts(int blobId)
         {
             var blob = await _blobService.GetBlobAsync(blobId);
