@@ -51,15 +51,15 @@ namespace SocialNetwork.Controllers
         }
 
         [HttpPut("post")]
-        public async Task<IActionResult> UpdatePostRate([FromBody]RateForm rateForm)
+        public IActionResult UpdatePostRate([FromBody]RateForm rateForm)
         {
             if (rateForm == null)
             {
                 return BadRequest("RateForm is null");
             }
 
-            await _rateService.UpdatePostRateAsync(rateForm, UserId);
-            await _hubContext.Clients.All.SendAsync("Notify", await _rateService.GetPostRateAsync(UserId, rateForm.ObjectId, false));
+            _rateService.UpdatePostRateAsync(rateForm, UserId);
+            _hubContext.Clients.All.SendAsync("Notify", rateForm.ObjectId);
 
             return NoContent();
         }
