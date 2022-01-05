@@ -89,7 +89,7 @@ namespace SocialNetwork.Application.Services
                     continue;
                 var blob = await BlobConverters.FormFileToBlobAsync(formfile);
                 blob.Filename = uniqueID + "-" + formfile.FileName;
-                blob.Data = new byte[blob.Data.Length];
+                blob.Data = new byte[formfile.Length];
                 await formfile.OpenReadStream().ReadAsync(blob.Data, 0, (int)formfile.Length);
                 _repository.Blob.Create(blob);
 
