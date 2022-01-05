@@ -33,22 +33,29 @@ namespace SocialNetwork.Application.Services
                 var blob = await _repository.Blob.GetBlob(id, trackChanges);
                 if (blob == null)
                     continue;
+                formfiles.Add(new Uri("http://localhost:5050/api/Blob/" + id));
 
 
-                var blobContainer = _blobServiceClient.GetBlobContainerClient("files");
+                //var blobContainer = _blobServiceClient.GetBlobContainerClient("files");
 
-                var blobClient = blobContainer.GetBlobClient(blob.Filename);
-                var downloadContent = blobClient.GenerateSasUri(BlobSasPermissions.Read, new DateTimeOffset(DateTime.Now.AddMinutes(10)));
-                formfiles.Add(downloadContent);                  
+                //var blobClient = blobContainer.GetBlobClient(blob.Filename);
+                //var downloadContent = blobClient.GenerateSasUri(BlobSasPermissions.Read, new DateTimeOffset(DateTime.Now.AddMinutes(10)));
+                //formfiles.Add(downloadContent);
             }
             return formfiles;
 
         }
 
+        public async Task<Blob> GetBlobAsync(int blobId)
+        {
+            var blob = await _repository.Blob.GetBlob(blobId, false);
+            return blob;
+        }
+
         public List<List<Uri>> GetBLobsAsync(IEnumerable<IEnumerable<int>> collection, bool trackChanges)
         {
             List<List<Uri>> collectionfiles = new List<List<Uri>>();
-            var blobContainer = _blobServiceClient.GetBlobContainerClient("files");
+            //var blobContainer = _blobServiceClient.GetBlobContainerClient("files");
 
             foreach (IEnumerable<int> Ids in collection)
             {
@@ -60,9 +67,12 @@ namespace SocialNetwork.Application.Services
                     if (blob == null)
                         continue;
 
-                    var blobClient = blobContainer.GetBlobClient(blob.Filename);
-                    var downloadContent = blobClient.GenerateSasUri(BlobSasPermissions.Read, new DateTimeOffset(DateTime.Now.AddMinutes(10)));
-                    formfiles.Add(downloadContent);
+                    //var blobClient = blobContainer.GetBlobClient(blob.Filename);
+                    //var downloadContent = blobClient.GenerateSasUri(BlobSasPermissions.Read, new DateTimeOffset(DateTime.Now.AddMinutes(10)));
+                    //formfiles.Add(downloadContent);
+
+                    formfiles.Add(new Uri("http://localhost:5050/api/Blob/" + blob.Id));
+
                 }
                 collectionfiles.Add(formfiles);
             }
@@ -79,11 +89,13 @@ namespace SocialNetwork.Application.Services
                     continue;
                 var blob = await BlobConverters.FormFileToBlobAsync(formfile);
                 blob.Filename = uniqueID + "-" + formfile.FileName;
+                blob.Data = new byte[blob.Data.Length];
+                await formfile.OpenReadStream().ReadAsync(blob.Data, 0, (int)formfile.Length);
                 _repository.Blob.Create(blob);
 
-                var blobContainer = _blobServiceClient.GetBlobContainerClient("files");
-                var blobClient = blobContainer.GetBlobClient(uniqueID + "-" + formfile.FileName);
-                await blobClient.UploadAsync(formfile.OpenReadStream());
+                //var blobContainer = _blobServiceClient.GetBlobContainerClient("files");
+                //var blobClient = blobContainer.GetBlobClient(uniqueID + "-" + formfile.FileName);
+                //await blobClient.UploadAsync(formfile.OpenReadStream());
 
                 blobs.Add(blob);
             }
