@@ -4,11 +4,8 @@ using SocialNetwork.Application.DTO;
 using SocialNetwork.Application.Exceptions;
 using SocialNetwork.Entities.Models;
 using SocialNetworks.Repository.Contracts;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace SocialNetwork.Application.Services
@@ -26,31 +23,36 @@ namespace SocialNetwork.Application.Services
             _blobService = blobService;
 
         }
-        public async Task AddMessage(int chatId, MessageForm messagedto)
+        public async Task<MessageForResponseDTO> AddMessage(int userId, MessageForm messagedto)
         {
             if (messagedto == null) throw new InvalidDataException("message dto is null");
-            var chat = await _repository.Chat.GetChatAsync(chatId, true);
+            var chat = await _repository.Chat.GetChatAsync(messagedto.ChatId, true);
             if (chat == null) throw new InvalidDataException("no such chat");
-            var user = await _repository.User.GetUserAsync(messagedto.From, true);
+            var user = await _repository.User.GetUserAsync(userId, true);
             if (user == null) throw new InvalidDataException("no such user");
             var message = _mapper.Map<MessageForm, Message>(messagedto);
             message.User = user;
             chat.Messages.Add(message);
             await _repository.SaveAsync();
-            message.Blobs = await _blobService.SaveBlobsAsync(messagedto.Content, chatId + "-message-" + message.Id);
+            message.Blobs = await _blobService.SaveBlobsAsync(messagedto.Content, messagedto.ChatId + "-message-" + message.Id);
             await _repository.SaveAsync();
+            return await GetMessage(message.Id);
         }
 
-        public async Task AddUser(int chatId, int userId)
+        public async Task AddUser(int chatId, int userId, int adderId)
         {
             var user = await _repository.User.GetUserAsync(userId, true);
+            var adder = await _repository.User.GetUserAsync(adderId, false);
             if (user == null) throw new InvalidDataException("no such user");
             var chat = await _repository.Chat.GetChatAsync(chatId, true);
             if (chat == null) throw new InvalidDataException("no such chat");
-            if (chat.Users.Contains(user))
-                chat.Users.Remove(user);
+            if (!chat.Users.Contains(adder))
+                return;
             else
-                chat.Users.Add(user);
+                if(userId == adderId)
+                    chat.Users.Remove(user);
+                else
+                    chat.Users.Add(user);
             await _repository.SaveAsync();
         }
 
@@ -84,17 +86,21 @@ namespace SocialNetwork.Application.Services
             await _repository.SaveAsync();
         }
 
-        public async Task DeleteMessage(int messageId)
+        public async Task DeleteMessage(int userId, int messageId)
         {
             var message = await _repository.Message.GetMessageAsync(messageId, true);
-            _repository.Message.Delete(message);
-            await _repository.SaveAsync();
+            if (message.User.Id == userId)
+            {
+                _repository.Message.Delete(message);
+                await _repository.SaveAsync();
+            }
         }
 
-        public async Task<ChatForResponseDTO> GetChat(int chatId)
+        public async Task<ChatForResponseDTO> GetChat(int userId, int chatId)
         {
             var chat = await _repository.Chat.GetChatAsync(chatId, false);
-            if (chat == null)
+            var user = await _repository.User.GetUserAsync(userId, false);
+            if (chat == null || !chat.Users.Contains(user))
             {
                 return null;
             }
@@ -127,8 +133,11 @@ namespace SocialNetwork.Application.Services
             return messagedto;
         }
 
-        public async Task<List<MessageForResponseDTO>> GetMessages(int chatId)
+        public async Task<List<MessageForResponseDTO>> GetMessages(int userId, int chatId)
         {
+            var chat = await _repository.Chat.GetChatAsync(chatId, false);
+            var user = await _repository.User.GetUserAsync(userId, false);
+            if (!chat.Users.Contains(user)) return null;
             var messages = await _repository.Message.GetMessgesByChatIdAsync(chatId, false);
             if (messages == null)
             {

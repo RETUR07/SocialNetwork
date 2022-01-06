@@ -34,7 +34,7 @@ namespace SocialNetwork.Application.Services
                     await _workerService.EnqueueAsync(messageLogId + " " + JsonConvert.SerializeObject(chatsdto));
                     break;
                 case 1:
-                    var messagesdto = await _chatService.GetMessages((int)workerDTO["ChatId"]);
+                    var messagesdto = await _chatService.GetMessages((int)workerDTO["UserId"], (int)workerDTO["ChatId"]);
                     await _workerService.EnqueueAsync(messageLogId + " " + JsonConvert.SerializeObject(messagesdto));
                     break;
                 case 2:
@@ -42,7 +42,7 @@ namespace SocialNetwork.Application.Services
                     await _workerService.EnqueueAsync(messageLogId + " " + JsonConvert.SerializeObject(messagedto));
                     break;
                 case 3:
-                    var chatdto = await _chatService.GetChat((int)workerDTO["ChatId"]);
+                    var chatdto = await _chatService.GetChat((int)workerDTO["UserId"], (int)workerDTO["ChatId"]);
                     await _workerService.EnqueueAsync(messageLogId + " " + JsonConvert.SerializeObject(chatdto));
                     break;
                 case 4:
@@ -50,7 +50,7 @@ namespace SocialNetwork.Application.Services
                     await _workerService.EnqueueAsync(messageLogId + " " + "completed");
                     break;
                 case 5:
-                    await _chatService.DeleteMessage((int)workerDTO["UserId"]);
+                    await _chatService.DeleteMessage((int)workerDTO["UserId"], (int)workerDTO["UserId"]);
                     await _workerService.EnqueueAsync(messageLogId + " " + "completed");
                     break;
                 case 6:
@@ -58,11 +58,11 @@ namespace SocialNetwork.Application.Services
                     await _workerService.EnqueueAsync(messageLogId + " " + "completed");
                     break;
                 case 7:
-                    await _chatService.AddUser((int)workerDTO["ChatId"], (int)workerDTO["UserId"]);
+                    await _chatService.AddUser((int)workerDTO["ChatId"], (int)workerDTO["UserId"], (int)workerDTO["UserId"]);
                     await _workerService.EnqueueAsync(messageLogId + " " + "completed");
                     break;
                 case 8:
-                    await _chatService.AddMessage((int)workerDTO["ChatId"], JsonConvert.DeserializeObject<MessageForm>(workerDTO["Messagedto"].ToString()));
+                    await _chatService.AddMessage((int)workerDTO["UserId"], JsonConvert.DeserializeObject<MessageForm>(workerDTO["Messagedto"].ToString()));
                     await _workerService.EnqueueAsync(messageLogId + " " + "completed");
                     break;
             }

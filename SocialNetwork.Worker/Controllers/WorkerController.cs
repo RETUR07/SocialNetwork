@@ -75,10 +75,10 @@ namespace SocialNetwork.Worker.Controllers
             return Ok();
         }
 
-        [HttpPut("addmessage/{chatId}")]
-        public IActionResult AddMessage([FromForm] MessageForm messagedto, int chatId)
+        [HttpPut("addmessage/{chatId}/{userId}")]
+        public IActionResult AddMessage([FromForm] MessageForm messagedto, int chatId, int userId)
         {
-            _workerService.EnqueueAsync(JsonConvert.SerializeObject(new { RequestType = 8, Messagedto = messagedto, ChatId = chatId }));
+            _workerService.EnqueueAsync(JsonConvert.SerializeObject(new { RequestType = 8, Messagedto = messagedto, ChatId = chatId, UserId = userId }));
             return Ok();
         }
     }       

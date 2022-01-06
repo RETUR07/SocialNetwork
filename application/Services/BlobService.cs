@@ -53,7 +53,6 @@ namespace SocialNetwork.Application.Services
                         continue;
 
                     formfiles.Add(new Uri("http://localhost:5050/api/Blob/" + blob.Id));
-
                 }
                 collectionfiles.Add(formfiles);
             }

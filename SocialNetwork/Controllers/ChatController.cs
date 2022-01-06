@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
 using SocialNetwork.Application.Exceptions;
 using System.Text.Json;
+using SocialNetwork.Hubs;
+using Microsoft.AspNetCore.SignalR;
 
 namespace SocialNetwork.Controllers
 {
@@ -14,10 +16,12 @@ namespace SocialNetwork.Controllers
     public class ChatController : Base
     {
         private readonly IChatService _chatService;
+        IHubContext<ChatHub> _hubContext;
 
-        public ChatController(IChatService chatService)
+        public ChatController(IChatService chatService, IHubContext<ChatHub> hubContext)
         {
             _chatService = chatService;
+            _hubContext = hubContext;
         }
 
         [HttpGet("chats/")]
@@ -34,27 +38,20 @@ namespace SocialNetwork.Controllers
         [HttpGet("messages/{chatId}")]
         public async Task<IActionResult> GetMessages(int chatId)
         {
-            var messages = await _chatService.GetMessages(chatId);
+            var messages = await _chatService.GetMessages(UserId, chatId);
             if (messages == null) return NotFound();
             return Ok(messages);
-        }
-
-        [HttpGet("message/{messageId}", Name = "GetMessage")]
-        public async Task<IActionResult> GetMessage(int messageId)
-        {
-            var message = await _chatService.GetMessage(messageId);
-            if (message == null) return NotFound();
-            return Ok(message);
         }
 
         [HttpGet("{chatId}", Name = "GetChat")]
         public async Task<IActionResult> GetChat(int chatId)
         {
-            var chat = await _chatService.GetChat(chatId);
+            var chat = await _chatService.GetChat(UserId, chatId);
             if (chat == null) return NotFound();
             return Ok(chat);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpDelete("chat/{chatId}")]
         public async Task<IActionResult> DeleteChat(int chatId)
         {
@@ -65,7 +62,7 @@ namespace SocialNetwork.Controllers
         [HttpDelete("message/{messageId}")]
         public async Task<IActionResult> DeleteMessage(int messageId)
         {
-            await _chatService.DeleteMessage(messageId);
+            await _chatService.DeleteMessage(UserId, messageId);
             return NoContent();
         }
 
@@ -77,7 +74,7 @@ namespace SocialNetwork.Controllers
             {
                 return BadRequest("Chat is null");
             }
-            return CreatedAtRoute("GetChat", new { chatId = chat.Id }, await _chatService.GetChat(chat.Id));
+            return CreatedAtRoute("GetChat", new { chatId = chat.Id }, await _chatService.GetChat(UserId, chat.Id));
         }
 
         [HttpPut("{chatId}/adduser/{userId}")]
@@ -85,7 +82,7 @@ namespace SocialNetwork.Controllers
         {
             try
             {
-                await _chatService.AddUser(chatId, userId);
+                await _chatService.AddUser(chatId, userId, UserId);
             }
             catch(InvalidDataException exc)
             {
@@ -94,15 +91,15 @@ namespace SocialNetwork.Controllers
             return NoContent();
         }
 
-        [HttpPut("addmessage/{chatId}")]
-        public async Task<IActionResult> AddMessage([FromForm]MessageForm messagedto, int chatId)
+        [HttpPut("addmessage")]
+        public async Task<IActionResult> AddMessage([FromForm]MessageForm messagedto)
         {
             try
             {
-                messagedto.From = UserId;
-                await _chatService.AddMessage(chatId, messagedto);
+                var message = await _chatService.AddMessage(UserId, messagedto);
+                await _hubContext.Clients.All.SendAsync("Send", messagedto.ChatId);
             }
-            catch(InvalidDataException exc)
+            catch (InvalidDataException exc)
             {
                 return BadRequest(exc.Message);
             }

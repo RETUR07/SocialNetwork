@@ -11,13 +11,13 @@ namespace SocialNetwork.Application.Contracts
     public interface IChatService
     {
         public Task<List<ChatForResponseDTO>> GetChats(int userId);
-        public Task<List<MessageForResponseDTO>> GetMessages(int chatId);
-        public Task<ChatForResponseDTO> GetChat(int chatId);
+        public Task<List<MessageForResponseDTO>> GetMessages(int userId, int chatId);
+        public Task<ChatForResponseDTO> GetChat(int userId, int chatId);
         public Task DeleteChat(int chatId);
-        public Task DeleteMessage(int messageId);
+        public Task DeleteMessage(int userId, int messageId);
         public Task<MessageForResponseDTO> GetMessage(int messageId);
         public Task<Chat> CreateChat(ChatForm chatdto);
-        public Task AddUser(int chatId, int userId);
-        public Task AddMessage(int chatId, MessageForm messagedto);
+        public Task AddUser(int chatId, int userId, int adderId);
+        public Task<MessageForResponseDTO> AddMessage(int UserId, MessageForm messagedto);
     }
 }
