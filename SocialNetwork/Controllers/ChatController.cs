@@ -69,7 +69,7 @@ namespace SocialNetwork.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateChat([FromBody]ChatForm chatdto)
         {
-            var chat = await _chatService.CreateChat(chatdto);
+            var chat = await _chatService.CreateChat(UserId, chatdto);
             if (chat == null)
             {
                 return BadRequest("Chat is null");

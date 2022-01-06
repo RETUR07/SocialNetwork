@@ -54,7 +54,7 @@ namespace SocialNetwork.Application.Services
                     await _workerService.EnqueueAsync(messageLogId + " " + "completed");
                     break;
                 case 6:
-                    await _chatService.CreateChat(JsonConvert.DeserializeObject<ChatForm>(workerDTO["Chatdto"].ToString()));
+                    await _chatService.CreateChat((int)workerDTO["UserId"], JsonConvert.DeserializeObject<ChatForm>(workerDTO["Chatdto"].ToString()));
                     await _workerService.EnqueueAsync(messageLogId + " " + "completed");
                     break;
                 case 7:

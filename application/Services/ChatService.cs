@@ -56,12 +56,15 @@ namespace SocialNetwork.Application.Services
             await _repository.SaveAsync();
         }
 
-        public async Task<Chat> CreateChat(ChatForm chatdto)
+        public async Task<Chat> CreateChat(int userId, ChatForm chatdto)
         {
             if (chatdto == null || chatdto.Users == null)
             {
                 return null;
             }
+
+            if (!chatdto.Users.Contains(userId))chatdto.Users.Append(userId);
+
             var chat = new Chat();
             chat.Users = new List<User>();
             foreach(var x in chatdto.Users)
