@@ -103,10 +103,12 @@ namespace SocialNetwork.Application.Services
         {
             var chat = await _repository.Chat.GetChatAsync(chatId, false);
             var user = await _repository.User.GetUserAsync(userId, false);
-            if (chat == null || !chat.Users.Contains(user))
+
+            if (chat == null || chat.Users.Find(u => u.Id == userId) == null)
             {
                 return null;
             }
+
             var chatdto = _mapper.Map<ChatForResponseDTO>(chat);
             return chatdto;
         }
