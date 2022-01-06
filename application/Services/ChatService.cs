@@ -42,11 +42,10 @@ namespace SocialNetwork.Application.Services
         public async Task AddUser(int chatId, int userId, int adderId)
         {
             var user = await _repository.User.GetUserAsync(userId, true);
-            var adder = await _repository.User.GetUserAsync(adderId, false);
             if (user == null) throw new InvalidDataException("no such user");
             var chat = await _repository.Chat.GetChatAsync(chatId, true);
             if (chat == null) throw new InvalidDataException("no such chat");
-            if (!chat.Users.Contains(adder))
+            if (chat.Users.Find(u => u.Id == adderId) == null)
                 return;
             else
                 if(userId == adderId)
@@ -102,7 +101,6 @@ namespace SocialNetwork.Application.Services
         public async Task<ChatForResponseDTO> GetChat(int userId, int chatId)
         {
             var chat = await _repository.Chat.GetChatAsync(chatId, false);
-            var user = await _repository.User.GetUserAsync(userId, false);
 
             if (chat == null || chat.Users.Find(u => u.Id == userId) == null)
             {
@@ -141,8 +139,8 @@ namespace SocialNetwork.Application.Services
         public async Task<List<MessageForResponseDTO>> GetMessages(int userId, int chatId)
         {
             var chat = await _repository.Chat.GetChatAsync(chatId, false);
-            var user = await _repository.User.GetUserAsync(userId, false);
-            if (!chat.Users.Contains(user)) return null;
+
+            if (chat.Users.Find(u => u.Id == userId) == null) return null;
             var messages = await _repository.Message.GetMessgesByChatIdAsync(chatId, false);
             if (messages == null)
             {
