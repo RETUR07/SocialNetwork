@@ -21,7 +21,8 @@ namespace SocialNetwork.Application.Mapping
                 .ForMember(m => m.From, opt => opt.MapFrom(x => x.User.Id));
 
             CreateMap<Chat, ChatForResponseDTO>()
-                .ForMember(ch => ch.Users, opt => opt.MapFrom(x => x.Users.Select(x=>x.Id)));
+                .ForMember(ch => ch.Users, opt => opt.MapFrom(x => x.Users.Select(x=>x.Id)))
+                .ForMember(ch => ch.Messages, opt => opt.MapFrom(x => x.Messages));
         }
     }
 }
