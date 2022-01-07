@@ -16,12 +16,10 @@ namespace SocialNetwork.Controllers
     public class ChatController : Base
     {
         private readonly IChatService _chatService;
-        IHubContext<ChatHub> _hubContext;
 
-        public ChatController(IChatService chatService, IHubContext<ChatHub> hubContext)
+        public ChatController(IChatService chatService)
         {
             _chatService = chatService;
-            _hubContext = hubContext;
         }
 
         [HttpGet("chats/")]
@@ -97,7 +95,6 @@ namespace SocialNetwork.Controllers
             try
             {
                 var message = await _chatService.AddMessage(UserId, messagedto);
-                await _hubContext.Clients.Group("chat" + message.ChatId).SendAsync("Send", message);
             }
             catch (InvalidDataException exc)
             {

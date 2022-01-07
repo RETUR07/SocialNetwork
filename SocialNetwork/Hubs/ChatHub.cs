@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using SocialNetwork.Application.Contracts;
+using SocialNetwork.Application.DTO;
+using SocialNetwork.Application.Exceptions;
 using System.Threading.Tasks;
 
 namespace SocialNetwork.Hubs
@@ -14,6 +16,7 @@ namespace SocialNetwork.Hubs
         {
             _chatService = chatService;
         }
+
         public async Task Subscribe(int chatId)
         {
             if (await _chatService.GetChat(UserId, chatId) == null)
@@ -27,5 +30,19 @@ namespace SocialNetwork.Hubs
                 await Clients.Group(groupname).SendAsync("Notify", "Subscribed");
             }
         }
+
+        public async Task AddMessage(MessageForm messagedto)
+        {
+            try
+            {
+                var message = await _chatService.AddMessage(UserId, messagedto);
+                await Clients.Group("chat" + message.ChatId).SendAsync("Send", message);
+            }
+            catch (InvalidDataException exc)
+            {
+                await Clients.Caller.SendAsync(exc.Message);
+            }
+        }
+
     }
 }
