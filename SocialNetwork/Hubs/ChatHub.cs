@@ -37,6 +37,7 @@ namespace SocialNetwork.Hubs
             {
                 var message = await _chatService.AddMessage(UserId, messagedto);
                 await Clients.Group("chat" + message.ChatId).SendAsync("Send", message);
+                await Clients.All.SendAsync("Send", message);
             }
             catch (InvalidDataException exc)
             {
