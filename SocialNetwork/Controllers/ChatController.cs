@@ -97,7 +97,7 @@ namespace SocialNetwork.Controllers
             try
             {
                 var message = await _chatService.AddMessage(UserId, messagedto);
-                await _hubContext.Clients.All.SendAsync("Send", message);
+                await _hubContext.Clients.Group("chat" + message.ChatId).SendAsync("Send", message);
             }
             catch (InvalidDataException exc)
             {
