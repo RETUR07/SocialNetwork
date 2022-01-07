@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using System.Linq;
+using System.Security.Claims;
 
 namespace SocialNetwork.Hubs
 {

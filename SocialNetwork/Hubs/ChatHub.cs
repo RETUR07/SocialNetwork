@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using SocialNetwork.Application.Contracts;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace SocialNetwork.Hubs
