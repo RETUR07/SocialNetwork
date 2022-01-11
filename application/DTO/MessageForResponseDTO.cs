@@ -9,6 +9,7 @@ namespace SocialNetwork.Application.DTO
 {
     public class MessageForResponseDTO
     {
+        public int Id { get; set; }
         public int From { get; set; }
         public string Text { get; set; }
         public int ChatId { get; set; }
