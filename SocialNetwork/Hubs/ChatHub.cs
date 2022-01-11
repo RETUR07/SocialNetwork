@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using SocialNetwork.Application.Contracts;
 using SocialNetwork.Application.DTO;
@@ -32,7 +31,7 @@ namespace SocialNetwork.Hubs
             }
         }
 
-        public async Task AddMessage([FromForm] MessageForm messagedto)
+        public async Task AddMessage(MessageForm messagedto)
         {
             try
             {
