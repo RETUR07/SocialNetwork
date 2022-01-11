@@ -19,7 +19,7 @@ namespace SocialNetwork.Controllers
             _userService = userService;
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetUsers()
         {
