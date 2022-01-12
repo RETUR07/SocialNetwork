@@ -117,8 +117,14 @@ namespace SocialNetwork.Application.Services
             {
                 return null;
             }
+            
 
             var chatdto = _mapper.Map<ChatForResponseDTO>(chat);
+            for (int idx = 0; idx < chat.Messages.Count(); idx++)
+            {
+                chatdto.Messages.ElementAt(idx).Content = 
+                    await _blobService.GetBLobsAsync(chat.Messages.ElementAt(idx).Blobs.Select(x => x.Id), false);
+            }
             return chatdto;
         }
 
