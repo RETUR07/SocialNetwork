@@ -37,9 +37,10 @@ namespace SocialNetwork.Entities.RequestFeatures
         public static PagedList<T> ToReversedPagedList(IQueryable<T> source, int pageNumber, int pageSize)
         {
             var count = source.Count();
+            var TotalPages = (int)Math.Ceiling(count / (double)pageSize);
 
             var items = source
-            .Skip(count - (pageNumber - 1) * pageSize)
+            .Skip((TotalPages - pageNumber) * pageSize)
             .Take(pageSize).ToList();
 
             items.Reverse();
