@@ -9,6 +9,5 @@ namespace SocialNetworks.Repository.Contracts
     {
         public Task<List<Chat>> GetChatsAsync(User user, bool trackChanges);
         public Task<Chat> GetChatAsync(int chatId, bool trackChanges);
-        public Task<Chat> GetChatPagedAsync(int chatId, Parameters parameters, bool trackChanges);
     }
 }

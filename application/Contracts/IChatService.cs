@@ -11,7 +11,7 @@ namespace SocialNetwork.Application.Contracts
     {
         public Task<List<ChatForResponseDTO>> GetChats(int userId);
         public Task<List<MessageForResponseDTO>> GetMessages(int userId, int chatId);
-        public Task<ChatForResponseDTO> GetChat(int userId, int chatId, Parameters parameters);
+        public Task<ChatForResponseDTO> GetChat(int userId, int chatId);
         public Task DeleteChat(int chatId);
         public Task DeleteMessage(int userId, int messageId);
         public Task<MessageForResponseDTO> GetMessage(int messageId);

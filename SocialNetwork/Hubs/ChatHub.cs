@@ -20,7 +20,7 @@ namespace SocialNetwork.Hubs
 
         public async Task Subscribe(int chatId)
         {
-            if (await _chatService.GetChat(UserId, chatId, new Parameters()) == null)
+            if (await _chatService.GetChat(UserId, chatId) == null)
             {
                 await Clients.Caller.SendAsync("Notify", "Denied");
             }

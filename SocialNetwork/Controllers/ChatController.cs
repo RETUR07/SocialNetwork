@@ -42,9 +42,9 @@ namespace SocialNetwork.Controllers
         }
 
         [HttpGet("{chatId}", Name = "GetChat")]
-        public async Task<IActionResult> GetChat(int chatId, [FromQuery] Parameters parameters)
+        public async Task<IActionResult> GetChat(int chatId)
         {
-            var chat = await _chatService.GetChat(UserId, chatId, parameters);
+            var chat = await _chatService.GetChat(UserId, chatId);
             if (chat == null) return NotFound();
             return Ok(chat);
         }

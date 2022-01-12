@@ -26,19 +26,5 @@ namespace SocialNetworks.Repository.Repository
             .Include(x => x.Messages.Where(x => x.IsEnable)).ThenInclude(x => x.User)
             .Include(x => x.Messages.Where(x => x.IsEnable)).ThenInclude(x => x.Blobs)
             .SingleOrDefaultAsync();
-
-        public async Task<Chat> GetChatPagedAsync(int chatId, Parameters parameters, bool trackChanges)
-        {
-            var chat = await FindByCondition(ch => ch.Id == chatId, trackChanges)
-            .Include(x => x.Users.Where(x => x.IsEnable))
-            .Include(x => x.Messages.Where(x => x.IsEnable)).ThenInclude(x => x.User)
-            .Include(x => x.Messages.Where(x => x.IsEnable)).ThenInclude(x => x.Blobs)
-            .SingleOrDefaultAsync();
-
-            chat.Messages = PagedList<Message>.ToReversedPagedList(chat.Messages.AsQueryable(), parameters.PageNumber, parameters.PageSize);
-
-            return chat;
-        }
-
     }
 }

@@ -110,9 +110,9 @@ namespace SocialNetwork.Application.Services
             }
         }
 
-        public async Task<ChatForResponseDTO> GetChat(int userId, int chatId, Parameters parameters)
+        public async Task<ChatForResponseDTO> GetChat(int userId, int chatId)
         {
-            var chat = await _repository.Chat.GetChatPagedAsync(chatId, parameters, false);
+            var chat = await _repository.Chat.GetChatAsync(chatId, false);
 
             if (chat == null || chat.Users.Find(u => u.Id == userId) == null)
             {
