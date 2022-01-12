@@ -1,7 +1,6 @@
 ﻿using SocialNetwork.Application.DTO;
 using SocialNetwork.Entities.Models;
-using SocialNetworks.Repository.RequestFeatures;
-using System.Collections.Generic;
+using SocialNetwork.Entities.RequestFeatures;
 using System.Threading.Tasks;
 
 namespace SocialNetwork.Application.Contracts

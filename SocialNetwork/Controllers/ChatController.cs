@@ -4,11 +4,9 @@ using SocialNetwork.Application.DTO;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
 using SocialNetwork.Application.Exceptions;
-using System.Text.Json;
-using SocialNetwork.Hubs;
-using Microsoft.AspNetCore.SignalR;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
+using SocialNetwork.Entities.RequestFeatures;
 
 namespace SocialNetwork.Controllers
 {
@@ -44,9 +42,9 @@ namespace SocialNetwork.Controllers
         }
 
         [HttpGet("{chatId}", Name = "GetChat")]
-        public async Task<IActionResult> GetChat(int chatId)
+        public async Task<IActionResult> GetChat(int chatId, [FromQuery] Parameters parameters)
         {
-            var chat = await _chatService.GetChat(UserId, chatId);
+            var chat = await _chatService.GetChat(UserId, chatId, parameters);
             if (chat == null) return NotFound();
             return Ok(chat);
         }
@@ -74,7 +72,7 @@ namespace SocialNetwork.Controllers
             {
                 return BadRequest("Chat is null");
             }
-            return CreatedAtRoute("GetChat", new { chatId = chat.Id }, await _chatService.GetChat(UserId, chat.Id));
+            return Ok(chat);
         }
 
         [HttpPut("{chatId}/adduser/{userId}")]

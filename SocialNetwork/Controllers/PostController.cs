@@ -3,7 +3,7 @@ using SocialNetwork.Application.Contracts;
 using SocialNetwork.Application.DTO;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
-using SocialNetworks.Repository.RequestFeatures;
+using SocialNetwork.Entities.RequestFeatures;
 
 namespace SocialNetwork.Controllers
 {

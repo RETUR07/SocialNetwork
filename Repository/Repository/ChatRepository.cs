@@ -1,10 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SocialNetwork.Entities.Models;
+using SocialNetwork.Entities.RequestFeatures;
 using SocialNetworks.Repository.Contracts;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SocialNetworks.Repository.Repository
@@ -27,5 +26,19 @@ namespace SocialNetworks.Repository.Repository
             .Include(x => x.Messages.Where(x => x.IsEnable)).ThenInclude(x => x.User)
             .Include(x => x.Messages.Where(x => x.IsEnable)).ThenInclude(x => x.Blobs)
             .SingleOrDefaultAsync();
+
+        public async Task<Chat> GetChatPagedAsync(int chatId, Parameters parameters, bool trackChanges)
+        {
+            var chat = await FindByCondition(ch => ch.Id == chatId, trackChanges)
+            .Include(x => x.Users.Where(x => x.IsEnable))
+            .Include(x => x.Messages.Where(x => x.IsEnable)).ThenInclude(x => x.User)
+            .Include(x => x.Messages.Where(x => x.IsEnable)).ThenInclude(x => x.Blobs)
+            .SingleOrDefaultAsync();
+
+            chat.Messages = PagedList<Message>.ToPagedList(chat.Messages.AsQueryable(), parameters.PageNumber, parameters.PageSize);
+
+            return chat;
+        }
+
     }
 }

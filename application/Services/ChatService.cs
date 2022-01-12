@@ -4,6 +4,7 @@ using SocialNetwork.Application.Contracts;
 using SocialNetwork.Application.DTO;
 using SocialNetwork.Application.Exceptions;
 using SocialNetwork.Entities.Models;
+using SocialNetwork.Entities.RequestFeatures;
 using SocialNetworks.Repository.Contracts;
 using System.Collections.Generic;
 using System.Linq;
@@ -109,9 +110,9 @@ namespace SocialNetwork.Application.Services
             }
         }
 
-        public async Task<ChatForResponseDTO> GetChat(int userId, int chatId)
+        public async Task<ChatForResponseDTO> GetChat(int userId, int chatId, Parameters parameters)
         {
-            var chat = await _repository.Chat.GetChatAsync(chatId, false);
+            var chat = await _repository.Chat.GetChatPagedAsync(chatId, parameters, false);
 
             if (chat == null || chat.Users.Find(u => u.Id == userId) == null)
             {

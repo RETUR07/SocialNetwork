@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.SignalR;
 using SocialNetwork.Application.Contracts;
 using SocialNetwork.Application.DTO;
 using SocialNetwork.Application.Exceptions;
+using SocialNetwork.Entities.RequestFeatures;
 using System.Threading.Tasks;
 
 namespace SocialNetwork.Hubs
@@ -19,7 +20,7 @@ namespace SocialNetwork.Hubs
 
         public async Task Subscribe(int chatId)
         {
-            if (await _chatService.GetChat(UserId, chatId) == null)
+            if (await _chatService.GetChat(UserId, chatId, new Parameters()) == null)
             {
                 await Clients.Caller.SendAsync("Notify", "Denied");
             }

@@ -41,10 +41,6 @@ namespace SocialNetwork.Application.Services
                     var messagedto = await _chatService.GetMessage((int)workerDTO["MessageId"]);
                     await _workerService.EnqueueAsync(messageLogId + " " + JsonConvert.SerializeObject(messagedto));
                     break;
-                case 3:
-                    var chatdto = await _chatService.GetChat((int)workerDTO["UserId"], (int)workerDTO["ChatId"]);
-                    await _workerService.EnqueueAsync(messageLogId + " " + JsonConvert.SerializeObject(chatdto));
-                    break;
                 case 4:
                     await _chatService.DeleteChat((int)workerDTO["ChatId"]);
                     await _workerService.EnqueueAsync(messageLogId + " " + "completed");

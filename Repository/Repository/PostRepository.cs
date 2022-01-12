@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SocialNetwork.Entities.Models;
+using SocialNetwork.Entities.RequestFeatures;
 using SocialNetworks.Repository.Contracts;
-using SocialNetworks.Repository.RequestFeatures;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace SocialNetworks.Repository.Repository

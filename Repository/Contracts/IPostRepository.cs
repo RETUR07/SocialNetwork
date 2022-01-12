@@ -1,5 +1,5 @@
 ﻿using SocialNetwork.Entities.Models;
-using SocialNetworks.Repository.RequestFeatures;
+using SocialNetwork.Entities.RequestFeatures;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
