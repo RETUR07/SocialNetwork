@@ -97,12 +97,12 @@ namespace SocialNetwork.Controllers
             try
             {
                 var message = await _chatService.AddMessage(UserId, messagedto);
+                return Ok(message);
             }
             catch (InvalidDataException exc)
             {
                 return BadRequest(exc.Message);
             }
-            return NoContent();
         }
 
         [HttpPost("addFilesToMessage/{messageId}")]

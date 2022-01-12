@@ -34,9 +34,9 @@ namespace SocialNetwork.Tests
                 var post2 = new Post() { Author = user2, ParentPost = post1, Id = 2, IsEnable = true, Header = "2" };
                 var post3 = new Post() { Author = user1, ParentPost = post2, Id = 3, IsEnable = true, Header = "3" };
 
-                var rate1 = new Rate(){ User = user1, Post = post1, Id = 1, IsEnable = true };
-                var rate2 = new Rate(){ User = user1, Post = post2, Id = 2, IsEnable = true };
-                var rate3 = new Rate(){ User = user2, Post = post2, Id = 3, IsEnable = true };               
+                var rate1 = new Rate(){ UserId = user1.Id, PostId = post1.Id, Id = 1, IsEnable = true };
+                var rate2 = new Rate(){ UserId = user1.Id, PostId = post2.Id, Id = 2, IsEnable = true };
+                var rate3 = new Rate(){ UserId = user2.Id, PostId = post2.Id, Id = 3, IsEnable = true };               
 
                 var chat1 = new Chat() { Id = 1, IsEnable = true, Users = new List<User>() { user1, user2 }, Messages = new List<Message>() { } };
                 var chat2 = new Chat() { Id = 2, IsEnable = true, Users = new List<User>() { user1, user2, user3 }, Messages = new List<Message>() { } };

@@ -28,8 +28,8 @@ namespace SocialNetwork.Tests
                 var rateRep = new RateRepository(repositoryContext);
                 var result = await rateRep.GetRatesByPostIdAsync(2, false);
                 Assert.Equal(2, result.Count);
-                Assert.Contains("retur 1", result.Select(x => x.User.Username));
-                Assert.Contains("retur 2", result.Select(x => x.User.Username));
+                Assert.Contains(1, result.Select(x => x.UserId));
+                Assert.Contains(2, result.Select(x => x.UserId));
             }
         }
 
@@ -40,8 +40,8 @@ namespace SocialNetwork.Tests
             {
                 var rateRep = new RateRepository(repositoryContext);
                 var result = await rateRep.GetPostRateAsync(2, 2, false);
-                Assert.Equal("retur 2", result.User.Username);
-                Assert.Equal("2", result.Post.Header);
+                Assert.Equal(2, result.UserId);
+                Assert.Equal(2, result.PostId);
             }
         }
     }

@@ -49,7 +49,7 @@ namespace SocialNetwork.Hubs
             try
             {
                 var message = await _chatService.GetMessage(messageId);
-                await Clients.Group("chat" + message.ChatId).SendAsync("Send", message);
+                await Clients.Group("chat" + message.ChatId).SendAsync("MessageChanged", message);
             }
             catch (InvalidDataException exc)
             {
