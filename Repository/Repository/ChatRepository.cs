@@ -35,7 +35,7 @@ namespace SocialNetworks.Repository.Repository
             .Include(x => x.Messages.Where(x => x.IsEnable)).ThenInclude(x => x.Blobs)
             .SingleOrDefaultAsync();
 
-            chat.Messages = PagedList<Message>.ToPagedList(chat.Messages.AsQueryable(), parameters.PageNumber, parameters.PageSize);
+            chat.Messages = PagedList<Message>.ToReversedPagedList(chat.Messages.AsQueryable(), parameters.PageNumber, parameters.PageSize);
 
             return chat;
         }

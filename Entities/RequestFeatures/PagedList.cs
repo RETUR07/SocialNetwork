@@ -33,6 +33,19 @@ namespace SocialNetwork.Entities.RequestFeatures
 
             return new PagedList<T>(items, count, pageNumber, pageSize);
         }
+
+        public static PagedList<T> ToReversedPagedList(IQueryable<T> source, int pageNumber, int pageSize)
+        {
+            var count = source.Count();
+
+            var items = source
+            .Skip(count - (pageNumber - 1) * pageSize)
+            .Take(pageSize).ToList();
+
+            items.Reverse();
+
+            return new PagedList<T>(items, count, pageNumber, pageSize);
+        }
     }
 }
 
