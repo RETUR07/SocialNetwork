@@ -43,8 +43,6 @@ namespace SocialNetwork.Entities.RequestFeatures
             .Skip((TotalPages - pageNumber) * pageSize)
             .Take(pageSize).ToList();
 
-            items.Reverse();
-
             return new PagedList<T>(items, count, pageNumber, pageSize);
         }
     }
