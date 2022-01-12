@@ -9,7 +9,7 @@ namespace SocialNetwork.Application.DTO
     public class ChatForResponseDTO
     {
         public int Id { get; set; }
-        public IEnumerable<int> Users { get; set; }
-        public IEnumerable<MessageForResponseDTO> Messages { get; set; }
+        public List<int> Users { get; set; }
+        public List<MessageForResponseDTO> Messages { get; set; }
     }
 }
