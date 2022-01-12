@@ -25,6 +25,7 @@ namespace SocialNetworks.Repository.Repository
             .Include(x => x.Users.Where(x => x.IsEnable))
             .Include(x => x.Messages.Where(x => x.IsEnable)).ThenInclude(x => x.User)
             .Include(x => x.Messages.Where(x => x.IsEnable)).ThenInclude(x => x.Blobs)
+            .AsSplitQuery()
             .SingleOrDefaultAsync();
     }
 }
