@@ -7,6 +7,8 @@ using SocialNetwork.Application.Exceptions;
 using System.Text.Json;
 using SocialNetwork.Hubs;
 using Microsoft.AspNetCore.SignalR;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
 
 namespace SocialNetwork.Controllers
 {
@@ -101,6 +103,14 @@ namespace SocialNetwork.Controllers
                 return BadRequest(exc.Message);
             }
             return NoContent();
+        }
+
+        [HttpPost("addFilesToMessage/{messageId}")]
+        public async Task<IActionResult> Add(int messageId, [FromForm] IEnumerable<IFormFile> formFiles)
+        {
+            var message = await _chatService.AddFilesToMessage(UserId, messageId, formFiles);
+            if (message == null) return BadRequest();
+            return Ok(message);
         }
     }
 }

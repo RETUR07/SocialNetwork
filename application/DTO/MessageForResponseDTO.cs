@@ -1,9 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace SocialNetwork.Application.DTO
 {
@@ -13,6 +10,7 @@ namespace SocialNetwork.Application.DTO
         public int From { get; set; }
         public string Text { get; set; }
         public int ChatId { get; set; }
+        public int FileCount { get; set; }
         public IEnumerable<Uri> Content { get; set; }
     }
 }

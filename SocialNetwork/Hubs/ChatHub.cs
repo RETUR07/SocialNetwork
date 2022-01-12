@@ -44,5 +44,17 @@ namespace SocialNetwork.Hubs
             }
         }
 
+        public async Task MessageChanged(int messageId)
+        {
+            try
+            {
+                var message = await _chatService.GetMessage(messageId);
+                await Clients.Group("chat" + message.ChatId).SendAsync("Send", message);
+            }
+            catch (InvalidDataException exc)
+            {
+                await Clients.Caller.SendAsync(exc.Message);
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using SocialNetwork.Application.Contracts;
 using SocialNetwork.Application.DTO;
 using SocialNetwork.Application.Exceptions;
@@ -23,13 +24,21 @@ namespace SocialNetwork.Application.Services
             _blobService = blobService;
 
         }
+
+        public async Task<MessageForResponseDTO> AddFilesToMessage(int UserId, int messageId, IEnumerable<IFormFile> formFiles)
+        {
+            var message = await _repository.Message.GetMessageAsync(messageId, true);
+            if (message == null || message.User.Id != UserId) return null;
+            message.Blobs = await _blobService.SaveBlobsAsync(formFiles, message.Chat.Id + "-message-" + message.Id);
+            return await GetMessage(message.Id);
+        }
+
         public async Task<MessageForResponseDTO> AddMessage(int userId, MessageForm messagedto)
         {
             if (messagedto == null) throw new InvalidDataException("message dto is null");
             var chat = await _repository.Chat.GetChatAsync(messagedto.ChatId, true);
             if (chat == null) throw new InvalidDataException("no such chat");
             var user = await _repository.User.GetUserAsync(userId, true);
-            if (user == null) throw new InvalidDataException("no such user");
             var message = _mapper.Map<MessageForm, Message>(messagedto);
             message.User = user;
             chat.Messages.Add(message);
@@ -38,6 +47,8 @@ namespace SocialNetwork.Application.Services
             await _repository.SaveAsync();
             return await GetMessage(message.Id);
         }
+
+
 
         public async Task AddUser(int chatId, int userId, int adderId)
         {

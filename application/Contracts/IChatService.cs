@@ -1,4 +1,5 @@
-﻿using SocialNetwork.Application.DTO;
+﻿using Microsoft.AspNetCore.Http;
+using SocialNetwork.Application.DTO;
 using SocialNetwork.Entities.Models;
 using System;
 using System.Collections.Generic;
@@ -19,5 +20,6 @@ namespace SocialNetwork.Application.Contracts
         public Task<Chat> CreateChat(int userId, ChatForm chatdto);
         public Task AddUser(int chatId, int userId, int adderId);
         public Task<MessageForResponseDTO> AddMessage(int UserId, MessageForm messagedto);
+        public Task<MessageForResponseDTO> AddFilesToMessage(int UserId, int messageId, IEnumerable<IFormFile> formFiles);
     }
 }
