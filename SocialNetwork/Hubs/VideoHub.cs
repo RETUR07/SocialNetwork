@@ -8,7 +8,7 @@ namespace SocialNetwork.Hubs
 {
     public class VideoHub :BaseHub
     {
-        private Channel<string> channel = Channel.CreateUnbounded<string>();
+        private static Channel<string> channel = Channel.CreateUnbounded<string>();
 
         public async Task UploadStream(ChannelReader<string> stream)
         {
