@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
 using System.Linq;
 using System.Security.Claims;
 
 namespace SocialNetwork.Hubs
 {
+    [Authorize]
     public class BaseHub : Hub
     {
         public int UserId

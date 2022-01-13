@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace SocialNetwork.Hubs
 {
-    [Authorize]
     public class ChatHub : BaseHub
     {
         private readonly IChatService _chatService;
