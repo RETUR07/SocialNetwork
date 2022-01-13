@@ -101,7 +101,7 @@ namespace SocialNetwork
                 endpoints.MapControllers();
                 endpoints.MapHub<RateHub>("/hubs/changeRate");
                 endpoints.MapHub<ChatHub>("/hubs/chats");
-                endpoints.MapHub<ChatHub>("/hubs/videoStreaming");
+                endpoints.MapHub<VideoHub>("/hubs/videoStreaming");
             });
         }
     }
