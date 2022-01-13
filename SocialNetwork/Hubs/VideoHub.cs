@@ -8,9 +8,9 @@ namespace SocialNetwork.Hubs
 {
     public class VideoHub :BaseHub
     {
-        private static Channel<string> channel = Channel.CreateUnbounded<string>();
+        private static Channel<byte[]> channel = Channel.CreateUnbounded<byte[]>();
 
-        public async Task UploadStream(ChannelReader<string> stream)
+        public async Task UploadStream(ChannelReader<byte[]> stream)
         {
             while (await stream.WaitToReadAsync())
             {
@@ -21,7 +21,7 @@ namespace SocialNetwork.Hubs
             }
         }
 
-        public ChannelReader<string> DownloadStream()
+        public ChannelReader<byte[]> DownloadStream()
         {
             return channel.Reader;
         }
