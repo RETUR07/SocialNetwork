@@ -8,7 +8,7 @@ namespace SocialNetwork.Hubs
 {
     public class VideoHub :BaseHub
     {
-        public async Task UploadStream(ChannelReader<byte[]> stream)
+        public async Task UploadStream(ChannelReader<byte> stream)
         {
             while (await stream.WaitToReadAsync())
             {
