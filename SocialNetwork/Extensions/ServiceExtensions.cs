@@ -81,7 +81,7 @@ namespace SocialNetwork.Extensions
 
                             var path = context.HttpContext.Request.Path;
                             if (!string.IsNullOrEmpty(accessToken) &&
-                                (path.StartsWithSegments("/hubs/changeRate") || path.StartsWithSegments("/hubs/chats") || path.StartsWithSegments("/api/Blob")))
+                                (path.StartsWithSegments("/hubs") || path.StartsWithSegments("/api/Blob")))
                             {
                                 context.Token = accessToken;
                             }
