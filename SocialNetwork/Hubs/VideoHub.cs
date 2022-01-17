@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using SocialNetwork.Application.Contracts;
 using System;
 using System.Threading;
 using System.Threading.Channels;
@@ -6,24 +7,25 @@ using System.Threading.Tasks;
 
 namespace SocialNetwork.Hubs
 {
-    public class VideoHub :BaseHub
+    public class VideoHub : BaseHub
     {
-        private static Channel<string> channel = Channel.CreateUnbounded<string>();
-
         public async Task UploadStream(ChannelReader<string> stream)
         {
             while (await stream.WaitToReadAsync())
             {
                 while (stream.TryRead(out var item))
                 {
-                    channel.Writer.TryWrite(item);
+                    string groupname = "video-" + UserId;
+                    await Clients.Group(groupname).SendAsync("VideoPart", item);
                 }
             }
         }
 
-        public ChannelReader<string> DownloadStream()
+        public async Task SubscribeStream(int userId)
         {
-            return channel.Reader;
+            string groupname = "video-" + userId;
+            await Groups.AddToGroupAsync(Context.ConnectionId, groupname);
+            await Clients.Caller.SendAsync("Notify", "Subscribed");
         }
     }
 }

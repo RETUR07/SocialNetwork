@@ -27,7 +27,7 @@ namespace SocialNetwork.Hubs
             {
                 string groupname = "chat" + chatId;
                 await Groups.AddToGroupAsync(Context.ConnectionId, groupname);
-                await Clients.Group(groupname).SendAsync("Notify", "Subscribed");
+                await Clients.Caller.SendAsync("Notify", "Subscribed");
             }
         }
 
