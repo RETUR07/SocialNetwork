@@ -21,17 +21,33 @@ namespace SocialNetwork.Hubs
             }
         }
 
+        public async Task UploadSoundStream(ChannelReader<string> stream)
+        {
+            while (await stream.WaitToReadAsync())
+            {
+                while (stream.TryRead(out var item))
+                {
+                    string groupname = "sound-" + UserId;
+                    await Clients.Group(groupname).SendAsync("SoundPart", item);
+                }
+            }
+        }
+
         public async Task SubscribeStream(int userId)
         {
-            string groupname = "video-" + userId;
-            await Groups.AddToGroupAsync(Context.ConnectionId, groupname);
+            string videoGroupname = "video-" + userId;
+            string soundGroupname = "sound-" + userId;
+            await Groups.AddToGroupAsync(Context.ConnectionId, videoGroupname);
+            await Groups.AddToGroupAsync(Context.ConnectionId, soundGroupname);
             await Clients.Caller.SendAsync("Notify", "Subscribed");
         }
 
         public async Task UnSubscribeStream(int userId)
         {
-            string groupname = "video-" + userId;
-            await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupname);
+            string videoGroupname = "video-" + userId;
+            string soundGroupname = "sound-" + userId;
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, videoGroupname);
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, soundGroupname);
             await Clients.Caller.SendAsync("Notify", "UnSubscribed");
         }
     }
