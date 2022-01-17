@@ -27,5 +27,12 @@ namespace SocialNetwork.Hubs
             await Groups.AddToGroupAsync(Context.ConnectionId, groupname);
             await Clients.Caller.SendAsync("Notify", "Subscribed");
         }
+
+        public async Task UnSubscribeStream(int userId)
+        {
+            string groupname = "video-" + userId;
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupname);
+            await Clients.Caller.SendAsync("Notify", "UnSubscribed");
+        }
     }
 }
