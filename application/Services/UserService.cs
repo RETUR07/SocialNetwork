@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using SocialNetwork.Application.Contracts;
 using SocialNetwork.Application.DTO;
 using SocialNetwork.Application.Exceptions;
@@ -7,7 +8,6 @@ using SocialNetworks.Repository.Contracts;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BCryptNet = BCrypt.Net.BCrypt;
 
 namespace SocialNetwork.Application.Services
 {
@@ -15,15 +15,16 @@ namespace SocialNetwork.Application.Services
     {
         private readonly IRepositoryManager _repository;
         private readonly IMapper _mapper;
+        private readonly UserManager<User> _userManager;
 
-
-        public UserService(IRepositoryManager repository, IMapper mapper)
+        public UserService(IRepositoryManager repository, IMapper mapper, UserManager<User> userManageer)
         {
             _repository = repository;
             _mapper = mapper;
+            _userManager = userManageer;
         }
 
-        public async Task AddFriendAsync(int userId, int friendId)
+        public async Task AddFriendAsync(string userId, string friendId)
         {
             var user = await _repository.User.GetUserAsync(userId, true);
             var friend = await _repository.User.GetUserAsync(friendId, true);
@@ -43,7 +44,7 @@ namespace SocialNetwork.Application.Services
             await _repository.SaveAsync();
         }
 
-        public async Task DeleteFriendAsync(int userId, int friendId)
+        public async Task DeleteFriendAsync(string userId, string friendId)
         {
             var user = await _repository.User.GetUserAsync(userId, true);
             var friend = await _repository.User.GetUserAsync(friendId, true);
@@ -71,22 +72,20 @@ namespace SocialNetwork.Application.Services
                 return null;
             }
 
-            if (_repository.User.FindByCondition(u => u.Username == userdto.Username, false).Count() != 0) return null;
             var user = _mapper.Map<User>(userdto);
-            user.PasswordHash = BCryptNet.HashPassword(userdto.Password);
-            _repository.User.Create(user);
+            await _userManager.CreateAsync(user, userdto.Password);
             await _repository.SaveAsync();
             return user;
         }
 
-        public async Task DeleteUserAsync(int userId)
+        public async Task DeleteUserAsync(string userId)
         {
             var user = await _repository.User.GetUserAsync(userId, true);
             _repository.User.Delete(user);
             await _repository.SaveAsync();
         }
 
-        public async Task<UserForResponseDTO> GetUserAsync(int userId)
+        public async Task<UserForResponseDTO> GetUserAsync(string userId)
         {
             var user = await _repository.User.GetUserAsync(userId, false);
             if (user == null)
@@ -104,7 +103,7 @@ namespace SocialNetwork.Application.Services
             return usersdto;
         }
 
-        public async Task UpdateUserAsync(int userId, UserForm userdto)
+        public async Task UpdateUserAsync(string userId, UserForm userdto)
         {
             if (userdto == null) throw new InvalidDataException("user dto is null");
 
@@ -113,18 +112,6 @@ namespace SocialNetwork.Application.Services
             if (user == null) throw new InvalidDataException("no such user");
 
             _mapper.Map(userdto, user);
-            await _repository.SaveAsync();
-        }
-
-        public async Task AdminUpdateUserAsync(int userId, AdminUserForm userdto)
-        {
-            if (userdto == null) throw new InvalidDataException("user dto is null");
-
-            var user = await _repository.User.GetUserAsync(userId, true);
-
-            if (user == null) throw new InvalidDataException("no such user");
-
-            user.Role = userdto.Role;
             await _repository.SaveAsync();
         }
     }

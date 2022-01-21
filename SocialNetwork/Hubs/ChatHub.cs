@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 using SocialNetwork.Application.Contracts;
 using SocialNetwork.Application.DTO;
 using SocialNetwork.Application.Exceptions;
+using SocialNetwork.Entities.Models;
 using SocialNetwork.Entities.RequestFeatures;
 using System.Threading.Tasks;
 
@@ -12,7 +14,8 @@ namespace SocialNetwork.Hubs
     {
         private readonly IChatService _chatService;
 
-        public ChatHub(IChatService chatService)
+        public ChatHub(IChatService chatService, UserManager<User> userManager)
+            :base(userManager)
         {
             _chatService = chatService;
         }

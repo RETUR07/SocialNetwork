@@ -1,11 +1,13 @@
-﻿using SocialNetwork.Entities.SecurityModels;
+﻿using Microsoft.AspNetCore.Identity;
+using SocialNetwork.Entities.SecurityModels;
 using System;
 using System.Collections.Generic;
 
 namespace SocialNetwork.Entities.Models
 {
-    public class User : ParentModel
+    public class User : IdentityUser
     {
+        public bool IsEnable { get; set; } = true;
         public string FirstName { get; set; }
         public string LastName { get; set; }
         
@@ -21,12 +23,5 @@ namespace SocialNetwork.Entities.Models
 
         public List<Chat> Chats { get; set; }
         public List<Message> Messages { get; set; }
-
-
-        public string PasswordHash { get; set; }
-        public List<RefreshToken> RefreshTokens { get; set; }
-        public string Username { get; set; }
-
-        public string Role { get; set; } = Roles.User;
     }
 }

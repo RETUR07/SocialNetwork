@@ -4,6 +4,8 @@ using SocialNetwork.Application.DTO;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
 using SocialNetwork.Entities.RequestFeatures;
+using Microsoft.AspNetCore.Identity;
+using SocialNetwork.Entities.Models;
 
 namespace SocialNetwork.Controllers
 {
@@ -14,13 +16,14 @@ namespace SocialNetwork.Controllers
     {
         private readonly IPostService _postService;
 
-        public PostController(IPostService postService)
+        public PostController(IPostService postService, UserManager<User> userManager)
+            : base(userManager)
         {
             _postService = postService;
         }
 
         [HttpGet("userposts/{userId}")]
-        public async Task<IActionResult> GetUserPosts(int userId, [FromQuery] Parameters parameters)
+        public async Task<IActionResult> GetUserPosts(string userId, [FromQuery] Parameters parameters)
         {
             var postsdto = await _postService.GetPosts(userId, parameters);
             return Ok(postsdto);

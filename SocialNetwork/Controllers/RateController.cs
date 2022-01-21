@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.SignalR;
 using SocialNetwork.Hubs;
+using Microsoft.AspNetCore.Identity;
+using SocialNetwork.Entities.Models;
 
 namespace SocialNetwork.Controllers
 {
@@ -17,14 +19,15 @@ namespace SocialNetwork.Controllers
         IHubContext<RateHub> _hubContext;
         private readonly IRateService _rateService;
 
-        public RateController(IRateService rateService, IHubContext<RateHub> hubContext)
+        public RateController(IRateService rateService, IHubContext<RateHub> hubContext, UserManager<User> userManager)
+            : base(userManager)
         {
             _rateService = rateService;
             _hubContext = hubContext;
         }
 
         [HttpGet("post/{userId}/{postId}")]
-        public async Task<IActionResult> GetRate(int userId, int postId)
+        public async Task<IActionResult> GetRate(string userId, int postId)
         {
             var rate = await _rateService.GetPostRateAsync(userId, postId, false);
             if (rate == null)

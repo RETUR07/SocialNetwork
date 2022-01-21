@@ -27,7 +27,7 @@ namespace SocialNetworks.Repository.Repository
             }
         }
 
-        public PagedList<Post> GetAllPostsPaged(int userId, Parameters parameters, bool trackChanges)
+        public PagedList<Post> GetAllPostsPaged(string userId, Parameters parameters, bool trackChanges)
         {
             var posts = FindByCondition(p => p.Author.Id == userId, trackChanges)
             .Include(p => p.Comments)

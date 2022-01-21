@@ -26,7 +26,7 @@ namespace SocialNetwork.Application.Services
 
         }
 
-        public async Task<MessageForResponseDTO> AddFilesToMessage(int UserId, int messageId, IEnumerable<IFormFile> formFiles)
+        public async Task<MessageForResponseDTO> AddFilesToMessage(string UserId, int messageId, IEnumerable<IFormFile> formFiles)
         {
             var message = await _repository.Message.GetMessageAsync(messageId, true);
             if (message == null || message.User.Id != UserId) return null;
@@ -34,7 +34,7 @@ namespace SocialNetwork.Application.Services
             return await GetMessage(message.Id);
         }
 
-        public async Task<MessageForResponseDTO> AddMessage(int userId, MessageForm messagedto)
+        public async Task<MessageForResponseDTO> AddMessage(string userId, MessageForm messagedto)
         {
             if (messagedto == null) throw new InvalidDataException("message dto is null");
             var chat = await _repository.Chat.GetChatAsync(messagedto.ChatId, true);
@@ -51,7 +51,7 @@ namespace SocialNetwork.Application.Services
 
 
 
-        public async Task AddUser(int chatId, int userId, int adderId)
+        public async Task AddUser(int chatId, string userId, string adderId)
         {
             var user = await _repository.User.GetUserAsync(userId, true);
             if (user == null) throw new InvalidDataException("no such user");
@@ -67,7 +67,7 @@ namespace SocialNetwork.Application.Services
             await _repository.SaveAsync();
         }
 
-        public async Task<Chat> CreateChat(int userId, ChatForm chatdto)
+        public async Task<Chat> CreateChat(string userId, ChatForm chatdto)
         {
             if (chatdto == null || chatdto.Users == null)
             {
@@ -100,7 +100,7 @@ namespace SocialNetwork.Application.Services
             await _repository.SaveAsync();
         }
 
-        public async Task DeleteMessage(int userId, int messageId)
+        public async Task DeleteMessage(string userId, int messageId)
         {
             var message = await _repository.Message.GetMessageAsync(messageId, true);
             if (message.User.Id == userId)
@@ -110,7 +110,7 @@ namespace SocialNetwork.Application.Services
             }
         }
 
-        public async Task<ChatForResponseDTO> GetChat(int userId, int chatId)
+        public async Task<ChatForResponseDTO> GetChat(string userId, int chatId)
         {
             var chat = await _repository.Chat.GetChatAsync(chatId, false);
 
@@ -130,7 +130,7 @@ namespace SocialNetwork.Application.Services
             return chatdto;
         }
 
-        public async Task<List<ChatForResponseDTO>> GetChats(int userId)
+        public async Task<List<ChatForResponseDTO>> GetChats(string userId)
         {
             var user = await _repository.User.GetUserAsync(userId, true);
             if (user == null) return null;
@@ -155,7 +155,7 @@ namespace SocialNetwork.Application.Services
             return messagedto;
         }
 
-        public async Task<List<MessageForResponseDTO>> GetMessages(int userId, int chatId)
+        public async Task<List<MessageForResponseDTO>> GetMessages(string userId, int chatId)
         {
             var chat = await _repository.Chat.GetChatAsync(chatId, false);
 

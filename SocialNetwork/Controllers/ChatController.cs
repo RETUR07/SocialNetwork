@@ -7,6 +7,8 @@ using SocialNetwork.Application.Exceptions;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using SocialNetwork.Entities.RequestFeatures;
+using Microsoft.AspNetCore.Identity;
+using SocialNetwork.Entities.Models;
 
 namespace SocialNetwork.Controllers
 {
@@ -17,8 +19,9 @@ namespace SocialNetwork.Controllers
     {
         private readonly IChatService _chatService;
 
-        public ChatController(IChatService chatService)
-        {
+        public ChatController(IChatService chatService, UserManager<User> userManager)
+            : base(userManager)
+        { 
             _chatService = chatService;
         }
 
@@ -76,7 +79,7 @@ namespace SocialNetwork.Controllers
         }
 
         [HttpPut("{chatId}/adduser/{userId}")]
-        public async Task<IActionResult> AddUser(int chatId, int userId)
+        public async Task<IActionResult> AddUser(int chatId, string userId)
         {
             try
             {

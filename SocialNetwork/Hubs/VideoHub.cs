@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SignalR;
 using SocialNetwork.Application.Contracts;
+using SocialNetwork.Entities.Models;
 using System;
 using System.Threading;
 using System.Threading.Channels;
@@ -9,6 +11,9 @@ namespace SocialNetwork.Hubs
 {
     public class VideoHub : BaseHub
     {
+        public VideoHub(UserManager<User> userManager)
+            : base(userManager) { }
+
         public async Task UploadStream(ChannelReader<string> stream)
         {
             while (await stream.WaitToReadAsync())

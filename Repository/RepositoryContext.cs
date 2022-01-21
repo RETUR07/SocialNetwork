@@ -1,17 +1,17 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SocialNetwork.Entities.Models;
 using System;
 
 namespace SocialNetworks.Repository.Repository
 {
-    public class RepositoryContext : DbContext
+    public class RepositoryContext : IdentityDbContext<User>
     {
-        public RepositoryContext(DbContextOptions options)
+        public RepositoryContext(DbContextOptions<RepositoryContext> options)
         : base(options)
         {
         }
 
-        public DbSet<User> Users { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<Blob> Blobs { get; set; }
         public DbSet<Rate> Rates { get; set; }
@@ -21,6 +21,7 @@ namespace SocialNetworks.Repository.Repository
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder
                 .Entity<Rate>()
                 .Property(e => e.LikeStatus)

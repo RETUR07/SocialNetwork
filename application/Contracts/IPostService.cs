@@ -7,10 +7,10 @@ namespace SocialNetwork.Application.Contracts
 {
     public interface IPostService
     {
-        public Task<Post> CreatePost(PostForm postdto, int userId);
+        public Task<Post> CreatePost(PostForm postdto, string userId);
         public Task DeletePost(int postId);
         public Task<PostForResponseDTO> GetPost(int postId);
-        public Task<PagedList<PostForResponseDTO>> GetPosts(int userId, Parameters parameters);
+        public Task<PagedList<PostForResponseDTO>> GetPosts(string userId, Parameters parameters);
         public Task<PagedList<PostForResponseDTO>> GetChildPosts(int postId, Parameters parameters);
     }
 }

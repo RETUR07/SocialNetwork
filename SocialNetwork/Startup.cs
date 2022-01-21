@@ -1,13 +1,15 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using SocialNetwork.Entities.Models;
 using SocialNetwork.Extensions;
 using SocialNetwork.Hubs;
-using SocialNetwork.Worker;
+using SocialNetworks.Repository.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,8 +27,6 @@ namespace SocialNetwork
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddHostedService<APIWorker>();
-
             services.AddControllers();
             services.AddSignalR();
 
@@ -58,6 +58,12 @@ namespace SocialNetwork
                         { jwtSecurityScheme, Array.Empty<string>() }
                     });
             });
+            services.AddIdentity<User, IdentityRole>(options =>
+            {
+                options.User.RequireUniqueEmail = false;
+            })
+            .AddEntityFrameworkStores<RepositoryContext>()
+            .AddDefaultTokenProviders();
 
             services.ConfigureJWTAppSettings(Configuration);
             services.ConfigureAuthorization(Configuration);
@@ -87,7 +93,7 @@ namespace SocialNetwork
 
             app.UseCors(builder =>
             {
-                builder.WithOrigins("http://localhost:3000")
+                builder.WithOrigins("http://localhost:3000", "http://localhost:5000", "https://localhost:5001")
                 .AllowCredentials()
                 .AllowAnyMethod()
                 .AllowAnyHeader();

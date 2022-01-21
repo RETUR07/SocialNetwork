@@ -7,7 +7,7 @@ namespace SocialNetwork.Application.DTO
     public class PostForResponseDTO
     {
         public int Id { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public int ParentPostId { get; set; }
         public string Header { get; set; }
 

@@ -26,9 +26,9 @@ namespace SocialNetwork.Tests
                 context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
 
-                var user1 = new User() { IsEnable = true, Username = "retur 1", Id = 1 };
-                var user2 = new User() { IsEnable = true, Username = "retur 2", Id = 2 };
-                var user3 = new User() { IsEnable = true, Username = "retur 3", Id = 3 };
+                var user1 = new User() { IsEnable = true, UserName = "retur 1", Id = "1" };
+                var user2 = new User() { IsEnable = true, UserName = "retur 2", Id = "2" };
+                var user3 = new User() { IsEnable = true, UserName = "retur 3", Id = "3" };
 
                 var post1 = new Post() { Author = user1, Id = 1, IsEnable = true, Header = "1" };
                 var post2 = new Post() { Author = user2, ParentPost = post1, Id = 2, IsEnable = true, Header = "2" };
