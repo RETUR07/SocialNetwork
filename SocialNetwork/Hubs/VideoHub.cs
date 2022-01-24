@@ -38,7 +38,7 @@ namespace SocialNetwork.Hubs
             }
         }
 
-        public async Task SubscribeStream(int userId)
+        public async Task SubscribeStream(string userId)
         {
             string videoGroupname = "video-" + userId;
             string soundGroupname = "sound-" + userId;
@@ -47,7 +47,7 @@ namespace SocialNetwork.Hubs
             await Clients.Caller.SendAsync("Notify", "Subscribed");
         }
 
-        public async Task UnSubscribeStream(int userId)
+        public async Task UnSubscribeStream(string userId)
         {
             string videoGroupname = "video-" + userId;
             string soundGroupname = "sound-" + userId;

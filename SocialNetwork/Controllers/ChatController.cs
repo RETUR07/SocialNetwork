@@ -75,7 +75,7 @@ namespace SocialNetwork.Controllers
             {
                 return BadRequest("Chat is null");
             }
-            return Ok(chat);
+            return Ok(chat.Id);
         }
 
         [HttpPut("{chatId}/adduser/{userId}")]
