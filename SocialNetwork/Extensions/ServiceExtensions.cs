@@ -57,7 +57,7 @@ namespace SocialNetwork.Extensions
         public static void ConfigureJWTAppSettings(this IServiceCollection services, IConfiguration Configuration)
             => services.Configure<AppSettings>(Configuration.GetSection("JWT"));
 
-        public static void ConfigureAuthorization(this IServiceCollection services, IConfiguration Configuration)
+        public static void ConfigureAuthorization(this IServiceCollection services)
         {
             services.AddAuthorization(options =>
             {
@@ -73,7 +73,7 @@ namespace SocialNetwork.Extensions
                 {
                     //development
                     options.RequireHttpsMetadata = false;
-                    options.Authority = "http://localhost:9001";
+                    options.Authority = "https://localhost:9001";
                     //
 
                     options.TokenValidationParameters = new TokenValidationParameters

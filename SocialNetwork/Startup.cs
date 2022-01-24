@@ -68,7 +68,7 @@ namespace SocialNetwork
             .AddDefaultTokenProviders();
 
             services.ConfigureJWTAppSettings(Configuration);
-            services.ConfigureAuthorization(Configuration);
+            services.ConfigureAuthorization();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
