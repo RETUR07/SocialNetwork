@@ -35,7 +35,7 @@ stages:
       inputs:
         containerRegistry: 'Docker Hub'
         command: 'tag'
-        arguments: 'retur_IdentityTokenServer retur/retur_IdentityTokenServer:$(Build.BuildId)'
+        arguments: 'retur_identity_token_server retur/retur_identity_token_server:$(Build.BuildId)'
 
     - task: Docker@2
       inputs:

@@ -53,6 +53,6 @@ stages:
     - task: Docker@2
       inputs:
         containerRegistry: 'Docker Hub'
-        repository: 'retur/retur_IdentityTokenServer:$(Build.BuildId)'
+        repository: 'retur/retur_identity_token_server:$(Build.BuildId)'
         command: 'push'
         tags: 
