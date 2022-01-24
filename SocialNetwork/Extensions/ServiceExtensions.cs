@@ -73,7 +73,7 @@ namespace SocialNetwork.Extensions
                 {
                     //development
                     options.RequireHttpsMetadata = false;
-                    options.Authority = "https://localhost:9001";
+                    options.Authority = "http://localhost:9001";
                     //
 
                     options.TokenValidationParameters = new TokenValidationParameters
