@@ -4,8 +4,6 @@ services:
   web:
     ports:
       - "5050:80"
-    depends_on:
-      - rabbitmq
     build:
       context: ./
       dockerfile: DockerfileSocialNetwork
@@ -22,8 +20,6 @@ services:
   IdentityTokenServer:
     ports:
       - "9001:9001"
-    depends_on:
-      - rabbitmq
     build:
       context: ./
       dockerfile: DockerfileIdentityServer4
