@@ -24,7 +24,7 @@ services:
       context: ./
       dockerfile: DockerfileIdentityServer4
     environment:
-      - ASPNETCORE_URLS=https://+:81
+      - ASPNETCORE_URLS=http://+:81
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings:sqlConnection=Data Source=host.docker.internal\SQLExpress, 1433; database=SocialNetworkDb; User ID=sa;Password=root;MultipleActiveResultSets=true;
     restart: on-failure
