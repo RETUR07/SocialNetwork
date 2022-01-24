@@ -71,7 +71,10 @@ namespace SocialNetwork.Extensions
 
             .AddJwtBearer(options =>
                 {
+                    //development
+                    options.RequireHttpsMetadata = false;
                     options.Authority = "http://localhost:9001";
+                    //
 
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
