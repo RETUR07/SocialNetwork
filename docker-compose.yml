@@ -19,7 +19,7 @@ services:
     
   identity_token_server:
     ports:
-      - "9001:80"
+      - "9001:81"
     build:
       context: ./
       dockerfile: DockerfileIdentityServer4
