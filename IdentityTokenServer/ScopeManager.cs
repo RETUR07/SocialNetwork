@@ -9,7 +9,6 @@ namespace SocialNetwork.IdentityTokenServer
             new List<ApiScope>
             {
                 new ApiScope("SocialNetwork")
-
             };
     }
 }

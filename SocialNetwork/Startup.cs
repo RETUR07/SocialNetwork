@@ -58,7 +58,9 @@ namespace SocialNetwork
                         { jwtSecurityScheme, Array.Empty<string>() }
                     });
             });
-            services.AddIdentity<User, IdentityRole>(options =>
+
+
+            services.AddIdentityCore<User>(options =>
             {
                 options.User.RequireUniqueEmail = false;
             })
@@ -104,10 +106,10 @@ namespace SocialNetwork
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
-                endpoints.MapHub<RateHub>("/hubs/changeRate");
-                endpoints.MapHub<ChatHub>("/hubs/chats");
-                endpoints.MapHub<VideoHub>("/hubs/videoStreaming");
+                endpoints.MapControllers().RequireAuthorization("ApiScope"); ;
+                endpoints.MapHub<RateHub>("/hubs/changeRate").RequireAuthorization("ApiScope"); ;
+                endpoints.MapHub<ChatHub>("/hubs/chats").RequireAuthorization("ApiScope"); ;
+                endpoints.MapHub<VideoHub>("/hubs/videoStreaming").RequireAuthorization("ApiScope"); ;
             });
         }
     }

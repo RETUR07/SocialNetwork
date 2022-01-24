@@ -22,7 +22,6 @@ namespace SocialNetwork.Controllers
             _userService = userService;
         }
 
-        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetUsers()
         {

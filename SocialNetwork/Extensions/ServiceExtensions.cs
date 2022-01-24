@@ -59,7 +59,16 @@ namespace SocialNetwork.Extensions
 
         public static void ConfigureAuthorization(this IServiceCollection services, IConfiguration Configuration)
         {
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("ApiScope", policy =>
+                {
+                    policy.RequireAuthenticatedUser();
+                    policy.RequireClaim("scope", "SocialNetwork");
+                });
+            });
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+
             .AddJwtBearer(options =>
                 {
                     options.Authority = "https://localhost:9001";
