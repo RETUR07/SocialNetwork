@@ -1,4 +1,5 @@
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
+ENV ASPNETCORE_URLS=https://+:81
 WORKDIR /source
 
 COPY application/*.csproj ./application/
@@ -15,7 +16,6 @@ WORKDIR /source/IdentityTokenServer/
 RUN dotnet publish -c release -o /app
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0
-ENV ASPNETCORE_URLS=https://+:81
 EXPOSE 81
 WORKDIR /app
 COPY --from=build /app ./
