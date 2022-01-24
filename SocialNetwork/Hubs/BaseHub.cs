@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
+using SocialNetwork.Entities.Models;
 using System.Linq;
 using System.Security.Claims;
 
@@ -8,13 +11,18 @@ namespace SocialNetwork.Hubs
     [Authorize]
     public class BaseHub : Hub
     {
-        public int UserId
+        public readonly UserManager<User> _userManager;
+
+        public BaseHub(UserManager<User> userManager)
+        {
+            _userManager = userManager;
+        }
+
+        public string UserId
         {
             get
             {
-                var claimIdentity = Context.User.Identities.FirstOrDefault(x => x.Claims.
-                    FirstOrDefault(x => x.Type == ClaimTypes.UserData) != null);
-                return int.Parse(claimIdentity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.UserData).Value);
+                return _userManager.GetUserId(Context.User);
             }
         }
     }

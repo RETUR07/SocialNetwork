@@ -19,7 +19,7 @@ namespace SocialNetwork.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<PostRateForResponseDTO> GetPostRateAsync(int userId, int postId, bool trackChanges)
+        public async Task<PostRateForResponseDTO> GetPostRateAsync(string userId, int postId, bool trackChanges)
         {
             var rate = await _repository.Rate.GetPostRateAsync(userId, postId, trackChanges);
             return _mapper.Map<Rate, PostRateForResponseDTO>(rate);
@@ -44,7 +44,7 @@ namespace SocialNetwork.Application.Services
             return PostsRates;
         }
 
-        public async Task UpdatePostRateAsync(RateForm ratedto, int userId)
+        public async Task UpdatePostRateAsync(RateForm ratedto, string userId)
         {
             if (ratedto == null) return;
             var rate = await _repository.Rate.GetPostRateAsync(userId, ratedto.ObjectId, true);

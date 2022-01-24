@@ -13,7 +13,7 @@ namespace SocialNetworks.Repository.Repository
         {
         }
 
-        public async Task<Rate> GetPostRateAsync(int userId, int postId, bool trackChanges) =>
+        public async Task<Rate> GetPostRateAsync(string userId, int postId, bool trackChanges) =>
            await FindByCondition(r => r.UserId == userId && r.PostId == postId, trackChanges)
             .SingleOrDefaultAsync();
 

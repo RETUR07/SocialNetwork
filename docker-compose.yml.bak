@@ -1,4 +1,4 @@
-version: "2.1.1"
+version: "3.9"
 
 services:
 
@@ -13,6 +13,8 @@ services:
     
     
   web:
+    ports:
+      - "5050:80"
     depends_on:
       - rabbitmq
     build:
@@ -20,9 +22,10 @@ services:
       dockerfile: DockerfileSocialNetwork
     
     environment:
-      - JWT:Secret="ThisismySecretKey"
+      - JWT:Secret=${SecretJWTKey}
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings:sqlConnection=Data Source=host.docker.internal\SQLExpress, 1433; database=SocialNetworkDb; User ID=sa;Password=root;MultipleActiveResultSets=true;
+      - ConnectionStrings:sqlConnection=${ConnectionToDB}
+      - ConnectionStrings:AzureBlobStorage=${ConnectionToBlob}
     restart: on-failure
 
 
@@ -36,7 +39,7 @@ services:
       context: ./
       dockerfile: DockerfileWorker
     environment:
-      - ENV ASPNETCORE_URLS=http://+:5000
+      - ASPNETCORE_URLS=http://+:5000
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings:sqlConnection=Data Source=host.docker.internal\SQLExpress, 1433; database=SocialNetworkDb; User ID=sa;Password=root;MultipleActiveResultSets=true;
     restart: on-failure

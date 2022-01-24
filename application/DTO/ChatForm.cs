@@ -8,6 +8,6 @@ namespace SocialNetwork.Application.DTO
 {
     public class ChatForm
     { 
-        public IEnumerable<int> Users { get; set; }
+        public IEnumerable<string> Users { get; set; }
     }
 }

@@ -7,6 +7,6 @@ namespace SocialNetworks.Repository.Contracts
     public interface IUserRepository : IRepositoryBase<User>
     {
         Task<List<User>> GetAllUsersAsync(bool trackChanges);
-        Task<User> GetUserAsync(int userId, bool trackChanges);
+        Task<User> GetUserAsync(string userId, bool trackChanges);
     }
 }

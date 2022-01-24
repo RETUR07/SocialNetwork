@@ -25,7 +25,7 @@ namespace SocialNetwork.Tests
             {
                 var chatRep = new ChatRepository(repositoryContext);
                 var userRep = new UserRepository(repositoryContext);
-                var user = await userRep.GetUserAsync(3, false);
+                var user = await userRep.GetUserAsync("3", false);
                 var result = await chatRep.GetChatsAsync(user, false);
                 Assert.Equal(2, result.Count);
             }

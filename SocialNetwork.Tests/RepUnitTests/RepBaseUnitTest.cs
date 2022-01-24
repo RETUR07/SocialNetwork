@@ -42,9 +42,9 @@ namespace SocialNetwork.Tests.RepUnitTests
             using (var repositoryContext = new RepositoryContext(ContextOptions))
             {
                 var userRep = new UserRepository(repositoryContext);
-                var result = userRep.FindByCondition(x => x.Id == 1, false);
+                var result = userRep.FindByCondition(x => x.Id == "1", false);
                 Assert.Equal(1, result.Count());
-                Assert.Equal(1, result.First().Id);
+                Assert.Equal("1", result.First().Id);
             }
         }
 
@@ -54,11 +54,11 @@ namespace SocialNetwork.Tests.RepUnitTests
             using (var repositoryContext = new RepositoryContext(ContextOptions))
             {
                 var userRep = new UserRepository(repositoryContext);
-                userRep.Create(new User() { Username = "retur007" });
+                userRep.Create(new User() { UserName = "retur007" });
                 await repositoryContext.SaveChangesAsync();
-                var result = userRep.FindByCondition(x => x.Username == "retur007", false);
+                var result = userRep.FindByCondition(x => x.UserName == "retur007", false);
                 Assert.Equal(1, result.Count());
-                Assert.Equal(4, result.First().Id);
+                Assert.Equal("4", result.First().Id);
             }
         }
 
@@ -68,13 +68,13 @@ namespace SocialNetwork.Tests.RepUnitTests
             using (var repositoryContext = new RepositoryContext(ContextOptions))
             {
                 var userRep = new UserRepository(repositoryContext);
-                var result = await userRep.FindByCondition(x => x.Id == 1, false).SingleOrDefaultAsync();
-                result.Username = "no retur";
+                var result = await userRep.FindByCondition(x => x.Id == "1", false).SingleOrDefaultAsync();
+                result.UserName = "no retur";
                 userRep.Update(result);
                 await repositoryContext.SaveChangesAsync();
-                var afterChange = await userRep.FindByCondition(x => x.Id == 1, false).SingleOrDefaultAsync();
-                Assert.Equal(1, afterChange.Id);
-                Assert.Equal("no retur", afterChange.Username);
+                var afterChange = await userRep.FindByCondition(x => x.Id == "1", false).SingleOrDefaultAsync();
+                Assert.Equal("1", afterChange.Id);
+                Assert.Equal("no retur", afterChange.UserName);
             }
         }
 
@@ -84,10 +84,10 @@ namespace SocialNetwork.Tests.RepUnitTests
             using (var repositoryContext = new RepositoryContext(ContextOptions))
             {
                 var userRep = new UserRepository(repositoryContext);
-                var result = await userRep.FindByCondition(x => x.Id == 1, false).SingleOrDefaultAsync();
+                var result = await userRep.FindByCondition(x => x.Id == "1", false).SingleOrDefaultAsync();
                 userRep.Delete(result);
                 await repositoryContext.SaveChangesAsync();
-                var afterChange = await userRep.FindByCondition(x => x.Id == 1, false).SingleOrDefaultAsync();
+                var afterChange = await userRep.FindByCondition(x => x.Id == "1", false).SingleOrDefaultAsync();
                 Assert.Null(afterChange);
             }
         }
@@ -98,10 +98,10 @@ namespace SocialNetwork.Tests.RepUnitTests
             using (var repositoryContext = new RepositoryContext(ContextOptions))
             {
                 var userRep = new UserRepository(repositoryContext);
-                var result = await userRep.FindByCondition(x => x.Id == 1, false).SingleOrDefaultAsync();
+                var result = await userRep.FindByCondition(x => x.Id == "1", false).SingleOrDefaultAsync();
                 userRep.Delete(result);
                 await repositoryContext.SaveChangesAsync();
-                var afterChange = await userRep.FindByCondition(x => x.Id == 1, false).SingleOrDefaultAsync();
+                var afterChange = await userRep.FindByCondition(x => x.Id == "1", false).SingleOrDefaultAsync();
                 Assert.Null(afterChange);
             }
         }
@@ -114,8 +114,8 @@ namespace SocialNetwork.Tests.RepUnitTests
 
         private List<User> MockSetup()
         {
-            User testObject1 = new User() { Id = 1, IsEnable = true };
-            User testObject2 = new User() { Id = 2, IsEnable = true };
+            User testObject1 = new User() { Id = "1", IsEnable = true };
+            User testObject2 = new User() { Id = "2", IsEnable = true };
 
             testList.Clear();
             testList.AddRange(new[] { testObject1, testObject2 });
@@ -136,9 +136,9 @@ namespace SocialNetwork.Tests.RepUnitTests
         }
 
         [Theory]
-        [InlineData(1)]
-        [InlineData(2)]
-        public void MockFindByConditionUnitTest(int value)
+        [InlineData("1")]
+        [InlineData("2")]
+        public void MockFindByConditionUnitTest(string value)
         {
             MockSetup();
             var result = _repository.FindByCondition(x=>x.Id == value, false);
@@ -158,7 +158,7 @@ namespace SocialNetwork.Tests.RepUnitTests
         public void MockDeleteUnitTest()
         {
             MockSetup();
-            var user = _repository.FindByCondition(x => x.Id == 1, true);
+            var user = _repository.FindByCondition(x => x.Id == "1", true);
             _repository.Delete(user.ToList()[0]);
             //save
             var result = _repository.FindAll(false);
@@ -170,7 +170,7 @@ namespace SocialNetwork.Tests.RepUnitTests
         public void MockCreateUnitTest()
         {
             MockSetup();
-            var user = new User() { Id = 3, IsEnable = true };
+            var user = new User() { Id = "3", IsEnable = true };
             _repository.Create(user);
             //save
             var result = _repository.FindAll(false);
@@ -181,13 +181,13 @@ namespace SocialNetwork.Tests.RepUnitTests
         public void MockUpdateUnitTest()
         {
             MockSetup();
-            var users = _repository.FindByCondition(x => x.Id == 1, true);
+            var users = _repository.FindByCondition(x => x.Id == "1", true);
             var user = users.ToList()[0];
-            user.Username = "retur"; 
+            user.UserName = "retur"; 
             _repository.Update(user);
             //save
-            var usersAfter = _repository.FindByCondition(x => x.Id == 1, true);
-            Assert.Equal("retur", usersAfter.ToList()[0].Username);
+            var usersAfter = _repository.FindByCondition(x => x.Id == "1", true);
+            Assert.Equal("retur", usersAfter.ToList()[0].UserName);
         }
     }
 }

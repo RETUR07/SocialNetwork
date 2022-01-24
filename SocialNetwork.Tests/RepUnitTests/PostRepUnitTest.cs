@@ -42,7 +42,7 @@ namespace SocialNetwork.Tests
                 var postRep = new PostRepository(repositoryContext);
                 var result = await postRep.GetPostAsync(1, false);
                 Assert.Equal(1, result.Id);
-                Assert.Equal("retur 1", result.Author.Username);
+                Assert.Equal("retur 1", result.Author.UserName);
             }
         }
     }

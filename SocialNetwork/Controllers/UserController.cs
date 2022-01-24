@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SocialNetwork.Application.Contracts;
 using SocialNetwork.Application.DTO;
 using SocialNetwork.Application.Exceptions;
+using SocialNetwork.Entities.Models;
 using System.Threading.Tasks;
 
 namespace SocialNetwork.Controllers
@@ -14,12 +16,12 @@ namespace SocialNetwork.Controllers
     {
         private readonly IUserService _userService;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, UserManager<User> userManager)
+            : base(userManager)
         {
             _userService = userService;
         }
 
-        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetUsers()
         {
@@ -65,21 +67,6 @@ namespace SocialNetwork.Controllers
             return NoContent();
         }
 
-        [Authorize(Roles = "admin")]
-        [HttpPut("admin/{userId}")]
-        public async Task<IActionResult> AdminUpdateUser(int userId, [FromBody] AdminUserForm userdto)
-        {
-            try
-            {
-                await _userService.AdminUpdateUserAsync(userId, userdto);
-            }
-            catch (InvalidDataException exc)
-            {
-                return BadRequest(exc.Message);
-            }
-            return NoContent();
-        }
-
         [HttpDelete("")]
         public async Task<IActionResult> DeleteUser()
         {
@@ -88,14 +75,14 @@ namespace SocialNetwork.Controllers
         }
 
         [HttpPut("addfriend/{friendId}")]
-        public async Task<IActionResult> AddFriend(int friendId)
+        public async Task<IActionResult> AddFriend(string friendId)
         {
             await _userService.AddFriendAsync(UserId, friendId);
             return NoContent();
         }
 
         [HttpPut("deletefriend/{friendId}")]
-        public async Task<IActionResult> DeleteFriend(int friendId)
+        public async Task<IActionResult> DeleteFriend(string friendId)
         {
             await _userService.DeleteFriendAsync(UserId, friendId);
             return NoContent();

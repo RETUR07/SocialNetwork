@@ -35,8 +35,7 @@ namespace SocialNetwork.Extensions
             services.AddScoped<IBlobService, BlobService>();
             services.AddScoped<IRateService, RateService>();
             services.AddScoped<IChatService, ChatService>();
-            services.AddScoped<IAuthService, AuthService>();
-            services.AddScoped<IChatWorkerService, ChatWorkerService>();
+            //services.AddScoped<IAuthService, AuthService>();
 
             services.AddSingleton<IJwtUtils, JwtUtils>();
 
@@ -60,17 +59,23 @@ namespace SocialNetwork.Extensions
 
         public static void ConfigureAuthorization(this IServiceCollection services, IConfiguration Configuration)
         {
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("ApiScope", policy =>
+                {
+                    policy.RequireAuthenticatedUser();
+                    policy.RequireClaim("scope", "SocialNetwork");
+                });
+            });
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+
             .AddJwtBearer(options =>
                 {
+                    options.Authority = "https://localhost:9001";
+
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("JWT").GetSection("Secret").Value)),
-                        ValidateIssuer = false,
                         ValidateAudience = false,
-                        ValidateLifetime = true,
-                        ClockSkew = TimeSpan.Zero
                     };
 
                     options.Events = new JwtBearerEvents

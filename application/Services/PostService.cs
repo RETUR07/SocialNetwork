@@ -21,7 +21,7 @@ namespace SocialNetwork.Application.Services
             _blobService = blobService;
         }
 
-        public async Task<Post> CreatePost(PostForm postdto, int userId)
+        public async Task<Post> CreatePost(PostForm postdto, string userId)
         {
             if (postdto == null)
             {
@@ -72,7 +72,7 @@ namespace SocialNetwork.Application.Services
             return postsdto;
         }
 
-        public async Task<PagedList<PostForResponseDTO>> GetPosts(int userId, Parameters parameters)
+        public async Task<PagedList<PostForResponseDTO>> GetPosts(string userId, Parameters parameters)
         {
             var posts = _repository.Post.GetAllPostsPaged(userId, parameters, false);
             var postsdto = _mapper.Map<PagedList<Post>, PagedList<PostForResponseDTO>>(posts);

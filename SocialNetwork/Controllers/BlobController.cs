@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SocialNetwork.Application.Contracts;
+using SocialNetwork.Entities.Models;
 using System.Threading.Tasks;
 
 namespace SocialNetwork.Controllers
@@ -12,7 +14,8 @@ namespace SocialNetwork.Controllers
     {
         private readonly IBlobService _blobService;
 
-        public BlobController(IBlobService blobService)
+        public BlobController(IBlobService blobService, UserManager<User> userManager)
+            :base(userManager)
         {
             _blobService = blobService;
         }

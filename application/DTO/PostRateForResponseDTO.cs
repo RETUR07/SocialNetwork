@@ -5,7 +5,7 @@ namespace SocialNetwork.Application.DTO
 {
     public class PostRateForResponseDTO
     {
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public int PostId { get; set; }
         public string LikeStatus { get; set; }
     }
