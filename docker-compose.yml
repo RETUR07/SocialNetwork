@@ -17,7 +17,7 @@ services:
 
 
     
-  IdentityTokenServer:
+  identity_token_server:
     ports:
       - "9001:9001"
     build:
