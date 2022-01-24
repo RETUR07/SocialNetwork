@@ -1,0 +1,20 @@
+FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
+WORKDIR /source
+
+COPY application/*.csproj ./application/
+COPY Entities/*.csproj ./Entities/
+COPY Repository/*.csproj ./Repository/
+COPY IdentityTokenServer/*.csproj ./IdentityTokenServer/
+
+COPY SocialNetwork.Worker/. ./SocialNetwork.Worker/
+COPY application/. ./application/
+COPY Entities/. ./Entities/
+COPY Repository/. ./Repository/
+
+WORKDIR /source/SocialNetwork.Worker/
+RUN dotnet publish -c release -o /app
+
+FROM mcr.microsoft.com/dotnet/sdk:5.0
+WORKDIR /app
+COPY --from=build /app ./
+ENTRYPOINT ["dotnet", "SocialNetwork.Worker.dll"]

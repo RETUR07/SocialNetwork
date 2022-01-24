@@ -1,17 +1,6 @@
 version: "3.9"
 
-services:
-
-  rabbitmq: # login guest:guest
-    image: rabbitmq:3-management-alpine
-    hostname: "rabbitmq"
-    labels:
-      NAME: "rabbitmq"
-    ports:
-    - "5672:5672"
-    - "15672:15672"
-    
-    
+services:   
   web:
     ports:
       - "5050:80"
@@ -30,16 +19,15 @@ services:
 
 
     
-  worker:
+  IdentityTokenServer:
     ports:
-      - "8080:5000"
+      - "9001:9001"
     depends_on:
       - rabbitmq
     build:
       context: ./
-      dockerfile: DockerfileWorker
+      dockerfile: DockerfileIdentityServer4
     environment:
-      - ASPNETCORE_URLS=http://+:5000
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings:sqlConnection=Data Source=host.docker.internal\SQLExpress, 1433; database=SocialNetworkDb; User ID=sa;Password=root;MultipleActiveResultSets=true;
     restart: on-failure
