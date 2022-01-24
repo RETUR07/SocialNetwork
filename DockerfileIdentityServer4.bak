@@ -1,5 +1,4 @@
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
-ENV ASPNETCORE_URLS=https://+:81
 WORKDIR /source
 
 COPY application/*.csproj ./application/
