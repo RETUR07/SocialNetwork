@@ -6,15 +6,16 @@ COPY Entities/*.csproj ./Entities/
 COPY Repository/*.csproj ./Repository/
 COPY IdentityTokenServer/*.csproj ./IdentityTokenServer/
 
-COPY SocialNetwork.Worker/. ./SocialNetwork.Worker/
+COPY IdentityTokenServer/. ./IdentityTokenServer/
 COPY application/. ./application/
 COPY Entities/. ./Entities/
 COPY Repository/. ./Repository/
 
-WORKDIR /source/SocialNetwork.Worker/
+WORKDIR /source/IdentityTokenServer/
 RUN dotnet publish -c release -o /app
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0
+EXPOSE 80
 WORKDIR /app
 COPY --from=build /app ./
-ENTRYPOINT ["dotnet", "SocialNetwork.Worker.dll"]
+ENTRYPOINT ["dotnet", "SocialNetwork.IdentityTokenServer.dll"]
