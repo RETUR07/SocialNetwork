@@ -65,7 +65,7 @@ namespace SocialNetwork.Application.Services
             await _repository.SaveAsync();
         }
 
-        public async Task<User> CreateUserAsync(UserRegistrationForm userdto)
+        public async Task<IdentityResult> CreateUserAsync(UserRegistrationForm userdto)
         {
             if (userdto == null)
             {
@@ -73,9 +73,9 @@ namespace SocialNetwork.Application.Services
             }
 
             var user = _mapper.Map<User>(userdto);
-            await _userManager.CreateAsync(user, userdto.Password);
+            var res = await _userManager.CreateAsync(user, userdto.Password);
             await _repository.SaveAsync();
-            return user;
+            return res;
         }
 
         public async Task DeleteUserAsync(string userId)

@@ -5,6 +5,7 @@ using SocialNetwork.Application.Contracts;
 using SocialNetwork.Application.DTO;
 using SocialNetwork.Application.Exceptions;
 using SocialNetwork.Entities.Models;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SocialNetwork.Controllers
@@ -43,12 +44,16 @@ namespace SocialNetwork.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> CreateUser([FromBody] UserRegistrationForm userdto)
+        public IActionResult CreateUser([FromBody] UserRegistrationForm userdto)
         {
-            var user = await _userService.CreateUserAsync(userdto);
-            if (user == null)
+            if (!ModelState.IsValid)
             {
-                return BadRequest("User is null");
+                return BadRequest(ModelState.Values.SelectMany(v => v.Errors));
+            }
+            var result = _userService.CreateUserAsync(userdto).Result;
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
             }
             return Ok();
         }

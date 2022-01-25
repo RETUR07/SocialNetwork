@@ -1,12 +1,15 @@
 ﻿using Azure.Storage.Blobs;
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using SocialNetwork.Application.Contracts;
+using SocialNetwork.Application.DTO;
 using SocialNetwork.Application.Mapping;
 using SocialNetwork.Application.Services;
+using SocialNetwork.Application.Validators;
 using SocialNetwork.Security.Authorization;
 using SocialNetwork.Security.Settings;
 using SocialNetworks.Repository.Contracts;
@@ -35,6 +38,7 @@ namespace SocialNetwork.Extensions
             services.AddScoped<IBlobService, BlobService>();
             services.AddScoped<IRateService, RateService>();
             services.AddScoped<IChatService, ChatService>();
+            services.AddScoped<IValidator<UserRegistrationForm>, UserRegistrationFormValidator>();
             //services.AddScoped<IAuthService, AuthService>();
 
             services.AddSingleton<IJwtUtils, JwtUtils>();
