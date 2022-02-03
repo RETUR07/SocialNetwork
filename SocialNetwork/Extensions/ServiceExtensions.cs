@@ -41,12 +41,12 @@ namespace SocialNetwork.Extensions
             services.AddScoped<IValidator<UserRegistrationForm>, UserRegistrationFormValidator>();
             //services.AddScoped<IAuthService, AuthService>();
 
-            services.AddSingleton<IJwtUtils, JwtUtils>();
+            //services.AddSingleton<IJwtUtils, JwtUtils>();
 
 
-            services.AddSingleton<IWorkerService, WorkerService>(x => new WorkerService("WorkerQueue", x));
-            services.AddScoped<ILogRepositoryManager, LogRepositoryManager>();
-            services.AddScoped<IMessageLogRepository, MessageLogRepository>();
+            //services.AddSingleton<IWorkerService, WorkerService>(x => new WorkerService("WorkerQueue", x));
+            //services.AddScoped<ILogRepositoryManager, LogRepositoryManager>();
+            //services.AddScoped<IMessageLogRepository, MessageLogRepository>();
 
             services.AddScoped(_ => {
                 return new BlobServiceClient(Configuration.GetConnectionString("AzureBlobStorage"));
@@ -77,7 +77,7 @@ namespace SocialNetwork.Extensions
                 {
                     //development
                     options.RequireHttpsMetadata = false;
-                    options.Authority = "https://localhost:9001";
+                    options.Authority = "https://localhost:9001";//host.docker.internal
                     //
 
                     options.TokenValidationParameters = new TokenValidationParameters

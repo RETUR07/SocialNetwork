@@ -20,7 +20,6 @@ namespace SocialNetwork.IdentityTokenServer
                     },
                     AllowedScopes = { "SocialNetwork" }
                 }
-
             };
     }
 }

@@ -18,4 +18,6 @@ FROM mcr.microsoft.com/dotnet/sdk:5.0
 EXPOSE 81
 WORKDIR /app
 COPY --from=build /app ./
+RUN dotnet dev-certs https
+RUN dotnet dev-certs https --trust
 ENTRYPOINT ["dotnet", "SocialNetwork.IdentityTokenServer.dll"]
